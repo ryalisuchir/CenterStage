@@ -11,6 +11,7 @@ public class Angle extends SubsystemBase {
     public static double intake_position = 0.65;
     public static double rest_position = 0.6;
     public static double outtake_position = 0.845;
+    public static double autodrop_position = 0.845;
 
     public Angle(Servo d) {
         dump = d;
@@ -26,6 +27,9 @@ public class Angle extends SubsystemBase {
 
     public void out() {
         dump.setPosition(outtake_position);
+    }
+    public void autoDrop() {
+        dump.setPosition(autodrop_position);
     }
 
 }

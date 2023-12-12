@@ -91,6 +91,9 @@ public class Arm extends SubsystemBase {
     public void armCoast() {
         target = 300; //adjust TODO
     }
+    public void armAutoDrop() {
+        target = 100; //adjust TODO
+    }
 
 
     public int pos() {
