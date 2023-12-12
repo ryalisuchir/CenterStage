@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive.newopmodes;
 
-import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -42,11 +41,8 @@ public class BlueLeft extends OpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         drive2 = new Drive(new SampleMecanumDrive(hardwareMap), false);
         USE_WEBCAM = true;
-        // Initialize TFOD before waitForStart.
         initTfod();
-        // Wait for the match to begin.
-        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
+        telemetry.addData("D.S. Preview: ", "Ready for BlueLeft (Backdrop Side)");
         telemetry.update();
 
         robot.a.armIntake();
