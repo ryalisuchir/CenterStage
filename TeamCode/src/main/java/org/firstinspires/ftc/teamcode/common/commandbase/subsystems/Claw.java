@@ -28,7 +28,23 @@ public class Claw extends SubsystemBase {
         );
     }
 
-    public Command release() {
+    public Command releaseLeft() {
+        return new InstantCommand(() -> {
+            clawLeft.setPosition(releasePositionLeft);
+        }, this).andThen(
+                new WaitCommand(500)
+        );
+    }
+
+    public Command releaseRight() {
+        return new InstantCommand(() -> {
+            clawRight.setPosition(releasePositionRight);
+        }, this).andThen(
+                new WaitCommand(500)
+        );
+    }
+
+    public Command releaseBoth() {
         return new InstantCommand(() -> {
             clawLeft.setPosition(releasePositionLeft);
             clawRight.setPosition(releasePositionRight);
