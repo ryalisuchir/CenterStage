@@ -7,13 +7,13 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
-//command to drop the pixel during auto
-public class AutoDrop extends SequentialCommandGroup {
-    public AutoDrop(Robot robot) {
+//command to drop the pixel on tape marker during auto
+public class TapeDrop extends SequentialCommandGroup {
+    public TapeDrop(Robot robot) {
         super(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> robot.angle.autoDrop()),
-                        new InstantCommand(() -> robot.a.armAutoDrop())
+                        new InstantCommand(() -> robot.angle.tapeDrop()),
+                        new InstantCommand(() -> robot.a.armTapeDrop())
                 )
         );
     }

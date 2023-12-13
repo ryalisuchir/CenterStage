@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.newopmodes;
+package org.firstinspires.ftc.teamcode.drive.opmode.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.AutoDrop;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDrop;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.OuttakePosition;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.TrajectorySequenceFollower;
@@ -28,8 +28,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 public class BlueLeft extends OpMode {
     private Robot robot;
-    SampleMecanumDrive drive;
-    private Drive drive2;
+    private Drive drive;
     private ElapsedTime time_since_start;
     TfodProcessor myTfodProcessor;
     int elementPosition;
@@ -38,15 +37,14 @@ public class BlueLeft extends OpMode {
     @Override
     public void init() {
         robot = new Robot(hardwareMap);
-        drive = new SampleMecanumDrive(hardwareMap);
-        drive2 = new Drive(new SampleMecanumDrive(hardwareMap), false);
+        drive = new Drive(new SampleMecanumDrive(hardwareMap), false);
         USE_WEBCAM = true;
         initTfod();
         telemetry.addData("D.S. Preview: ", "Ready for BlueLeft (Backdrop Side)");
         telemetry.update();
 
         robot.a.armIntake();
-        robot.claw.grab();
+        robot.claw.grabBoth();
         robot.angle.rest();
     }
 
@@ -78,26 +76,25 @@ public class BlueLeft extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(1000),
-                            new Intake(robot),
-                            new AutoDrop(robot),
-                            new TrajectorySequenceFollower(drive2, dropPixelRight),
+                            new TapeDrop(robot),
+                            new TrajectorySequenceFollower(drive, dropPixelRight),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new OuttakePosition(robot),
-                                    new TrajectorySequenceFollower(drive2, backdropPixelRight)
+                                    new TrajectorySequenceFollower(drive, backdropPixelRight)
                             ),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseRight()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabRight()),
                                     new InstantCommand(() -> robot.a.armCoast())
                             ),
-                            new TrajectorySequenceFollower(drive2, preParkRight),
-                            new TrajectorySequenceFollower(drive2, parkRight)
+                            new TrajectorySequenceFollower(drive, preParkRight),
+                            new TrajectorySequenceFollower(drive, parkRight)
                     )
             );
         } else if(elementPosition == 1) { //middle
@@ -120,26 +117,25 @@ public class BlueLeft extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(1000),
-                            new Intake(robot),
-                            new AutoDrop(robot),
-                            new TrajectorySequenceFollower(drive2, dropPixelMiddle),
+                            new TapeDrop(robot),
+                            new TrajectorySequenceFollower(drive, dropPixelMiddle),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new OuttakePosition(robot),
-                                    new TrajectorySequenceFollower(drive2, backdropPixelMiddle)
+                                    new TrajectorySequenceFollower(drive, backdropPixelMiddle)
                             ),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseRight()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabRight()),
                                     new InstantCommand(() -> robot.a.armCoast())
                             ),
-                            new TrajectorySequenceFollower(drive2, preParkMiddle),
-                            new TrajectorySequenceFollower(drive2, parkMiddle)
+                            new TrajectorySequenceFollower(drive, preParkMiddle),
+                            new TrajectorySequenceFollower(drive, parkMiddle)
                     )
             );
 
@@ -163,26 +159,25 @@ public class BlueLeft extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(1000),
-                            new Intake(robot),
-                            new AutoDrop(robot),
-                            new TrajectorySequenceFollower(drive2, dropPixelLeft),
+                            new TapeDrop(robot),
+                            new TrajectorySequenceFollower(drive, dropPixelLeft),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new OuttakePosition(robot),
-                                    new TrajectorySequenceFollower(drive2, backdropPixelLeft)
+                                    new TrajectorySequenceFollower(drive, backdropPixelLeft)
                             ),
                             new WaitCommand(350),
                             new InstantCommand(() -> robot.claw.releaseRight()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grab()),
+                                    new InstantCommand(() -> robot.claw.grabRight()),
                                     new InstantCommand(() -> robot.a.armCoast())
                             ),
-                            new TrajectorySequenceFollower(drive2, preParkLeft),
-                            new TrajectorySequenceFollower(drive2, parkLeft)
+                            new TrajectorySequenceFollower(drive, preParkLeft),
+                            new TrajectorySequenceFollower(drive, parkLeft)
                     )
             );
         }
@@ -191,7 +186,8 @@ public class BlueLeft extends OpMode {
     public void loop() {
         CommandScheduler.getInstance().run();
         robot.a.loop();
-        drive2.update();
+        drive.update();
+        robot.slides.loop();
 
         double time = System.currentTimeMillis();
         telemetry.addData("Loop: ", time - loop);

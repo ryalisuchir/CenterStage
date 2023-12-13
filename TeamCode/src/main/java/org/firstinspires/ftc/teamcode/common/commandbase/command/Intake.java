@@ -11,11 +11,11 @@ import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 public class Intake extends SequentialCommandGroup {
     public Intake(Robot robot) {
         super(
+                new InstantCommand(() -> robot.slides.autoIntake()),
                 new InstantCommand(() -> robot.a.armIntake()),
                 new WaitCommand(350),
-                new InstantCommand(() -> robot.claw.grab()),
-                new WaitCommand(350),
-                new InstantCommand(() -> robot.a.armCoast())
+                new InstantCommand(() -> robot.claw.grabBoth()),
+                new WaitCommand(350)
         );
     }
 }

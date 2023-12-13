@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Angle;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Claw;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Slides;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -31,6 +32,7 @@ public class Robot {
 
     public Arm a;
     public Claw claw;
+    public Slides slides;
     public static double MAX_CURRENT = 15;
 
     public Robot(HardwareMap hardwareMap) {
@@ -75,6 +77,7 @@ public class Robot {
         a = new Arm(arm, batteryVoltageSensor);
         claw = new Claw(claw1, claw2);
         angle = new Angle(dump);
+        slides = new Slides(linear_1, linear_2, batteryVoltageSensor);
 
 
     }

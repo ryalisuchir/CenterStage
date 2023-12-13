@@ -19,9 +19,25 @@ public class Claw extends SubsystemBase {
         this.clawRight = clawRight;
     }
 
-    public Command grab() {
+    public Command grabBoth() {
         return new InstantCommand(() -> {
             clawLeft.setPosition(grabPositionLeft);
+            clawRight.setPosition(grabPositionRight);
+        }, this).andThen(
+                new WaitCommand(500)
+        );
+    }
+
+    public Command grabLeft() {
+        return new InstantCommand(() -> {
+            clawLeft.setPosition(grabPositionLeft);
+        }, this).andThen(
+                new WaitCommand(500)
+        );
+    }
+
+    public Command grabRight() {
+        return new InstantCommand(() -> {
             clawRight.setPosition(grabPositionRight);
         }, this).andThen(
                 new WaitCommand(500)

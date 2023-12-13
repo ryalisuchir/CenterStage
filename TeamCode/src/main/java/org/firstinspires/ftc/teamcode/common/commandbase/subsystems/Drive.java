@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 import java.util.List;
 
@@ -83,6 +84,10 @@ public class Drive extends SubsystemBase {
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, double startHeading) {
         return drive.trajectoryBuilder(startPose, startHeading);
+    }
+
+    public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) {
+        return drive.trajectorySequenceBuilder(startPose);
     }
 
     public void followTrajectory(Trajectory trajectory) {

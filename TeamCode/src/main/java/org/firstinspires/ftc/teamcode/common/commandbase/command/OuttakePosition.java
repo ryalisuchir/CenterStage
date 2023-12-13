@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -11,10 +12,12 @@ import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 public class OuttakePosition extends SequentialCommandGroup {
     public OuttakePosition(Robot robot) {
         super(
-                new InstantCommand(() -> robot.a.armOuttake()),
+                new InstantCommand(() -> robot.slides.autoOuttake()),
                 new WaitCommand(350),
-                new InstantCommand(() -> robot.angle.out()),
-                new WaitCommand(350)
+                new ParallelCommandGroup(
+                        new InstantCommand(() -> robot.a.armOuttake()),
+                        new InstantCommand(() -> robot.angle.outtake())
+                )
         );
     }
 }
