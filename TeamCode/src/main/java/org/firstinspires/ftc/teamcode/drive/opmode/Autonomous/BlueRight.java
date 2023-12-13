@@ -56,24 +56,25 @@ public class BlueRight extends OpMode {
     public void start() {
         time_since_start = new ElapsedTime();
         if(elementPosition == 0) { //right
-            TrajectorySequence firstGeneralRight = drive.trajectorySequenceBuilder(new Pose2d(-32.13, 63.99, Math.toRadians(270.00)))
-                    .lineToConstantHeading(new Vector2d(-37.00, 64.51))
+            TrajectorySequence firstGeneralRight = drive.trajectorySequenceBuilder(new Pose2d(-32.13, 63.64, Math.toRadians(90.00)))
+                    .lineToConstantHeading(new Vector2d(-38.39, 63.82))
                     .build();
 
             TrajectorySequence dropPixelRight = drive.trajectorySequenceBuilder(firstGeneralRight.end())
-                    .splineTo(new Vector2d(-44.49, 41.18), Math.toRadians(237.53))
+                    .lineToSplineHeading(new Pose2d(-47.27, 41.88, Math.toRadians(90.00)))
                     .build();
 
             TrajectorySequence backdropPixelRight = drive.trajectorySequenceBuilder(dropPixelRight.end())
-                    .lineToSplineHeading(new Pose2d(-33.52, 40.14, Math.toRadians(270.00)))
+                    .lineToConstantHeading(new Vector2d(-32.65, 41.53))
+                    .lineToConstantHeading(new Vector2d(-32.13, 12.10))
                     .build();
 
             TrajectorySequence preParkRight = drive.trajectorySequenceBuilder(backdropPixelRight.end())
-                    .lineToConstantHeading(new Vector2d(-33.87, 14.19))
+                    .lineToSplineHeading(new Pose2d(-57.20, 11.75, Math.toRadians(0.00)))
                     .build();
 
             TrajectorySequence parkRight = drive.trajectorySequenceBuilder(preParkRight.end())
-                    .lineToSplineHeading(new Pose2d(60.16, 13.15, Math.toRadians(-0.64)))
+                    .lineToConstantHeading(new Vector2d(62.42, 11.58))
                     .build();
 
             CommandScheduler.getInstance().schedule(
@@ -88,34 +89,37 @@ public class BlueRight extends OpMode {
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new InstantCommand(() -> robot.a.armCoast()),
+                                    new InstantCommand(() -> robot.angle.intake()),
                                     new TrajectorySequenceFollower(drive, backdropPixelRight)
                             ),
                             new WaitCommand(350),
+                            new InstantCommand(() -> robot.claw.grabLeft()),
+                            new WaitCommand(350),
+                            new InstantCommand(() -> robot.angle.outtake()),
                             new TrajectorySequenceFollower(drive, preParkRight),
                             new TrajectorySequenceFollower(drive, parkRight)
                     )
             );
         } else if(elementPosition == 1) { //middle
-            TrajectorySequence firstGeneralMiddle = drive.trajectorySequenceBuilder(new Pose2d(-32.13, 63.99, Math.toRadians(270.00)))
-                    .lineToConstantHeading(new Vector2d(-37.00, 64.51))
+            TrajectorySequence firstGeneralMiddle = drive.trajectorySequenceBuilder(new Pose2d(-32.13, -64.86, Math.toRadians(-90.00)))
+                    .lineToConstantHeading(new Vector2d(-38.22, -64.16))
                     .build();
 
             TrajectorySequence dropPixelMiddle = drive.trajectorySequenceBuilder(firstGeneralMiddle.end())
-                    .lineToConstantHeading(new Vector2d(-35.61, 35.26))
+                    .lineToConstantHeading(new Vector2d(-38.39, -34.74))
                     .build();
 
             TrajectorySequence backdropPixelMiddle = drive.trajectorySequenceBuilder(dropPixelMiddle.end())
-                    .lineToConstantHeading(new Vector2d(-51.63, 35.09))
+                    .splineTo(new Vector2d(-55.98, -36.48), Math.toRadians(0.00))
                     .build();
 
             TrajectorySequence preParkMiddle = drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
-                    .splineTo(new Vector2d(-43.79, 11.75), Math.toRadians(0.00))
+                    .lineToConstantHeading(new Vector2d(-51.80, -12.10))
                     .build();
 
             TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(preParkMiddle.end())
-                    .splineTo(new Vector2d(61.55, 12.28), Math.toRadians(0.29))
+                    .lineToConstantHeading(new Vector2d(62.42, -10.53))
                     .build();
 
             CommandScheduler.getInstance().schedule(
@@ -130,31 +134,34 @@ public class BlueRight extends OpMode {
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new InstantCommand(() -> robot.a.armCoast()),
+                                    new InstantCommand(() -> robot.angle.intake()),
                                     new TrajectorySequenceFollower(drive, backdropPixelMiddle)
                             ),
                             new WaitCommand(350),
+                            new InstantCommand(() -> robot.claw.grabLeft()),
+                            new WaitCommand(350),
+                            new InstantCommand(() -> robot.angle.outtake()),
                             new TrajectorySequenceFollower(drive, preParkMiddle),
                             new TrajectorySequenceFollower(drive, parkMiddle)
                     )
             );
 
         } else if(elementPosition == 1) { //left
-            TrajectorySequence firstGeneralLeft = drive.trajectorySequenceBuilder(new Pose2d(-32.13, 63.99, Math.toRadians(270.00)))
-                    .lineToConstantHeading(new Vector2d(-37.00, 64.51))
+            TrajectorySequence firstGeneralLeft = drive.trajectorySequenceBuilder(new Pose2d(-32.13, 63.64, Math.toRadians(90.00)))
+                    .lineToConstantHeading(new Vector2d(-38.39, 63.82))
                     .build();
 
             TrajectorySequence dropPixelLeft = drive.trajectorySequenceBuilder(firstGeneralLeft.end())
-                    .splineTo(new Vector2d(-35.61, 32.30), Math.toRadians(0.00))
+                    .lineToSplineHeading(new Pose2d(-34.22, 31.95, Math.toRadians(-180.00)))
                     .build();
 
-            TrajectorySequence backdropPixelLeft = drive.trajectorySequenceBuilder(dropPixelLeft.end())
-                    .lineToConstantHeading(new Vector2d(-34.91, 12.45))
+            TrajectorySequence preParkLeft = drive.trajectorySequenceBuilder(dropPixelLeft.end())
+                    .lineToSplineHeading(new Pose2d(-57.20, 11.75, Math.toRadians(0.00)))
                     .build();
 
-            TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropPixelLeft.end())
-                    .lineToConstantHeading(new Vector2d(62.25, 13.49))
+            TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(preParkLeft.end())
+                    .lineToConstantHeading(new Vector2d(62.42, 11.58))
                     .build();
 
             CommandScheduler.getInstance().schedule(
@@ -169,11 +176,15 @@ public class BlueRight extends OpMode {
                             new InstantCommand(() -> robot.claw.releaseLeft()),
                             new WaitCommand(350),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabLeft()),
                                     new InstantCommand(() -> robot.a.armCoast()),
-                                    new TrajectorySequenceFollower(drive, backdropPixelLeft)
+                                    new InstantCommand(() -> robot.angle.intake()),
+                                    new TrajectorySequenceFollower(drive, preParkLeft)
                             ),
                             new WaitCommand(350),
+                            new InstantCommand(() -> robot.claw.grabLeft()),
+                            new WaitCommand(350),
+                            new InstantCommand(() -> robot.angle.outtake()),
+                            new TrajectorySequenceFollower(drive, preParkLeft),
                             new TrajectorySequenceFollower(drive, parkLeft)
                     )
             );
@@ -205,7 +216,7 @@ public class BlueRight extends OpMode {
         VisionPortal myVisionPortal;
 
         myTfodProcessorBuilder = new TfodProcessor.Builder();
-        myTfodProcessorBuilder.setModelFileName("BLUETURKEY.tflite");
+        myTfodProcessorBuilder.setModelFileName("REDTURKEY.tflite");
         myTfodProcessorBuilder.setModelLabels(JavaUtil.createListWith("TSE"));
         myTfodProcessorBuilder.setModelAspectRatio(16 / 9);
         myTfodProcessor = myTfodProcessorBuilder.build();
