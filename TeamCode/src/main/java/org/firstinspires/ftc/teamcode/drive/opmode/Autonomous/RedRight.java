@@ -213,6 +213,11 @@ public class RedRight extends OpMode {
         telemetry.update();
     }
 
+    @Override
+    public void stop() {
+        CommandScheduler.getInstance().reset();
+    }
+
     private void initTfod() {
         TfodProcessor.Builder myTfodProcessorBuilder;
         VisionPortal.Builder myVisionPortalBuilder;
