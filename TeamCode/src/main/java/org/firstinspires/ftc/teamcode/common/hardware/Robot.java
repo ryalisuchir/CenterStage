@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -72,13 +73,11 @@ public class Robot {
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-
         //setting subsystems
         a = new Arm(arm, batteryVoltageSensor);
         claw = new Claw(claw1, claw2);
         angle = new Angle(dump);
         slides = new Slides(linear_1, linear_2, batteryVoltageSensor);
-
 
     }
 
