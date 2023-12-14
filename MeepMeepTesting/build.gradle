@@ -3,6 +3,15 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://maven.brott.dev/' }
+}
+
+dependencies {
+    implementation 'com.github.NoahBres:MeepMeep:2.0.3'
 }
