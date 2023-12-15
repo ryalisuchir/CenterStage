@@ -72,6 +72,13 @@ public class ArmSubsystem extends SubsystemBase {
 
         double power = (pid + ff) / voltage * 12.0;
 
+        if (power > 0.6) {
+            power = 0.6;
+        }
+        if (power < -0.6) {
+            power = -0.6;
+        }
+
         arm.setPower(power);
 
     }
