@@ -14,13 +14,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.function.DoubleSupplier;
 
 @Config
-public class Arm extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
     public final DcMotorEx arm;
 
     private final VoltageSensor batteryVoltageSensor;
 
 
-    private final double p = 0.0009; //adjust TODO
+    private final double p = 0.01; //adjust TODO
     private final double d = 0.000834; //adjust TODO
     private final double f = 0.008; //adjust TODO
     private final double ticks_to_degrees = 384.5 / 180.0;
@@ -40,11 +40,11 @@ public class Arm extends SubsystemBase {
 
     private double cache = 0;
 
-    public Arm(DcMotorEx a, VoltageSensor b) {
+    public ArmSubsystem(DcMotorEx a, VoltageSensor b) {
         arm = a;
 
-        controller = new PIDController(p, 0.00001, d);
-        controller.setPID(p, 0.00001, d);
+        controller = new PIDController(p, 0, d);
+        controller.setPID(p, 0, d);
         this.batteryVoltageSensor = b;
         time = new ElapsedTime();
         voltageTimer = new ElapsedTime();

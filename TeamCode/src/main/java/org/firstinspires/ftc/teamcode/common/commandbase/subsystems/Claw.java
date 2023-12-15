@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Claw extends SubsystemBase {
     private final Servo clawLeft, clawRight;
     // * can be tuned in dashboard
-    public static double grabPositionLeft = 0.2, grabPositionRight = 0.3; //MODIFY
-    public static double releasePositionLeft = 0.5, releasePositionRight = 0.05; //MODIFY
+    public static double grabPositionLeft = 0, grabPositionRight = 0.5; //MODIFY
+    public static double releasePositionLeft = 0.5, releasePositionRight = 0; //MODIFY
 
     public Claw(Servo clawLeft, Servo clawRight) {
         this.clawLeft = clawLeft;

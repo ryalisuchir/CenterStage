@@ -2,38 +2,33 @@ package org.firstinspires.ftc.teamcode.common.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Arm;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Angle;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Claw;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.AngleSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Slides;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Drive;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 @Config
 public class Robot {
-    public SampleMecanumDrive drive;
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     public Servo dump, claw1, claw2;
     public VoltageSensor batteryVoltageSensor;
 
-    public Angle angle;
+    public AngleSubsystem angle;
 
-    public Arm a;
-    public Claw claw;
+    public ArmSubsystem a;
+    public ClawSubsystem claw;
     public Slides slides;
+
+    public Drive drive;
     public static double MAX_CURRENT = 15;
 
     public Robot(HardwareMap hardwareMap) {
@@ -66,18 +61,19 @@ public class Robot {
 
         //servos
         Servo dump = hardwareMap.get(Servo.class, "dump");
-        Servo claw1 = hardwareMap.get(Servo.class, "claw1");
-        Servo claw2 = hardwareMap.get(Servo.class, "claw2");
+        Servo claw1 = hardwareMap.get(Servo.class, "claw");
+        Servo claw2 = hardwareMap.get(Servo.class, "claw1");
 
-        drive = new SampleMecanumDrive(hardwareMap);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         //setting subsystems
-        a = new Arm(arm, batteryVoltageSensor);
-        claw = new Claw(claw1, claw2);
-        angle = new Angle(dump);
-        slides = new Slides(linear_1, linear_2, batteryVoltageSensor);
+        a = new ArmSubsystem(arm, batteryVoltageSensor);
+        claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
+        angle = new AngleSubsystem(hardwareMap, "dump");
+        drive = new Drive(new SampleMecanumDrive(hardwareMap), false);
+
+        CommandScheduler.getInstance().registerSubsystem(a, claw, angle, drive);
 
     }
 

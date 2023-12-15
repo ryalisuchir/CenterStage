@@ -12,8 +12,6 @@ import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 public class OuttakePosition extends SequentialCommandGroup {
     public OuttakePosition(Robot robot) {
         super(
-                new InstantCommand(() -> robot.slides.autoOuttake()),
-                new WaitCommand(350),
                 new ParallelCommandGroup(
                         new InstantCommand(() -> robot.a.armOuttake()),
                         new InstantCommand(() -> robot.angle.outtake())
