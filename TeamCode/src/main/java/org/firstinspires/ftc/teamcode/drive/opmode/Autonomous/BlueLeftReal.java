@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,9 +15,7 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDrop;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.OuttakePosition;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -29,7 +26,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Autonomous
-public class BlueLeft extends OpMode {
+public class BlueLeftReal extends OpMode {
     private Robot robot;
     private ElapsedTime time_since_start;
     TfodProcessor myTfodProcessor;
@@ -49,6 +46,7 @@ public class BlueLeft extends OpMode {
         USE_WEBCAM = true;
         initTfod();
         telemetry.addData("D.S. Preview: ", "Ready for BlueLeft (Backdrop Side)");
+        telemetry.addData("Running: ", "2 pixel autonomous. All subsystems will run.");
         telemetry.update();
 
         robot.claw.grabBoth();
@@ -130,18 +128,18 @@ public class BlueLeft extends OpMode {
                             new InstantCommand(() -> robot.drive.followTrajectorySequence(parkRight))
                     )
             );
-        } else if(elementPosition == 1) { //middle
+        } else if(elementPosition == 1) { //middle //MIDDLE MIDDLE MIDDLE RIGHT HERE SUCHIR PAY ATTENTION SUCHIR RIGHT HERE
             TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
                     .lineToConstantHeading(
-                            new Vector2d(15.06, 25.51),
-                            SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                            new Vector2d(15.06, 10.36),
+                            SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
                     .build();
 
             TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
                     .lineToConstantHeading(
-                            new Vector2d(15.41, 45.71),
+                            new Vector2d(15.41, 27.95),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
@@ -322,17 +320,17 @@ public class BlueLeft extends OpMode {
                 telemetry.addData("- Size", JavaUtil.formatNumber(myTfodRecognition.getWidth(), 0) + " x " + JavaUtil.formatNumber(myTfodRecognition.getHeight(), 0));
                 if (x > 500) {
                     sensedElement = true;
-                    elementPosition = 0;
+                    elementPosition = 0; // right
                     telemetry.addData("Team Element Detection: ", "Right");
                 } else if (x >= 190 && x <= 250) {
                     sensedElement = true;
-                    elementPosition = 1;
+                    elementPosition = 1; // middle
                     telemetry.addData("Team Element Detection: ", "Middle");
                 }
             }
         }
         if (!sensedElement) {
-            elementPosition = 2;
+            elementPosition = 2; // left
             telemetry.addData("Team Element Detection: ", "Left");
         }
     }
