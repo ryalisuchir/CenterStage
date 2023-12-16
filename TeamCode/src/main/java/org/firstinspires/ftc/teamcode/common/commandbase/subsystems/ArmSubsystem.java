@@ -34,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
     public static double max_v = 10000;
     public static double max_a = 6000;
 
-    private int target = 5;
+    private int target = 0;
     private int previous_target = 5;
 
 
@@ -92,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void armOuttake() {
-        target = 221; //adjust TODO
+        target = 200; //adjust TODO
     }
 
     public void armCoast() {

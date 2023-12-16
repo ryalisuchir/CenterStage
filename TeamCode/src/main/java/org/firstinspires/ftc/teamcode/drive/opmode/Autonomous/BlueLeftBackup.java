@@ -88,7 +88,11 @@ public class BlueLeftBackup extends OpMode {
                             new WaitCommand(1000),
                             new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelRight)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkRight))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkRight)),
+                            new ParallelCommandGroup(
+                                    new InstantCommand(() -> robot.a.armIntake()),
+                                    new InstantCommand(() -> robot.angle.intake())
+                            )
                     )
             );
         } else if(elementPosition == 1) { //middle
@@ -113,7 +117,11 @@ public class BlueLeftBackup extends OpMode {
                             new WaitCommand(1000),
                             new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelMiddle)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkMiddle))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkMiddle)),
+                            new ParallelCommandGroup(
+                                    new InstantCommand(() -> robot.a.armIntake()),
+                                    new InstantCommand(() -> robot.angle.intake())
+                            )
                     )
             );
 
@@ -140,7 +148,11 @@ public class BlueLeftBackup extends OpMode {
                             new WaitCommand(1000),
                             new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelLeft)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkLeft))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkLeft)),
+                            new ParallelCommandGroup(
+                                    new InstantCommand(() -> robot.a.armIntake()),
+                                    new InstantCommand(() -> robot.angle.intake())
+                            )
                     )
             );
         }

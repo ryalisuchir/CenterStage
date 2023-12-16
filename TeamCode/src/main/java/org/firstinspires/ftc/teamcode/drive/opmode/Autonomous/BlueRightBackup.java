@@ -24,7 +24,7 @@ import org.opencv.core.Scalar;
 
 
 @Autonomous
-public class RedRightBackup extends OpMode {
+public class BlueRightBackup extends OpMode {
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessor colourMassDetectionProcessor;
 
@@ -47,7 +47,7 @@ public class RedRightBackup extends OpMode {
         CommandScheduler.getInstance().registerSubsystem(robot.angle);
         CommandScheduler.getInstance().registerSubsystem(robot.drive);
 
-        telemetry.addData("Successful: ", "Ready for RedRight (Backdrop Side)");
+        telemetry.addData("Successful: ", "Ready for BlueRight (Backdrop Side)");
         telemetry.addData("Running: ", "1 pixel autonomous. All subsystems will run.");
         telemetry.update();
 
@@ -58,8 +58,8 @@ public class RedRightBackup extends OpMode {
         // the domains are: ([0, 180], [0, 255], [0, 255])
         // this is tuned to detect red, so you will need to experiment to fine tune it for your robot
         // and experiment to fine tune it for blue
-        Scalar lower = new Scalar(0, 80, 80); // the lower hsv threshold
-        Scalar upper = new Scalar(180, 250, 250); // the upper hsv threshold
+        Scalar lower = new Scalar(80, 50, 50); // the lower hsv threshold
+        Scalar upper = new Scalar(180, 255, 255); // the upper hsv threshold
         double minArea = 100; // the minimum area for the detection to consider for your prop
 
         colourMassDetectionProcessor = new ColourMassDetectionProcessor(
@@ -130,32 +130,20 @@ public class RedRightBackup extends OpMode {
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90)))
-                        .splineToSplineHeading(
-                                new Pose2d(6.53, -36.30, Math.toRadians(180.00)), Math.toRadians(180.00),
-                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(-90.00)))
+                        .splineTo(
+                                new Vector2d(-28.3, 36.83), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
+                        .lineToConstantHeading(new Vector2d(-42.92, 36.13))
                         .build();
-
-                TrajectorySequence backdropPixelLeft = robot.drive.trajectorySequenceBuilder(dropPixelLeft.end())
-                        .lineToConstantHeading(new Vector2d(16.45, -38.57))
-                        .build();
-
-
-                TrajectorySequence parkLeft = robot.drive.trajectorySequenceBuilder(backdropPixelLeft.end())
-                        .lineToSplineHeading(new Pose2d(67.65, -63.29, Math.toRadians(0.00)))
-                        .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelLeft)),
                                 new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelLeft)),
-                                new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkLeft)),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
                                         new InstantCommand(() -> robot.angle.intake())
@@ -166,17 +154,13 @@ public class RedRightBackup extends OpMode {
             // code to do if we saw the prop on the left
             case MIDDLE:
                 // code to do if we saw the prop on the middle
-                TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
-                        .lineToConstantHeading(new Vector2d(19.59, -39.5))
-                        .build();
-
-                TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
-                        .lineToConstantHeading(new Vector2d(16.45, -46.06))
-                        .build();
-
-
-                TrajectorySequence parkMiddle = robot.drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
-                        .lineToSplineHeading(new Pose2d(70, -78, Math.toRadians(0.00)))
+                TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(270.00)))
+                        .splineToConstantHeading(
+                                new Vector2d(-35.96, 35.26), Math.toRadians(-90.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(new Vector2d(-35.78, 41.35))
                         .build();
 
 
@@ -185,9 +169,6 @@ public class RedRightBackup extends OpMode {
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelMiddle)),
                                 new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelMiddle)),
-                                new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkMiddle)),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
                                         new InstantCommand(() -> robot.angle.intake())
@@ -197,29 +178,21 @@ public class RedRightBackup extends OpMode {
                 break;
             case RIGHT:
                 // code to do if we saw the prop on the right
-                TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
-                        .splineToConstantHeading(new Vector2d(32.00, -42.75), Math.toRadians(90.00))
+                TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(270.00)))
+                        .splineToConstantHeading(
+                                new Vector2d(-55.11, 41.53), Math.toRadians(-90.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(new Vector2d(-44.49, 53.72))
                         .build();
-
-                TrajectorySequence backdropPixelRight = robot.drive.trajectorySequenceBuilder(dropPixelRight.end())
-                        .lineToConstantHeading(new Vector2d(37.35, -54.94))
-                        .build();
-
-
-                TrajectorySequence parkRight = robot.drive.trajectorySequenceBuilder(backdropPixelRight.end())
-                        .lineToSplineHeading(new Pose2d(71.5, -72.5, Math.toRadians(0.00)))
-                        .build();
-
 
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelRight)),
-                                new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelRight)),
-                                new WaitCommand(1000),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkRight)),
+                                new WaitCommand(350),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
                                         new InstantCommand(() -> robot.angle.intake())

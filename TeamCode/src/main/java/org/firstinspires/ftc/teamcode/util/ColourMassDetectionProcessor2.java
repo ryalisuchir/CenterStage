@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
 
-public class ColourMassDetectionProcessor implements VisionProcessor, CameraStreamSource {
+public class ColourMassDetectionProcessor2 implements VisionProcessor, CameraStreamSource {
     private final DoubleSupplier minArea, left, right;
     private final Scalar upper; // lower bounds for masking
     private final Scalar lower; // upper bounds for masking
@@ -56,7 +56,7 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
      * @param left    the dividing point for the prop to be on the left
      * @param right   the diving point for the prop to be on the right
      */
-    public ColourMassDetectionProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right) {
+    public ColourMassDetectionProcessor2(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right) {
         this.contours = new ArrayList<>();
         this.lower = lower;
         this.upper = upper;
@@ -154,7 +154,7 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
         // it stores the contour as our largest contour and the area as our largest area
         for (MatOfPoint contour : contours) {
             double area = Imgproc.contourArea(contour);
-            if (area > largestContourArea && area > minArea) { //changed here suchir
+            if (area > largestContourArea && area > minArea) {
                 largestContour = contour;
                 largestContourArea = area;
             }
@@ -174,14 +174,14 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
         // determines the current prop position, using the left and right dividers we gave earlier
         // if we didn't find any contours which were large enough, sets it to be unfound
         PropPositions propPosition;
-        if (largestContour == null || largestContourArea < 2500) {
+        if (largestContour == null || largestContourArea < 3500) {
             propPosition = PropPositions.LEFT;
         } else if (largestContourX < left.getAsDouble()) {
             propPosition = PropPositions.MIDDLE;
         } else if (largestContourX > right.getAsDouble()) {
             propPosition = PropPositions.RIGHT;
         } else {
-            propPosition = PropPositions.RIGHT;
+            propPosition = PropPositions.MIDDLE;
         }
 
         // if we have found a new prop position, and it is not unfound, updates the recorded position,

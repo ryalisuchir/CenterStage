@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 @TeleOp(group = "drive")
+@Disabled
 public class EncoderPosition extends LinearOpMode {
     private DcMotor leftFront;
     private DcMotor rightFront;

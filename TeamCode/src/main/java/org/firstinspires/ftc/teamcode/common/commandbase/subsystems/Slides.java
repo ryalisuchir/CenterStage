@@ -22,7 +22,7 @@ public class Slides extends SubsystemBase {
 
     private final VoltageSensor batteryVoltageSensor;
 
-    private final double p = 0.01; //adjust TODO
+    private final double p = 0.002; //adjust TODO
     private final double d = 0; //adjust TODO
     private final double f = 0.00001; //adjust TODO
     private final double ticks_to_degrees = 384.5 / 180.0;
@@ -46,8 +46,8 @@ public class Slides extends SubsystemBase {
         linear_1 = a;
         linear_2 = b;
         linear_2.setDirection(DcMotorEx.Direction.REVERSE);
-        linear_2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        linear_2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        linear_1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        linear_1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         controller = new PIDController(p, 0, d);
         controller.setPID(p, 0, d);
@@ -60,7 +60,7 @@ public class Slides extends SubsystemBase {
 
     public void loop() {
         controller.setPID(p, 0, d);
-        int armPos = linear_2.getCurrentPosition();
+        int armPos = linear_1.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
         double ff = Math.cos(Math.toRadians(target / ticks_to_degrees)) * f;
 
@@ -80,16 +80,16 @@ public class Slides extends SubsystemBase {
     }
 
     public void autoOuttake() {
-        target = 400; //adjust TODO
+        target = -400; //adjust TODO
     }
 
     public void autoIntake() {
-        target = 100; //adjust TODO
+        target = 0; //adjust TODO
     }
 
 
     public int pos() {
-        return linear_2.getCurrentPosition();
+        return linear_1.getCurrentPosition();
     }
 
     public void adjustArm(DoubleSupplier percentage) {

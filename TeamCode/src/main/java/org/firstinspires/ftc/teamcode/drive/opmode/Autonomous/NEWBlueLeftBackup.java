@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive.opmode.Autonomous;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -18,15 +19,17 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ColourMassDetectionProcessor;
+import org.firstinspires.ftc.teamcode.util.ColourMassDetectionProcessor2;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.opencv.core.Scalar;
 
 
 @Autonomous
-public class RedRightBackup extends OpMode {
+@Config
+public class NEWBlueLeftBackup extends OpMode {
     private VisionPortal visionPortal;
-    private ColourMassDetectionProcessor colourMassDetectionProcessor;
+    private ColourMassDetectionProcessor2 colourMassDetectionProcessor2;
 
     private Robot robot;
     private ElapsedTime time_since_start;
@@ -58,11 +61,11 @@ public class RedRightBackup extends OpMode {
         // the domains are: ([0, 180], [0, 255], [0, 255])
         // this is tuned to detect red, so you will need to experiment to fine tune it for your robot
         // and experiment to fine tune it for blue
-        Scalar lower = new Scalar(0, 80, 80); // the lower hsv threshold
-        Scalar upper = new Scalar(180, 250, 250); // the upper hsv threshold
+        Scalar lower = new Scalar(80, 50, 50); // the lower hsv threshold
+        Scalar upper = new Scalar(180, 255, 255); // the upper hsv threshold
         double minArea = 100; // the minimum area for the detection to consider for your prop
 
-        colourMassDetectionProcessor = new ColourMassDetectionProcessor(
+        colourMassDetectionProcessor2 = new ColourMassDetectionProcessor2(
                 lower,
                 upper,
                 () -> minArea, // these are lambda methods, in case we want to change them while the match is running, for us to tune them or something
@@ -71,7 +74,7 @@ public class RedRightBackup extends OpMode {
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam")) // the camera on your robot is named "Webcam 1" by default
-                .addProcessor(colourMassDetectionProcessor)
+                .addProcessor(colourMassDetectionProcessor2)
                 .build();
 
         // you may also want to take a look at some of the examples for instructions on
@@ -92,10 +95,10 @@ public class RedRightBackup extends OpMode {
      */
     @Override
     public void init_loop() {
-        telemetry.addData("Currently Recorded Position", colourMassDetectionProcessor.getRecordedPropPosition());
+        telemetry.addData("Currently Recorded Position", colourMassDetectionProcessor2.getRecordedPropPosition());
         telemetry.addData("Camera State", visionPortal.getCameraState());
-        telemetry.addData("Currently Detected Mass Center", "x: " + colourMassDetectionProcessor.getLargestContourX() + ", y: " + colourMassDetectionProcessor.getLargestContourY());
-        telemetry.addData("Currently Detected Mass Area", colourMassDetectionProcessor.getLargestContourArea());
+        telemetry.addData("Currently Detected Mass Center", "x: " + colourMassDetectionProcessor2.getLargestContourX() + ", y: " + colourMassDetectionProcessor2.getLargestContourY());
+        telemetry.addData("Currently Detected Mass Area", colourMassDetectionProcessor2.getLargestContourArea());
         CommandScheduler.getInstance().run();
         robot.a.loop();
     }
@@ -118,34 +121,31 @@ public class RedRightBackup extends OpMode {
         }
 
         // gets the recorded prop position
-        ColourMassDetectionProcessor.PropPositions recordedPropPosition = colourMassDetectionProcessor.getRecordedPropPosition();
+        ColourMassDetectionProcessor2.PropPositions recordedPropPosition = colourMassDetectionProcessor2.getRecordedPropPosition();
 
         // now we can use recordedPropPosition to determine where the prop is! if we never saw a prop, your recorded position will be UNFOUND.
         // if it is UNFOUND, you can manually set it to any of the other positions to guess
-        if (recordedPropPosition == ColourMassDetectionProcessor.PropPositions.UNFOUND) {
-            recordedPropPosition = ColourMassDetectionProcessor.PropPositions.MIDDLE;
+        if (recordedPropPosition == ColourMassDetectionProcessor2.PropPositions.UNFOUND) {
+            recordedPropPosition = ColourMassDetectionProcessor2.PropPositions.MIDDLE;
         }
 
         // now we can use recordedPropPosition in our auto code to modify where we place the purple and yellow pixels
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90)))
-                        .splineToSplineHeading(
-                                new Pose2d(6.53, -36.30, Math.toRadians(180.00)), Math.toRadians(180.00),
-                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+                        .splineToConstantHeading(new Vector2d(37.18, 42.75), Math.toRadians(-90.00))
                         .build();
 
                 TrajectorySequence backdropPixelLeft = robot.drive.trajectorySequenceBuilder(dropPixelLeft.end())
-                        .lineToConstantHeading(new Vector2d(16.45, -38.57))
+                        .lineToConstantHeading(new Vector2d(28.99, 52.32))
                         .build();
 
 
                 TrajectorySequence parkLeft = robot.drive.trajectorySequenceBuilder(backdropPixelLeft.end())
-                        .lineToSplineHeading(new Pose2d(67.65, -63.29, Math.toRadians(0.00)))
+                        .lineToSplineHeading(new Pose2d(75.00, 73.00, Math.toRadians(0.00)))
                         .build();
+
 
 
                 CommandScheduler.getInstance().schedule(
@@ -166,17 +166,17 @@ public class RedRightBackup extends OpMode {
             // code to do if we saw the prop on the left
             case MIDDLE:
                 // code to do if we saw the prop on the middle
-                TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
-                        .lineToConstantHeading(new Vector2d(19.59, -39.5))
+                TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+                        .lineToConstantHeading(new Vector2d(19.59, 41.01))
                         .build();
 
                 TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
-                        .lineToConstantHeading(new Vector2d(16.45, -46.06))
+                        .lineToConstantHeading(new Vector2d(16.45, 46.06))
                         .build();
 
 
                 TrajectorySequence parkMiddle = robot.drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
-                        .lineToSplineHeading(new Pose2d(70, -78, Math.toRadians(0.00)))
+                        .lineToSplineHeading(new Pose2d(60.33, 80.00, Math.toRadians(0.00)))
                         .build();
 
 
@@ -194,22 +194,26 @@ public class RedRightBackup extends OpMode {
                                 )
                         )
                 );
+
                 break;
             case RIGHT:
                 // code to do if we saw the prop on the right
-                TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
-                        .splineToConstantHeading(new Vector2d(32.00, -42.75), Math.toRadians(90.00))
+                TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+                        .splineToSplineHeading(
+                                new Pose2d(11.06, 31.43, Math.toRadians(-180.00)), Math.toRadians(-180.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence backdropPixelRight = robot.drive.trajectorySequenceBuilder(dropPixelRight.end())
-                        .lineToConstantHeading(new Vector2d(37.35, -54.94))
+                        .lineToConstantHeading(new Vector2d(29.34, 43.62))
                         .build();
 
 
                 TrajectorySequence parkRight = robot.drive.trajectorySequenceBuilder(backdropPixelRight.end())
-                        .lineToSplineHeading(new Pose2d(71.5, -72.5, Math.toRadians(0.00)))
+                        .lineToSplineHeading(new Pose2d(60.33, 79, Math.toRadians(0.00)))
                         .build();
-
 
 
                 CommandScheduler.getInstance().schedule(
@@ -263,7 +267,7 @@ public class RedRightBackup extends OpMode {
     @Override
     public void stop() {
         // this closes down the portal when we stop the code, its good practice!
-        colourMassDetectionProcessor.close();
+        colourMassDetectionProcessor2.close();
         visionPortal.close();
         CommandScheduler.getInstance().reset();
     }
