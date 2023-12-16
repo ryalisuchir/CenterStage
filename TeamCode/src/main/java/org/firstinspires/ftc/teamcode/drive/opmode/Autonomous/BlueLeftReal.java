@@ -9,14 +9,21 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.OuttakePosition;
-import org.firstinspires.ftc.teamcode.common.hardware.Robot;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.AngleSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.Slides;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -27,8 +34,19 @@ import java.util.List;
 
 @Autonomous
 public class BlueLeftReal extends OpMode {
-    private Robot robot;
     private ElapsedTime time_since_start;
+    public DcMotorEx leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
+    public Servo dump, claw1, claw2;
+    public VoltageSensor batteryVoltageSensor;
+
+    public AngleSubsystem angle;
+
+    public ArmSubsystem a;
+    public ClawSubsystem claw;
+    public Slides slides;
+
+    public Drive drive;
+    public static double MAX_CURRENT = 15;
     TfodProcessor myTfodProcessor;
     int elementPosition;
     boolean USE_WEBCAM;
@@ -36,12 +54,52 @@ public class BlueLeftReal extends OpMode {
     @Override
     public void init() {
         CommandScheduler.getInstance().reset();
-        robot = new Robot(hardwareMap);
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        //brake
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //reverse
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
-        CommandScheduler.getInstance().registerSubsystem(robot.a);
-        CommandScheduler.getInstance().registerSubsystem(robot.claw);
-        CommandScheduler.getInstance().registerSubsystem(robot.angle);
-        CommandScheduler.getInstance().registerSubsystem(robot.drive);
+        //set external motors
+        linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
+        linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");
+        arm = hardwareMap.get(DcMotorEx.class, "arm");
+
+        linear_1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linear_2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        linear_2.setDirection(DcMotor.Direction.REVERSE);
+        linear_2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linear_2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //servos
+        Servo dump = hardwareMap.get(Servo.class, "dump");
+        Servo claw1 = hardwareMap.get(Servo.class, "claw");
+        Servo claw2 = hardwareMap.get(Servo.class, "claw1");
+
+
+        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+
+        //setting subsystems
+        a = new ArmSubsystem(arm, batteryVoltageSensor);
+        claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
+        angle = new AngleSubsystem(hardwareMap, "dump");
+        drive = new Drive(new SampleMecanumDrive(hardwareMap), false);
+
+        CommandScheduler.getInstance().registerSubsystem(a, claw, angle, drive);
+
+        CommandScheduler.getInstance().registerSubsystem(a);
+        CommandScheduler.getInstance().registerSubsystem(claw);
+        CommandScheduler.getInstance().registerSubsystem(angle);
+        CommandScheduler.getInstance().registerSubsystem(drive);
 
         USE_WEBCAM = true;
         initTfod();
@@ -49,7 +107,7 @@ public class BlueLeftReal extends OpMode {
         telemetry.addData("Running: ", "2 pixel autonomous. All subsystems will run.");
         telemetry.update();
 
-        robot.claw.grabBoth();
+        claw.grabBoth();
 
     }
 
@@ -57,14 +115,14 @@ public class BlueLeftReal extends OpMode {
     public void init_loop() {
         telemetryTfod();
         CommandScheduler.getInstance().run();
-        robot.a.loop();
+        a.loop();
     }
 
     public void start() {
         time_since_start = new ElapsedTime();
         if(elementPosition == 0) { //right
 
-            TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+            TrajectorySequence dropPixelRight = drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
                     .splineTo(
                             new Vector2d(11.23, 35.78), Math.toRadians(205.71),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -72,7 +130,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backdropPixelRight = robot.drive.trajectorySequenceBuilder(dropPixelRight.end())
+            TrajectorySequence backdropPixelRight = drive.trajectorySequenceBuilder(dropPixelRight.end())
                     .lineToConstantHeading(
                             new Vector2d(22.55, 46.93),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -85,7 +143,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backupRight = robot.drive.trajectorySequenceBuilder(backdropPixelRight.end())
+            TrajectorySequence backupRight = drive.trajectorySequenceBuilder(backdropPixelRight.end())
                     .lineToConstantHeading(
                             new Vector2d(38.57, 24.64),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -93,7 +151,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence parkRight = robot.drive.trajectorySequenceBuilder(backupRight.end())
+            TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backupRight.end())
                     .lineToConstantHeading(
                             new Vector2d(48.49, 59.99),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -110,26 +168,27 @@ public class BlueLeftReal extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(dropPixelRight)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(dropPixelRight)),
                             new WaitCommand(1000),
                             new ParallelCommandGroup(
-                                    new OuttakePosition(robot),
-                                    new InstantCommand(() -> robot.drive.followTrajectorySequence(backdropPixelRight))
+                                    new InstantCommand(() -> a.armOuttake()),
+                                    new InstantCommand(() -> angle.outtake()),
+                                    new InstantCommand(() -> drive.followTrajectorySequence(backdropPixelRight))
                             ),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.claw.releaseRight()),
+                            new InstantCommand(() -> claw.releaseRight()),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(backupRight)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(backupRight)),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabRight()),
-                                    new InstantCommand(() -> robot.angle.intake()),
-                                    new InstantCommand(() -> robot.a.armCoast())
+                                    new InstantCommand(() -> claw.grabRight()),
+                                    new InstantCommand(() -> angle.intake()),
+                                    new InstantCommand(() -> a.armCoast())
                             ),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(parkRight))
+                            new InstantCommand(() -> drive.followTrajectorySequence(parkRight))
                     )
             );
         } else if(elementPosition == 1) { //middle //MIDDLE MIDDLE MIDDLE RIGHT HERE SUCHIR PAY ATTENTION SUCHIR RIGHT HERE
-            TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+            TrajectorySequence dropPixelMiddle = drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
                     .lineToConstantHeading(
                             new Vector2d(15.06, 10.36),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -137,7 +196,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
+            TrajectorySequence backdropPixelMiddle = drive.trajectorySequenceBuilder(dropPixelMiddle.end())
                     .lineToConstantHeading(
                             new Vector2d(15.41, 27.95),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -150,7 +209,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backupMiddle = robot.drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
+            TrajectorySequence backupMiddle = drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
                     .lineToConstantHeading(
                             new Vector2d(41.18, 37.70),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -158,7 +217,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence parkMiddle = robot.drive.trajectorySequenceBuilder(backupMiddle.end())
+            TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backupMiddle.end())
                     .lineToConstantHeading(
                             new Vector2d(62.07, 60.51),
                             SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -175,27 +234,28 @@ public class BlueLeftReal extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(dropPixelMiddle)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(dropPixelMiddle)),
                             new WaitCommand(1000),
                             new ParallelCommandGroup(
-                                    new OuttakePosition(robot),
-                                    new InstantCommand(() -> robot.drive.followTrajectorySequence(backdropPixelMiddle))
+                                    new InstantCommand(() -> a.armOuttake()),
+                                    new InstantCommand(() -> angle.outtake()),
+                                    new InstantCommand(() -> drive.followTrajectorySequence(backdropPixelMiddle))
                             ),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.claw.releaseRight()),
+                            new InstantCommand(() -> claw.releaseRight()),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(backupMiddle)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(backupMiddle)),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabRight()),
-                                    new InstantCommand(() -> robot.angle.intake()),
-                                    new InstantCommand(() -> robot.a.armCoast())
+                                    new InstantCommand(() -> claw.grabRight()),
+                                    new InstantCommand(() -> angle.intake()),
+                                    new InstantCommand(() -> a.armCoast())
                             ),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(parkMiddle))
+                            new InstantCommand(() -> drive.followTrajectorySequence(parkMiddle))
                     )
             );
 
         } else if(elementPosition == 1) { //left
-            TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+            TrajectorySequence dropPixelLeft = drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
                     .lineToConstantHeading(
                             new Vector2d(28.99, 39.61),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -203,7 +263,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backdropPixelLeft = robot.drive.trajectorySequenceBuilder(dropPixelLeft.end())
+            TrajectorySequence backdropPixelLeft = drive.trajectorySequenceBuilder(dropPixelLeft.end())
                     .lineToConstantHeading(
                             new Vector2d(28.12, 53.89),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -216,7 +276,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence backupLeft = robot.drive.trajectorySequenceBuilder(backdropPixelLeft.end())
+            TrajectorySequence backupLeft = drive.trajectorySequenceBuilder(backdropPixelLeft.end())
                     .lineToConstantHeading(
                             new Vector2d(41.18, 37.70),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -224,7 +284,7 @@ public class BlueLeftReal extends OpMode {
                     )
                     .build();
 
-            TrajectorySequence parkLeft = robot.drive.trajectorySequenceBuilder(backupLeft.end())
+            TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backupLeft.end())
                     .lineToConstantHeading(
                             new Vector2d(62.07, 60.51),
                             SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -241,22 +301,23 @@ public class BlueLeftReal extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(dropPixelLeft)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(dropPixelLeft)),
                             new WaitCommand(1000),
                             new ParallelCommandGroup(
-                                    new OuttakePosition(robot),
-                                    new InstantCommand(() -> robot.drive.followTrajectorySequence(backdropPixelLeft))
+                                    new InstantCommand(() -> a.armOuttake()),
+                                    new InstantCommand(() -> angle.outtake()),
+                                    new InstantCommand(() -> drive.followTrajectorySequence(backdropPixelLeft))
                             ),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.claw.releaseRight()),
+                            new InstantCommand(() -> claw.releaseRight()),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(backupLeft)),
+                            new InstantCommand(() -> drive.followTrajectorySequence(backupLeft)),
                             new ParallelCommandGroup(
-                                    new InstantCommand(() -> robot.claw.grabRight()),
-                                    new InstantCommand(() -> robot.angle.intake()),
-                                    new InstantCommand(() -> robot.a.armCoast())
+                                    new InstantCommand(() -> claw.grabRight()),
+                                    new InstantCommand(() -> angle.intake()),
+                                    new InstantCommand(() -> a.armCoast())
                             ),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(parkLeft))
+                            new InstantCommand(() -> drive.followTrajectorySequence(parkLeft))
                     )
             );
         }
@@ -264,12 +325,12 @@ public class BlueLeftReal extends OpMode {
     @Override
     public void loop() {
         CommandScheduler.getInstance().run();
-        robot.a.loop();
-        robot.drive.update();
+        a.loop();
+        drive.update();
 
         double time = System.currentTimeMillis();
         telemetry.addData("Loop: ", time - loop);
-        telemetry.addData("Arm Position: ", robot.a.getCachePos());
+        telemetry.addData("Arm Position: ", a.getCachePos());
         loop = time;
 
         telemetry.update();
