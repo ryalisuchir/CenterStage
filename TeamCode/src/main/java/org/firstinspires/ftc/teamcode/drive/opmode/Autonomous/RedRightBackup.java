@@ -26,7 +26,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Autonomous
-public class BlueLeftBackup extends OpMode {
+public class RedRightBackup extends OpMode {
     private Robot robot;
     private ElapsedTime time_since_start;
     TfodProcessor myTfodProcessor;
@@ -62,47 +62,47 @@ public class BlueLeftBackup extends OpMode {
 
     public void start() {
         time_since_start = new ElapsedTime();
-        if(elementPosition == 0) { //right
-            TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
+        if(elementPosition == 2) { //left
+            TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90)))
                     .splineToSplineHeading(
-                            new Pose2d(11.06, 31.43, Math.toRadians(-180.00)), Math.toRadians(-180.00),
+                            new Pose2d(11.06, -31.43, Math.toRadians(180.00)), Math.toRadians(180.00),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
                     .build();
 
-            TrajectorySequence backdropPixelRight = robot.drive.trajectorySequenceBuilder(dropPixelRight.end())
-                    .lineToConstantHeading(new Vector2d(29.34, 43.62))
+            TrajectorySequence backdropPixelLeft = robot.drive.trajectorySequenceBuilder(dropPixelLeft.end())
+                    .lineToConstantHeading(new Vector2d(29.34, -43.62))
                     .build();
 
 
-            TrajectorySequence parkRight = robot.drive.trajectorySequenceBuilder(backdropPixelRight.end())
-                    .lineToSplineHeading(new Pose2d(60.33, 79, Math.toRadians(0.00)))
+            TrajectorySequence parkLeft = robot.drive.trajectorySequenceBuilder(backdropPixelLeft.end())
+                    .lineToSplineHeading(new Pose2d(68.34, -68.34, Math.toRadians(0.00)))
                     .build();
 
 
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelRight)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelLeft)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelRight)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelLeft)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkRight))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkLeft))
                     )
             );
         } else if(elementPosition == 1) { //middle
-            TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
-                    .lineToConstantHeading(new Vector2d(19.59, 41.01))
+            TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
+                    .lineToConstantHeading(new Vector2d(19.59, -41.01))
                     .build();
 
             TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
-                    .lineToConstantHeading(new Vector2d(16.45, 46.06))
+                    .lineToConstantHeading(new Vector2d(16.45, -46.06))
                     .build();
 
 
             TrajectorySequence parkMiddle = robot.drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
-                    .lineToSplineHeading(new Pose2d(60.33, 80.00, Math.toRadians(0.00)))
+                    .lineToSplineHeading(new Pose2d(68.34, -68.34, Math.toRadians(0.00)))
                     .build();
 
 
@@ -117,18 +117,18 @@ public class BlueLeftBackup extends OpMode {
                     )
             );
 
-        } else if(elementPosition == 2) { //left
-            TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
-                    .splineToConstantHeading(new Vector2d(37.18, 42.75), Math.toRadians(-90.00))
+        } else if(elementPosition == 0) { //right
+            TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, -66.78, Math.toRadians(90.00)))
+                    .splineToConstantHeading(new Vector2d(37.18, -42.75), Math.toRadians(90.00))
                     .build();
 
-            TrajectorySequence backdropPixelLeft = robot.drive.trajectorySequenceBuilder(dropPixelLeft.end())
-                    .lineToConstantHeading(new Vector2d(28.99, 52.32))
+            TrajectorySequence backdropPixelRight = robot.drive.trajectorySequenceBuilder(dropPixelRight.end())
+                    .lineToConstantHeading(new Vector2d(37.35, -54.94))
                     .build();
 
 
-            TrajectorySequence parkLeft = robot.drive.trajectorySequenceBuilder(backdropPixelLeft.end())
-                    .lineToSplineHeading(new Pose2d(75.00, 73.00, Math.toRadians(0.00)))
+            TrajectorySequence parkRight = robot.drive.trajectorySequenceBuilder(backdropPixelRight.end())
+                    .lineToSplineHeading(new Pose2d(68.34, -68.34, Math.toRadians(0.00)))
                     .build();
 
 
@@ -136,11 +136,11 @@ public class BlueLeftBackup extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelLeft)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelRight)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelLeft)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelRight)),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkLeft))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkRight))
                     )
             );
         }
@@ -170,7 +170,7 @@ public class BlueLeftBackup extends OpMode {
         VisionPortal myVisionPortal;
 
         myTfodProcessorBuilder = new TfodProcessor.Builder();
-        myTfodProcessorBuilder.setModelFileName("BLUETURKEY.tflite");
+        myTfodProcessorBuilder.setModelFileName("REDTURKEY.tflite");
         myTfodProcessorBuilder.setModelLabels(JavaUtil.createListWith("TSE"));
         myTfodProcessorBuilder.setModelAspectRatio(16 / 9);
         myTfodProcessor = myTfodProcessorBuilder.build();
@@ -202,11 +202,11 @@ public class BlueLeftBackup extends OpMode {
                 y = (myTfodRecognition.getTop() + myTfodRecognition.getBottom()) / 2;
                 telemetry.addData("- Position", JavaUtil.formatNumber(x, 0) + ", " + JavaUtil.formatNumber(y, 0));
                 telemetry.addData("- Size", JavaUtil.formatNumber(myTfodRecognition.getWidth(), 0) + " x " + JavaUtil.formatNumber(myTfodRecognition.getHeight(), 0));
-                if (x > 500) {
+                if (x > 360) {
                     sensedElement = true;
                     elementPosition = 0; // right
                     telemetry.addData("Team Element Detection: ", "Right");
-                } else if (x >= 190 && x <= 250) {
+                } else if (x >= 60 && x <= 140) {
                     sensedElement = true;
                     elementPosition = 1; // middle
                     telemetry.addData("Team Element Detection: ", "Middle");

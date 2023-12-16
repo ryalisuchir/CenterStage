@@ -98,6 +98,10 @@ public class Drive extends SubsystemBase {
         drive.followTrajectorySequenceAsync(trajectory);
     }
 
+    public void followTrajectorySequencenotAsync(TrajectorySequence trajectory) {
+        drive.followTrajectorySequence(trajectory);
+    }
+
     public boolean isBusy() {
         return drive.isBusy();
     }

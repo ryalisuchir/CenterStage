@@ -128,10 +128,10 @@ public class BlueLeftReal extends OpMode {
                             new InstantCommand(() -> robot.drive.followTrajectorySequence(parkRight))
                     )
             );
-        } else if(elementPosition == 1) {
+        } else if(elementPosition == 1) { //middle
             TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
                     .lineToConstantHeading(
-                            new Vector2d(15.06, 10.36),
+                            new Vector2d(20.29, 38.00),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
@@ -139,12 +139,12 @@ public class BlueLeftReal extends OpMode {
 
             TrajectorySequence backdropPixelMiddle = robot.drive.trajectorySequenceBuilder(dropPixelMiddle.end())
                     .lineToConstantHeading(
-                            new Vector2d(15.41, 27.95),
+                            new Vector2d(16.45, 46.06),
                             SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
                     .splineTo(
-                            new Vector2d(47.80, 37.87), Math.toRadians(0.00),
+                            new Vector2d(48.32, 38.57), Math.toRadians(360.00),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
@@ -152,7 +152,7 @@ public class BlueLeftReal extends OpMode {
 
             TrajectorySequence backupMiddle = robot.drive.trajectorySequenceBuilder(backdropPixelMiddle.end())
                     .lineToConstantHeading(
-                            new Vector2d(41.18, 37.70),
+                            new Vector2d(40.83, 37.52),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
@@ -160,12 +160,12 @@ public class BlueLeftReal extends OpMode {
 
             TrajectorySequence parkMiddle = robot.drive.trajectorySequenceBuilder(backupMiddle.end())
                     .lineToConstantHeading(
-                            new Vector2d(62.07, 60.51),
+                            new Vector2d(50.58, 72.35),
                             SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
                     .lineToConstantHeading(
-                            new Vector2d(48.15, 60.68),
+                            new Vector2d(70.26, 72.00),
                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
@@ -175,22 +175,22 @@ public class BlueLeftReal extends OpMode {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new WaitCommand(500),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(dropPixelMiddle)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelMiddle)),
                             new WaitCommand(1000),
                             new ParallelCommandGroup(
                                     new OuttakePosition(robot),
-                                    new InstantCommand(() -> robot.drive.followTrajectorySequence(backdropPixelMiddle))
+                                    new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backdropPixelMiddle))
                             ),
                             new WaitCommand(1000),
                             new InstantCommand(() -> robot.claw.releaseRight()),
                             new WaitCommand(1000),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(backupMiddle)),
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(backupMiddle)),
                             new ParallelCommandGroup(
                                     new InstantCommand(() -> robot.claw.grabRight()),
                                     new InstantCommand(() -> robot.angle.intake()),
                                     new InstantCommand(() -> robot.a.armCoast())
                             ),
-                            new InstantCommand(() -> robot.drive.followTrajectorySequence(parkMiddle))
+                            new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(parkMiddle))
                     )
             );
 
