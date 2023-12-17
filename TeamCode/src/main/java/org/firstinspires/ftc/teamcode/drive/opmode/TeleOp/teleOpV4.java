@@ -176,7 +176,7 @@ public class teleOpV4 extends LinearOpMode {
                     else if (gamepad2.dpad_right) {
                         //  droneL.setPosition(0.5);
                         //   sleep(250);ddddrrrrrr
-                        drone.setPosition(0.95);
+                        drone.setPosition(0.9);
                     }
                     if (gamepad2.a && drone.getPosition() >0)
                         droneL.setPosition(1);

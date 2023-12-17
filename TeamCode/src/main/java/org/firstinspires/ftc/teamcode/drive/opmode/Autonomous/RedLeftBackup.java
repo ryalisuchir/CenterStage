@@ -69,7 +69,7 @@ public class RedLeftBackup extends OpMode {
                 lower,
                 upper,
                 () -> minArea, // these are lambda methods, in case we want to change them while the match is running, for us to tune them or something
-                () -> 213, // the left dividing line, in this case the left third of the frame
+                () -> 225, // the left dividing line, in this case the left third of the frame
                 () -> 426 // the left dividing line, in this case the right third of the frame
         );
         visionPortal = new VisionPortal.Builder()
