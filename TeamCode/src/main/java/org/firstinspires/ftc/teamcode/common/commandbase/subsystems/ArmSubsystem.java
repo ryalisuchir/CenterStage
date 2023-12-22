@@ -99,7 +99,7 @@ public class ArmSubsystem extends SubsystemBase {
         target = 0; //adjust TODO
     }
     public void armTapeDrop() {
-        target = 0; //adjust TODO
+        target = 20; //adjust TODO
     }
 
 

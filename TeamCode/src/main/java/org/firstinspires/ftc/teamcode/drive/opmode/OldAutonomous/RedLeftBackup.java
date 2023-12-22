@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.Autonomous;
+package org.firstinspires.ftc.teamcode.drive.opmode.OldAutonomous;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -9,7 +9,6 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,10 +17,8 @@ import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.util.ColourMassDetectionProcessor;
 import org.firstinspires.ftc.teamcode.util.ColourMassDetectionProcessor2;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.opencv.core.Scalar;
 
 
@@ -48,7 +45,7 @@ public class RedLeftBackup extends OpMode {
         CommandScheduler.getInstance().registerSubsystem(robot.a);
         CommandScheduler.getInstance().registerSubsystem(robot.claw);
         CommandScheduler.getInstance().registerSubsystem(robot.angle);
-        CommandScheduler.getInstance().registerSubsystem(robot.drive);
+        CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
 
         telemetry.addData("Successful: ", "Ready for RedRight (Backdrop Side)");
         telemetry.addData("Running: ", "1 pixel autonomous. All subsystems will run.");
@@ -133,7 +130,7 @@ public class RedLeftBackup extends OpMode {
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence dropPixelLeft = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                TrajectorySequence dropPixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
                         .splineToConstantHeading(
                                 new Vector2d(-60.86, -35.96), Math.toRadians(90.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -146,7 +143,7 @@ public class RedLeftBackup extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelLeft)),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(dropPixelLeft)),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
@@ -159,7 +156,7 @@ public class RedLeftBackup extends OpMode {
             // code to do if we saw the prop on the left
             case MIDDLE:
                 // code to do if we saw the prop on the middle
-                TrajectorySequence dropPixelMiddle = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                TrajectorySequence dropPixelMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
                         .lineToSplineHeading(
                                 new Pose2d(-42.57, -34.39, Math.toRadians(90.00)),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -172,7 +169,7 @@ public class RedLeftBackup extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelMiddle)),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(dropPixelMiddle)),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
@@ -183,7 +180,7 @@ public class RedLeftBackup extends OpMode {
                 break;
             case RIGHT:
                 // code to do if we saw the prop on the right
-                TrajectorySequence dropPixelRight = robot.drive.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                TrajectorySequence dropPixelRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
                         .splineTo(new Vector2d(
                                         -33.0, -32.47), Math.toRadians(0.00),
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -197,7 +194,7 @@ public class RedLeftBackup extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
-                                new InstantCommand(() -> robot.drive.followTrajectorySequencenotAsync(dropPixelRight)),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(dropPixelRight)),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
@@ -219,7 +216,7 @@ public class RedLeftBackup extends OpMode {
     public void loop() {
         CommandScheduler.getInstance().run();
         robot.a.loop();
-        robot.drive.update();
+        robot.driveSubsystem.update();
 
         double time = System.currentTimeMillis();
         telemetry.addData("Loop: ", time - loop);

@@ -1,23 +1,17 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystems;
 
-import android.util.Pair;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.function.DoubleSupplier;
 
 @Config
-public class Slides extends SubsystemBase {
+public class SlidesSubsystem extends SubsystemBase {
     public final DcMotorEx linear_1, linear_2;
 
     private final VoltageSensor batteryVoltageSensor;
@@ -42,7 +36,7 @@ public class Slides extends SubsystemBase {
 
     private double cache = 0;
 
-    public Slides(DcMotorEx a, DcMotorEx b, VoltageSensor c) {
+    public SlidesSubsystem(DcMotorEx a, DcMotorEx b, VoltageSensor c) {
         linear_1 = a;
         linear_2 = b;
         linear_2.setDirection(DcMotorEx.Direction.REVERSE);
