@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @Autonomous(group = "drive")
-@Disabled
 public class Values extends LinearOpMode {
     private DcMotor leftFront, rightFront, leftRear, rightRear, linear_2, arm;
     @Override

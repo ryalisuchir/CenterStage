@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.tuning;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.GrabBothCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.IntakeCommand;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.RestCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperCommand;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
+@TeleOp
 public class SubsystemTest extends CommandOpMode {
     private Robot robot;
     double speed;
