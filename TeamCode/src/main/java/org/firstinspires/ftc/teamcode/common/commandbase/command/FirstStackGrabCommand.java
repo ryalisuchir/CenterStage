@@ -7,13 +7,13 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
-//description: ready to drop
-public class OuttakeCommand extends SequentialCommandGroup {
-    public OuttakeCommand(Robot robot) {
+//description: ready to intake
+public class FirstStackGrabCommand extends SequentialCommandGroup {
+    public FirstStackGrabCommand(Robot robot) {
         super(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> robot.a.armOuttake()),
-                        new InstantCommand(() -> robot.angle.outtake())
+                        new InstantCommand(() -> robot.angle.intake()),
+                        new InstantCommand(() -> robot.a.armTapeDrop())
                 )
         );
     }

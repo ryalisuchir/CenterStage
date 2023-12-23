@@ -10,7 +10,7 @@ public class TapeDropperCommand extends SequentialCommandGroup {
     public TapeDropperCommand(Robot robot) {
         super(
                 new InstantCommand(() -> robot.a.armTapeDrop()),
-                new InstantCommand(() -> robot.angle.intake())
+                new InstantCommand(() -> robot.angle.tapeDrop())
         );
     }
 }

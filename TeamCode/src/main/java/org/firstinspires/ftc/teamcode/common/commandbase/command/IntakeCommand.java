@@ -12,14 +12,13 @@ public class IntakeCommand extends SequentialCommandGroup {
     public IntakeCommand(Robot robot) {
         super(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> robot.a.armIntake()),
-                        new InstantCommand(() -> robot.angle.rest())
-                ),
-                new WaitCommand(200),
-                new ParallelCommandGroup(
+                        new InstantCommand(() -> robot.a.setPos(50)),
                         new InstantCommand(() -> robot.angle.intake()),
-                        new InstantCommand(() -> robot.claw.releaseBoth())
-                )
+                        new InstantCommand(() -> robot.claw.grabBoth())
+                ),
+                new WaitCommand(1000),
+                new InstantCommand(() -> robot.claw.releaseBoth()),
+                new InstantCommand(() -> robot.a.armIntake())
         );
     }
 }

@@ -22,7 +22,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 public class Robot {
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
-    public Motor leftFront2, rightFront2, leftRear2, rightRear2;
     public Servo dump, claw1, claw2;
     public VoltageSensor batteryVoltageSensor;
 
@@ -58,6 +57,9 @@ public class Robot {
 
         linear_1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linear_2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         linear_2.setDirection(DcMotor.Direction.REVERSE);
@@ -69,15 +71,6 @@ public class Robot {
         Servo claw1 = hardwareMap.get(Servo.class, "claw");
         Servo claw2 = hardwareMap.get(Servo.class, "claw1");
 
-        //just for the drive mecanum stuff:
-        leftFront2 = hardwareMap.get(MotorEx.class, "leftFront");
-        leftRear2 = hardwareMap.get(MotorEx.class, "leftRear");
-        rightRear2 = hardwareMap.get(MotorEx.class, "rightRear");
-        rightFront2 = hardwareMap.get(MotorEx.class, "rightFront");
-        //reverse
-        leftFront2.setInverted(true);
-        leftRear2.setInverted(true);
-        //end drive mecanum stuff
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -86,9 +79,6 @@ public class Robot {
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angle = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
-        drive = new MecanumDrive(
-                leftFront2, rightFront2, leftRear2, rightRear2
-                );
         CommandScheduler.getInstance().registerSubsystem(a, claw, angle, driveSubsystem);
 
     }

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.IntakeCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.FirstStackGrabCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.ReleaseBothCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.RestCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperCommand;
@@ -131,7 +131,7 @@ public class BlueLeft extends OpMode {
             case LEFT:
             case UNFOUND:
                 TrajectorySequence OGbackBoardPixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
-                        .splineTo(new Vector2d(45.88, 41.70), Math.toRadians(0.00))
+                        .splineToSplineHeading(new Pose2d(53.19, 50.23, Math.toRadians(20.00)), Math.toRadians(20.00))
                         .build();
 
                 TrajectorySequence tapePixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(OGbackBoardPixelLeft.end())
@@ -176,34 +176,34 @@ public class BlueLeft extends OpMode {
                                         new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(OGbackBoardPixelLeft)),
                                         new OuttakeCommand(robot)
                                 ),
-                                new WaitCommand(500),
-                                new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(500),
+                                new WaitCommand(2500),
+                                new InstantCommand(() -> robot.claw.releaseRight()),
+                                new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapePixelLeft)),
                                         new TapeDropperCommand(robot)
                                 ),
                                 new WaitCommand(350),
-                                new InstantCommand(() -> robot.claw.releaseRight()),
-                                new WaitCommand(350),
-                                new RestCommand(robot),
-                                new ParallelCommandGroup(
-                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(grabStackLeft)),
-                                        new IntakeCommand(robot)
-                                ),
-                                new WaitCommand(350),
-                                new InstantCommand(() -> robot.claw.grabLeft()),
-                                new WaitCommand(100),
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(getAnotherLeft)),
-                                new WaitCommand(100),
-                                new InstantCommand(() -> robot.claw.grabRight()),
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(NEWbackBoardPixelLeft)),
-                                new OuttakeCommand(robot),
-                                new ReleaseBothCommand(robot),
-                                new ParallelCommandGroup(
-                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkLeft)),
-                                        new RestCommand(robot)
-                                )
+                                new InstantCommand(() -> robot.claw.releaseLeft())
+//                                new WaitCommand(350),
+//                                new RestCommand(robot),
+//                                new ParallelCommandGroup(
+//                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(grabStackLeft)),
+//                                        new FirstStackGrabCommand(robot)
+//                                ),
+//                                new WaitCommand(350),
+//                                new InstantCommand(() -> robot.claw.grabLeft()),
+//                                new WaitCommand(100),
+//                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(getAnotherLeft)),
+//                                new WaitCommand(100),
+//                                new InstantCommand(() -> robot.claw.grabRight()),
+//                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(NEWbackBoardPixelLeft)),
+//                                new OuttakeCommand(robot),
+//                                new ReleaseBothCommand(robot),
+//                                new ParallelCommandGroup(
+//                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkLeft)),
+//                                        new RestCommand(robot)
+//                                )
                         )
                 );
                 break;

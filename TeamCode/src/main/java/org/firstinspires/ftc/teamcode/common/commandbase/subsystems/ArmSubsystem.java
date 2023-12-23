@@ -72,11 +72,11 @@ public class ArmSubsystem extends SubsystemBase {
 
         double power = (pid + ff) / voltage * 12.0;
 
-        if (power > 0.6) {
-            power = 0.6;
-        }
-        if (power < -0.6) {
-            power = -0.6;
+//        if (power > 0.5) {
+//            power = 0.5;
+//        }
+        if (power < -0.3) {
+            power = -0.3;
         }
 
         arm.setPower(power);
@@ -92,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void armOuttake() {
-        target = 200; //adjust TODO
+        target = 224; //adjust TODO
     }
 
     public void armCoast() {

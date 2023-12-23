@@ -21,7 +21,6 @@ public class SubsystemTest extends CommandOpMode {
 
         robot.a.armIntake();
         robot.angle.rest();
-        robot.claw.grabBoth();
         speed = 0.5;
     }
 
@@ -29,11 +28,6 @@ public class SubsystemTest extends CommandOpMode {
     public void run() {
         super.run();
         robot.a.loop();
-        robot.drive.driveRobotCentric(
-                speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + -1 * gamepad1.left_stick_x) / 1),
-                speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + -1 * gamepad1.left_stick_x) / 1),
-                speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + -1 * gamepad1.left_stick_x) / 1)
-        );
 
         boolean x = gamepad1.x;
         if (x) {

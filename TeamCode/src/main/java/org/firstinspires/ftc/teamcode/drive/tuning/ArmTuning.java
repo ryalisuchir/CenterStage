@@ -39,6 +39,7 @@ public class ArmTuning extends OpMode {
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         dump = hardwareMap.get(Servo.class, "dump");
+        dump.setDirection(Servo.Direction.REVERSE);
         dump.setPosition(0);
     }
 
