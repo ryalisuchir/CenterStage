@@ -54,6 +54,7 @@ public class Robot {
         linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
         linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");
         arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
         linear_1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linear_2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

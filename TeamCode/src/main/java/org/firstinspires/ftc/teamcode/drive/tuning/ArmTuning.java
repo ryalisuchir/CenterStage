@@ -22,12 +22,13 @@ import java.time.Instant;
 @Config
 @TeleOp
 public class ArmTuning extends OpMode {
+    private final double zeroOffset = 23.0;
     private PIDController controller;
     public static double p = 0.01, i = 0, d = 0.00083;
-    public static double f = 0.008;
+    public static double f = 0.009;
     public static double servoPos = 0;
     public static int target = 0;
-    private final double ticks_in_degree = 384.5 / 180; //depends on motor you use
+    private final double ticks_in_degree = 1425.1 / 360; //depends on motor you use
     private DcMotorEx arm;
     Servo dump;
     @Override
@@ -35,6 +36,7 @@ public class ArmTuning extends OpMode {
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm.setDirection(DcMotor.Direction.REVERSE);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,16 +51,9 @@ public class ArmTuning extends OpMode {
         controller.setPID(p, i, d);
         int armPos = arm.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+        double ff = Math.sin(Math.toRadians(armPos / ticks_in_degree + zeroOffset )) * f;
 
         double power = pid + ff;
-
-        if (power > 0.6) {
-            power = 0.6;
-        }
-        if (power < -0.6) {
-            power = -0.6;
-        }
 
         arm.setPower(power);
 
@@ -66,4 +61,5 @@ public class ArmTuning extends OpMode {
         telemetry.addData("target:", target);
         telemetry.update();
     }
+
 }

@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.util.InterpLUT;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -20,10 +21,11 @@ public class ArmSubsystem extends SubsystemBase {
     private final VoltageSensor batteryVoltageSensor;
 
 
-    private final double p = 0.01; //adjust TODO
-    private final double d = 0.000834; //adjust TODO
-    private final double f = 0.008; //adjust TODO
-    private final double ticks_to_degrees = 384.5 / 180.0;
+    private final double p = 0.006; //adjust TODO
+    private final double d = 0.00001; //adjust TODO
+    private final double f = 0.005; //adjust TODO
+    private final double ticks_to_degrees = 1425.1 / 360;
+    private final double zeroOffset = 23.0;
 
     private final PIDController controller;
     private ElapsedTime time;
@@ -37,7 +39,6 @@ public class ArmSubsystem extends SubsystemBase {
     private int target = 0;
     private int previous_target = 5;
 
-
     private double cache = 0;
 
     public ArmSubsystem(DcMotorEx a, VoltageSensor b) {
@@ -49,6 +50,7 @@ public class ArmSubsystem extends SubsystemBase {
         time = new ElapsedTime();
         voltageTimer = new ElapsedTime();
         voltage = batteryVoltageSensor.getVoltage();
+
     }
 
     public void loop() {
@@ -68,15 +70,15 @@ public class ArmSubsystem extends SubsystemBase {
         MotionState targetState = profile == null ? new MotionState(0, 0) : profile.get(time.seconds());
         double target = targetState.getX();
         double pid = controller.calculate(armpos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_to_degrees)) * f;
+        double ff = Math.sin(Math.toRadians(target / ticks_to_degrees + zeroOffset )) * f;
 
         double power = (pid + ff) / voltage * 12.0;
 
-//        if (power > 0.5) {
-//            power = 0.5;
-//        }
-        if (power < -0.3) {
-            power = -0.3;
+        if (power > 0.2) {
+            power = 0.2;
+        }
+        if (power < -0.2) {
+            power = -0.2;
         }
 
         arm.setPower(power);
@@ -92,14 +94,14 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void armOuttake() {
-        target = 224; //adjust TODO
+        target = 600; //adjust TODO
     }
 
     public void armCoast() {
-        target = 0; //adjust TODO
+        target = 30; //adjust TODO
     }
     public void armTapeDrop() {
-        target = 20; //adjust TODO
+        target = 10; //adjust TODO
     }
 
 

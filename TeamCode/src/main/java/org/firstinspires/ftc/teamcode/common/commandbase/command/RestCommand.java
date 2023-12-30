@@ -10,7 +10,7 @@ public class RestCommand extends SequentialCommandGroup {
     public RestCommand(Robot robot) {
         super(
                 new InstantCommand(() -> robot.a.armCoast()),
-                new InstantCommand(() -> robot.angle.outtake())
+                new InstantCommand(() -> robot.angle.rest())
         );
     }
 }

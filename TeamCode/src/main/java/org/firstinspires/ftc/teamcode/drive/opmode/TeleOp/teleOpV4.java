@@ -1,6 +1,9 @@
 
 package org.firstinspires.ftc.teamcode.drive.opmode.TeleOp;//package org.firstinspires.ftc.teamcode.drive.opmode.Autonomous;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
+import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
+import com.acmerobotics.roadrunner.profile.MotionState;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,10 +11,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "teleOpV4-suchircomputer")
+
+@TeleOp
 public class teleOpV4 extends LinearOpMode {
 
 
@@ -29,7 +36,6 @@ public class teleOpV4 extends LinearOpMode {
     private ElapsedTime time;
     private ElapsedTime voltageTimer;
     private double voltage;
-
     private MotionProfile profile;
     public static double max_v = 10000;
     public static double max_a = 6000;
@@ -46,14 +52,18 @@ public class teleOpV4 extends LinearOpMode {
     private DcMotor linear_2;
     private Servo dump;
     private Servo claw1;
-    private Servo droneL;
 
     private Servo drone;
+    private Servo droneL;
     private DcMotor leftFront;
     private DcMotor leftRear;
     private DcMotor linear_1;
     private DcMotor arm;
     private Servo claw;
+
+    private TouchSensor touch;
+    private DistanceSensor distance;
+    //  private DistanceSensor distanceB;
 
 
     /**
@@ -61,11 +71,16 @@ public class teleOpV4 extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-
-        double dumpy1 = 0;
+        int clawToggle = 0;
+        double armPWR = 0;
         double dumpy;
         double slidesSpeed;
         double speed;
+        boolean armDrop = false;
+        touch = hardwareMap.get(TouchSensor.class, "touch");
+        distance = hardwareMap.get(DistanceSensor.class, "distance");
+        //      distanceB = hardwareMap.get(DistanceSensor.class, "distanceBottom");
+
         arm = hardwareMap.get(DcMotor.class, "arm");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
@@ -80,20 +95,20 @@ public class teleOpV4 extends LinearOpMode {
         linear_1 = hardwareMap.get(DcMotor.class, "linear_1");
         claw = hardwareMap.get(Servo.class, "claw");
 
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftRear.setDirection(DcMotor.Direction.REVERSE);
-        linear_2.setDirection(DcMotor.Direction.REVERSE);
-        dumpy = 0.75;
+        linear_1.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
+        dumpy = 0;
+
         slidesSpeed = 0.5;
         speed = 0.5;
         dump.setDirection(Servo.Direction.REVERSE);
         claw1.setDirection(Servo.Direction.REVERSE);
-        // Put initialization blocks here.ffvvvvv
-        droneL.setPosition(0.7);
+        // Put initialization blocks here.
         waitForStart();
         if (opModeIsActive()) {
+            // arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             // Put run blocks here.
             while (opModeIsActive()) {
 
@@ -104,17 +119,7 @@ public class teleOpV4 extends LinearOpMode {
                 leftRear.setPower(speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + 1 * gamepad1.left_stick_x) / 1));
                 rightFront.setPower(speed * ((gamepad1.left_stick_y - gamepad1.right_stick_x + 1 * gamepad1.left_stick_x) / 1));
                 rightRear.setPower(speed * ((gamepad1.left_stick_y - gamepad1.right_stick_x + -1 * gamepad1.left_stick_x) / 1));
-                arm.setPower(gamepad2.right_trigger - gamepad2.left_trigger);
-
-
                /*
-               leftFront.setPower(speed * (((gamepad1.left_stick_y - gamepad1.right_stick_x) + -1 * gamepad1.left_stick_x) / 1));
-                leftRear.setPower(speed * (((gamepad1.left_stick_y - gamepad1.right_stick_x) + 1 * gamepad1.left_stick_x) / 1));
-                rightFront.setPower(speed * ((gamepad1.left_stick_y + gamepad1.right_stick_x + 1 * gamepad1.left_stick_x) / 1));
-                rightRear.setPower(speed * ((gamepad1.left_stick_y + gamepad1.right_stick_x + -1 * gamepad1.left_stick_x) / 1));
-                arm.setPower(gamepad2.right_trigger - gamepad2.left_trigger);
-
-
                 if (gamepad1.a) {
                     dumpy += 0.05;
                     telemetry.addData("intakeSpeed", dumpy);
@@ -127,70 +132,102 @@ public class teleOpV4 extends LinearOpMode {
                 }
 
                 */
-                linear_1.setPower(slidesSpeed * gamepad2.left_stick_y);
-                linear_2.setPower(slidesSpeed * gamepad2.left_stick_y);
-                if (gamepad2.dpad_up) {
-                    slidesSpeed = 3;
-                } else if (gamepad2.dpad_down) {
-                    slidesSpeed = 0.5;
+
+
+                //  droneL.setPosition(gamepad2.right_stick_y);
+
+                if (gamepad1.x) {
+                    arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                }
+                linear_1.setPower(gamepad1.right_stick_y);
+                linear_2.setPower(gamepad1.right_stick_y);
+                if (gamepad1.dpad_up) {
+                    slidesSpeed += 0.05;
+
+                    sleep(200);
+                } else if (gamepad1.dpad_down) {
+                    slidesSpeed -= 0.05;
+
+                    sleep(200);
+                }
+                claw1.setPosition(gamepad1.right_trigger);
+                claw.setPosition(gamepad1.right_trigger);
+                if (gamepad1.left_trigger > 0) {
+                    dump.setPosition(dumpy - (0.4 * gamepad1.left_trigger));
+                } else
+                    dump.setPosition(dumpy);
+
+                if(arm.getPower()>0 && distance.getDistance(DistanceUnit.CM) < 3) {
+                    arm.setPower(0);
+                    arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 }
 
-
-                  /*  if (gamepad1.left_stick_y < -.3) {
-                        linear_1.setPower(-.3);
-                        linear_2.setPower(-.3);
-                        arm.setPower(-.8);
-                        dumpy = 0;
-                        dump.setPosition(dumpy);
-                    }
-                } else {
-                    sleep(100);
+                if (arm.getCurrentPosition()>-300 && arm.getPower() > 0 && !armDrop) {
                     arm.setPower(0);
 
-                   */
+                }
 
-                telemetry.addData("Position: ", drone.getPosition());
-                telemetry.addData("Position launch: ", droneL.getPosition());
-                if (gamepad1.y)
-                    dump.setPosition(0.56);
 
-                if ( gamepad1.left_bumper) {
-                    dumpy = 0.7;
-                    dump.setPosition(dumpy);
+                if (arm.getCurrentPosition()<-215 && arm.getPower() < 0) {
+                    arm.setPower(0.03);
+
+                }
+
+
+                if (arm.getCurrentPosition() < -625 && arm.getPower() <= 0.04 && arm.getPower() >= 0.02) {
+                    arm.setPower(0);
+                }
+                if (gamepad1.left_bumper) {
+                    armDrop = false;
+                    dumpy = 0.6;
+
+                    arm.setPower(.35);
+                    ;
                 }
                 if (gamepad1.right_bumper) {
+                    arm.setPower(-.35);
                     dumpy = 0;
-                    dump.setPosition(dumpy);
+                    armDrop = true;
+
                 }
-                    if (gamepad2.dpad_left) {
-                        drone.setPosition(0);
-                        //droneL.setPosition(0);
-                    } //0.9 when drone at idal launch 0.75 when dronel is at ideal launch
-                    else if (gamepad2.dpad_right) {
-                        //  droneL.setPosition(0.5);
-                        //   sleep(250);ddddrrrrrr
-                        drone.setPosition(0.9);
-                    }
-                    if (gamepad2.a && drone.getPosition() >0)
-                        droneL.setPosition(1);
 
 
-                    if (gamepad1.a) {
-                        claw.setPosition(gamepad1.right_trigger);
-                        claw1.setPosition(0);
-                        sleep(250);
-                    }
-                    if (gamepad1.b) {
-                        claw1.setPosition(gamepad1.right_trigger);
-                        claw.setPosition(0);
-                        sleep(250);
-                    }
-                    if (!(gamepad1.a && gamepad1.b)) {
 
 
-                        claw1.setPosition(gamepad1.right_trigger);
-                        claw.setPosition(gamepad1.right_trigger);
-                    }
+                if (gamepad1.dpad_left) {
+                    drone.setPosition(0.6);
+                    //droneL.setPosition(0);
+                } //0.9 when drone at idal launch 0.75 when dronel is at ideal launch
+                else if (gamepad1.dpad_right) {
+                    //  droneL.setPosition(0.5);
+                    //   sleep(250);ddddrrrrrr
+                    drone.setPosition(slidesSpeed);
+                }
+                if (gamepad1.x && drone.getPosition() >0.6)
+                    droneL.setPosition(1);
+                if (gamepad1.y && drone.getPosition() >0.6)
+                    droneL.setPosition(0.8);
+
+                if (gamepad1.a) {
+                    claw.setPosition(gamepad1.right_trigger);
+                    claw1.setPosition(0);
+                    sleep(250);
+                }
+                if (gamepad1.b) {
+                    claw1.setPosition(gamepad1.right_trigger);
+                    claw.setPosition(0);
+                    sleep(250);
+                }
+                if (!(gamepad1.a && gamepad1.b)) {
+
+                    claw1.setPosition(gamepad1.right_trigger);
+                    claw.setPosition(gamepad1.right_trigger);
+
+                }
+                telemetry.addData("armPos", arm.getCurrentPosition());
+                telemetry.addData("armPow", arm.getPower());
+                telemetry.addData("dronePos", slidesSpeed);
+                telemetry.addData("droneLPos", droneL.getPosition());
 
             }
         }

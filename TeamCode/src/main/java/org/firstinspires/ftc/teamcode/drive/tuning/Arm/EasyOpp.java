@@ -1,15 +1,19 @@
-package org.firstinspires.ftc.teamcode.drive.tuning.gratatata;
+package org.firstinspires.ftc.teamcode.drive.tuning.Arm;
 //opp? more like op. get it? cause opmode. GRATATATATA
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Config
+@TeleOp
 public class EasyOpp extends OpMode {
     private PIDController controller;
     public static double p = 0, i = 0, d = 0;
@@ -26,6 +30,7 @@ public class EasyOpp extends OpMode {
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm = hardwareMap.get(DcMotorEx.class, "arm");
+        arm.setDirection(DcMotor.Direction.REVERSE);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

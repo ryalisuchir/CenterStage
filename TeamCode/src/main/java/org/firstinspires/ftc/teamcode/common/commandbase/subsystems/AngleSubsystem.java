@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AngleSubsystem extends SubsystemBase {
     private final Servo dump;
     public static double intake_position = 0;
-    public static double rest_position = 0.1;
+    public static double rest_position = 0.2;
     public static double outtake_position = 0.45;
     public static double autodrop_position = 0.05;
 
