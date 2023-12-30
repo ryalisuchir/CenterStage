@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.TeleOp;
+package org.firstinspires.ftc.teamcode.drive.tests.hardware;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

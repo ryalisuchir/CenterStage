@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.tuning;
+package org.firstinspires.ftc.teamcode.drive.tests.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -10,16 +10,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-@Config
 public class LockToTest extends LinearOpMode {
     double xyP = 0.5;
     double headingP = 0.5;
 
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drive;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        drive = new SampleMecanumDrive(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
             lockTo(new Pose2d(0,0,0));

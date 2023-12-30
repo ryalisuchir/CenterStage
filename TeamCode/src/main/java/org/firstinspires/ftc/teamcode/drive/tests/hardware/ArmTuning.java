@@ -1,5 +1,5 @@
-package org.firstinspires.ftc.teamcode.drive.tuning.Arm;
-//opp? more like op. get it? cause opmode. GRATATATATA
+package org.firstinspires.ftc.teamcode.drive.tests.hardware;
+
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -10,17 +10,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
 @TeleOp
-public class EasyOpp extends OpMode {
+public class ArmTuning extends OpMode {
+    private final double zeroOffset = 23.0;
     private PIDController controller;
-    public static double p = 0, i = 0, d = 0;
-    public static double f = 0;
-    public double previousPower;
-    public static double MAX_ACCELERATION = 0.5;
-    public static double anglePos = 0;
+    public static double p = 0.01, i = 0, d = 0.00083;
+    public static double f = 0.009;
+    public static double servoPos = 0;
     public static int target = 0;
     private final double ticks_in_degree = 1425.1 / 360; //depends on motor you use
     private DcMotorEx arm;
@@ -36,31 +34,24 @@ public class EasyOpp extends OpMode {
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         dump = hardwareMap.get(Servo.class, "dump");
         dump.setDirection(Servo.Direction.REVERSE);
+        dump.setPosition(0);
     }
-    ElapsedTime timer = new ElapsedTime();
+
     @Override
     public void loop() {
-        dump.setPosition(anglePos);
+        dump.setPosition(servoPos);
         controller.setPID(p, i, d);
         int armPos = arm.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+        double ff = Math.sin(Math.toRadians(armPos / ticks_in_degree + zeroOffset )) * f;
 
         double power = pid + ff;
 
-        double powerDerivative = (power - previousPower) / timer.seconds();
-        if (powerDerivative > MAX_ACCELERATION) {
-            power = previousPower + (MAX_ACCELERATION * timer.seconds());
-        } else if (powerDerivative < -MAX_ACCELERATION) {
-            power = previousPower - (MAX_ACCELERATION * timer.seconds());
-        }
-
         arm.setPower(power);
-        timer.reset();
 
-        telemetry.addData("arm position:", armPos);
+        telemetry.addData("pos1:", armPos);
         telemetry.addData("target:", target);
         telemetry.update();
     }
-}
 
+}

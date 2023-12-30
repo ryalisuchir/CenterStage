@@ -9,7 +9,6 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.common.commandbase.squeakycleancommands.SqueakyCleanBrandNewArmSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.AngleSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystems.ClawSubsystem;
@@ -27,7 +26,6 @@ public class Robot {
     public AngleSubsystem angle;
 
     public ArmSubsystem a;
-    public SqueakyCleanBrandNewArmSubsystem sca;
     public ClawSubsystem claw;
     public SlidesSubsystem slidesSubsystem;
 
@@ -80,8 +78,7 @@ public class Robot {
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angle = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
-        sca = new SqueakyCleanBrandNewArmSubsystem(hardwareMap, arm, "dump");
-        CommandScheduler.getInstance().registerSubsystem(a, claw, angle, driveSubsystem, sca);
+        CommandScheduler.getInstance().registerSubsystem(a, claw, angle, driveSubsystem);
 
     }
 
