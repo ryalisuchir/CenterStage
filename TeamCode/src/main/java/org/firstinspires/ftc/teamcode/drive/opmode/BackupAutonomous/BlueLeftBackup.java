@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-
 @Autonomous
 @Config
 public class BlueLeftBackup extends OpMode {
@@ -97,11 +96,9 @@ public class BlueLeftBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(28.99, 52.32))
                         .build();
 
-
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(backdropPixelLeft.end())
                         .lineToSplineHeading(new Pose2d(75.00, 73.00, Math.toRadians(0.00)))
                         .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
@@ -127,11 +124,9 @@ public class BlueLeftBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(16.45, 46.06))
                         .build();
 
-
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(backdropPixelMiddle.end())
                         .lineToSplineHeading(new Pose2d(60.33, 80.00, Math.toRadians(0.00)))
                         .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
@@ -162,11 +157,9 @@ public class BlueLeftBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(29.34, 43.62))
                         .build();
 
-
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(backdropPixelRight.end())
                         .lineToSplineHeading(new Pose2d(60.33, 79, Math.toRadians(0.00)))
                         .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(

@@ -23,12 +23,11 @@ import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-
 @Autonomous
 @Config
 public class BlueLeft extends OpMode {
     private VisionPortal visionPortal;
-    private ColorPropDetectionProcessor colourMassDetectionProcessor2;
+    private ColorPropDetectionProcessor colorMassDetectionProcessor;
 
     private Robot robot;
     private ElapsedTime time_since_start;
@@ -53,7 +52,7 @@ public class BlueLeft extends OpMode {
         Scalar upper = new Scalar(180, 255, 255);
         double minArea = 100;
 
-        colourMassDetectionProcessor2 = new ColorPropDetectionProcessor(
+        colorMassDetectionProcessor = new ColorPropDetectionProcessor(
                 lower,
                 upper,
                 () -> minArea,
@@ -62,7 +61,7 @@ public class BlueLeft extends OpMode {
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
-                .addProcessor(colourMassDetectionProcessor2)
+                .addProcessor(colorMassDetectionProcessor)
                 .build();
     }
 
@@ -70,10 +69,10 @@ public class BlueLeft extends OpMode {
     public void init_loop() {
         telemetry.addData("Successful: ", "Ready for RedRight (Backdrop Side)");
         telemetry.addData("Ready to Run: ", "2 pixel autonomous. All subsystems initialized.");
-        telemetry.addData("Currently Recorded Position", colourMassDetectionProcessor2.getRecordedPropPosition());
+        telemetry.addData("Currently Recorded Position", colorMassDetectionProcessor.getRecordedPropPosition());
         telemetry.addData("Camera State", visionPortal.getCameraState());
-        telemetry.addData("Currently Detected Mass Center", "x: " + colourMassDetectionProcessor2.getLargestContourX() + ", y: " + colourMassDetectionProcessor2.getLargestContourY());
-        telemetry.addData("Currently Detected Mass Area", colourMassDetectionProcessor2.getLargestContourArea());
+        telemetry.addData("Currently Detected Mass Center", "x: " + colorMassDetectionProcessor.getLargestContourX() + ", y: " + colorMassDetectionProcessor.getLargestContourY());
+        telemetry.addData("Currently Detected Mass Area", colorMassDetectionProcessor.getLargestContourArea());
         CommandScheduler.getInstance().run();
         robot.a.loop();
     }
@@ -86,7 +85,7 @@ public class BlueLeft extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        ColorPropDetectionProcessor.PropPositions recordedPropPosition = colourMassDetectionProcessor2.getRecordedPropPosition();
+        ColorPropDetectionProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
 
         switch (recordedPropPosition) {
             case LEFT:
@@ -154,7 +153,7 @@ public class BlueLeft extends OpMode {
 
     @Override
     public void stop() {
-        colourMassDetectionProcessor2.close();
+        colorMassDetectionProcessor.close();
         visionPortal.close();
         telemetry.addLine("Closed Camera.");
         telemetry.update();

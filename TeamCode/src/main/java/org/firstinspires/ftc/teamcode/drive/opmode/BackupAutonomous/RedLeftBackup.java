@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-
 @Autonomous
 @Config
 public class RedLeftBackup extends OpMode {
@@ -98,7 +97,6 @@ public class RedLeftBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(-59.99, -45.53))
                         .build();
 
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
@@ -122,7 +120,6 @@ public class RedLeftBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(-37.87, -43.62))
                         .build();
 
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
@@ -139,8 +136,8 @@ public class RedLeftBackup extends OpMode {
                 TrajectorySequence dropPixelRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
                         .splineTo(new Vector2d(
                                         -33.0, -32.47), Math.toRadians(0.00),
-                                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(new Vector2d(-48.49, -30.04))
                         .build();

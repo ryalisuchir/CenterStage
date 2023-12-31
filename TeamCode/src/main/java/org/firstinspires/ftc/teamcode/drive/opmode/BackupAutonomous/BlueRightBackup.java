@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-
 @Autonomous
 public class BlueRightBackup extends OpMode {
     private VisionPortal visionPortal;
@@ -119,7 +118,6 @@ public class BlueRightBackup extends OpMode {
                         .lineToConstantHeading(new Vector2d(-35.78, 41.35))
                         .build();
 
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
@@ -141,7 +139,6 @@ public class BlueRightBackup extends OpMode {
                         )
                         .lineToConstantHeading(new Vector2d(-44.49, 53.72))
                         .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
