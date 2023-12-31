@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
 
-public class ColourMassDetectionProcessor implements VisionProcessor, CameraStreamSource {
+public class ColorPropDetectionProcessor implements VisionProcessor, CameraStreamSource {
     private final DoubleSupplier minArea, left, right;
     private final Scalar upper; // lower bounds for masking
     private final Scalar lower; // upper bounds for masking
@@ -56,7 +56,7 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
      * @param left    the dividing point for the prop to be on the left
      * @param right   the diving point for the prop to be on the right
      */
-    public ColourMassDetectionProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right) {
+    public ColorPropDetectionProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right) {
         this.contours = new ArrayList<>();
         this.lower = lower;
         this.upper = upper;
@@ -113,23 +113,23 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
 
         // this method processes the image (frame) taken by the camera, and tries to find a suitable prop
         // you dont need to call it
-        Mat ROI = frame.submat(0, 480, 0, 640); //modify the screen here suchir
+
         // this converts the frame from RGB to HSV, which is supposed to be better for doing colour blob detection
-        Imgproc.cvtColor(ROI, ROI, Imgproc.COLOR_RGB2HSV);
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGB2HSV);
         // thats why you need to give your scalar upper and lower bounds as HSV values
 
         if (upper.val[0] < lower.val[0]) {
             // makes new scalars for the upper [upper, 0] detection, places the result in sel1
-            Core.inRange(ROI, new Scalar(upper.val[0], lower.val[1], lower.val[2]), new Scalar(0, upper.val[1], upper.val[2]), sel1);
+            Core.inRange(frame, new Scalar(upper.val[0], lower.val[1], lower.val[2]), new Scalar(0, upper.val[1], upper.val[2]), sel1);
             // makes new scalars for the lower [0, lower] detection, places the result in sel2
-            Core.inRange(ROI, new Scalar(0, lower.val[1], lower.val[2]), new Scalar(lower.val[0], upper.val[1], upper.val[2]), sel2);
+            Core.inRange(frame, new Scalar(0, lower.val[1], lower.val[2]), new Scalar(lower.val[0], upper.val[1], upper.val[2]), sel2);
 
             // combines the selections
-            Core.bitwise_or(sel1, sel2, ROI);
+            Core.bitwise_or(sel1, sel2, frame);
         } else {
             // this process is simpler if we are not trying to wrap through 0
             // this method makes the colour image black and white, with everything between your upper and lower bound values as white, and everything else black
-            Core.inRange(ROI, lower, upper, ROI);
+            Core.inRange(frame, lower, upper, frame);
         }
 
 
@@ -138,7 +138,7 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
 
         // this finds the contours, which are borders between black and white, and tries to simplify them to make nice outlines around potential objects
         // this basically helps us to find all the shapes/outlines of objects that exist within our colour range
-        Imgproc.findContours(ROI, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(frame, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         // this sets up our largest contour area to be 0
         largestContourArea = -1;
@@ -154,7 +154,7 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
         // it stores the contour as our largest contour and the area as our largest area
         for (MatOfPoint contour : contours) {
             double area = Imgproc.contourArea(contour);
-            if (area > largestContourArea && area > minArea) { //changed here suchir
+            if (area > largestContourArea && area > minArea) {
                 largestContour = contour;
                 largestContourArea = area;
             }
@@ -174,14 +174,14 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
         // determines the current prop position, using the left and right dividers we gave earlier
         // if we didn't find any contours which were large enough, sets it to be unfound
         PropPositions propPosition;
-        if (largestContour == null || largestContourArea < 2500) {
+        if (largestContour == null || largestContourArea < 3500) {
             propPosition = PropPositions.LEFT;
         } else if (largestContourX < left.getAsDouble()) {
             propPosition = PropPositions.MIDDLE;
         } else if (largestContourX > right.getAsDouble()) {
             propPosition = PropPositions.RIGHT;
         } else {
-            propPosition = PropPositions.RIGHT;
+            propPosition = PropPositions.MIDDLE;
         }
 
         // if we have found a new prop position, and it is not unfound, updates the recorded position,
@@ -197,10 +197,10 @@ public class ColourMassDetectionProcessor implements VisionProcessor, CameraStre
 //		Imgproc.drawContours(frame, contours, -1, colour);
 
         // returns back the edited image, don't worry about this too much
-        Bitmap b = Bitmap.createBitmap(ROI.width(), ROI.height(), Bitmap.Config.RGB_565);
-        Utils.matToBitmap(ROI, b);
+        Bitmap b = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
+        Utils.matToBitmap(frame, b);
         lastFrame.set(b);
-        return ROI;
+        return frame;
     }
 
     @Override

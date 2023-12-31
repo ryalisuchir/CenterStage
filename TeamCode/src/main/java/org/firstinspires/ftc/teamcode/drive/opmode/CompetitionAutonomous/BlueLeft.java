@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperComm
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.util.ColourMassDetectionProcessor2;
+import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
@@ -28,7 +28,7 @@ import org.opencv.core.Scalar;
 @Config
 public class BlueLeft extends OpMode {
     private VisionPortal visionPortal;
-    private ColourMassDetectionProcessor2 colourMassDetectionProcessor2;
+    private ColorPropDetectionProcessor colourMassDetectionProcessor2;
 
     private Robot robot;
     private ElapsedTime time_since_start;
@@ -53,7 +53,7 @@ public class BlueLeft extends OpMode {
         Scalar upper = new Scalar(180, 255, 255);
         double minArea = 100;
 
-        colourMassDetectionProcessor2 = new ColourMassDetectionProcessor2(
+        colourMassDetectionProcessor2 = new ColorPropDetectionProcessor(
                 lower,
                 upper,
                 () -> minArea,
@@ -86,7 +86,7 @@ public class BlueLeft extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        ColourMassDetectionProcessor2.PropPositions recordedPropPosition = colourMassDetectionProcessor2.getRecordedPropPosition();
+        ColorPropDetectionProcessor.PropPositions recordedPropPosition = colourMassDetectionProcessor2.getRecordedPropPosition();
 
         switch (recordedPropPosition) {
             case LEFT:
