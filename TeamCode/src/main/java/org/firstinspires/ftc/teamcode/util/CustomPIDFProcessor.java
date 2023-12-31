@@ -19,9 +19,6 @@ public class CustomPIDFProcessor {
     private double lastTimeStamp;
     private double period;
 
-    /**
-     * The base constructor for the PIDF controller
-     */
     public CustomPIDFProcessor(double kp, double ki, double kd, double kf) {
         this(kp, ki, kd, kf, 0, 0);
     }
@@ -52,48 +49,15 @@ public class CustomPIDFProcessor {
         lastTimeStamp = 0;
     }
 
-    public void setTolerance(double positionTolerance) {
-        setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
-    }
-
     public void setTolerance(double positionTolerance, double velocityTolerance) {
         errorTolerance_p = positionTolerance;
         errorTolerance_v = velocityTolerance;
-    }
-
-    public double getSetPoint() {
-        return setPoint;
     }
 
     public void setSetPoint(double sp) {
         setPoint = sp;
         errorVal_p = setPoint - measuredValue;
         errorVal_v = (errorVal_p - prevErrorVal) / period;
-    }
-
-    public boolean atSetPoint() {
-        return Math.abs(errorVal_p) < errorTolerance_p
-                && Math.abs(errorVal_v) < errorTolerance_v;
-    }
-
-    public double[] getCoefficients() {
-        return new double[]{kP, kI, kD, kF};
-    }
-
-    public double getPositionError() {
-        return errorVal_p;
-    }
-
-    public double[] getTolerance() {
-        return new double[]{errorTolerance_p, errorTolerance_v};
-    }
-
-    public double getVelocityError() {
-        return errorVal_v;
-    }
-
-    public double calculate() {
-        return calculate(measuredValue);
     }
 
     public double calculate(double pv, double sp) {
@@ -135,15 +99,6 @@ public class CustomPIDFProcessor {
         kF = kf;
     }
 
-    public void setIntegrationBounds(double integralMin, double integralMax) {
-        minIntegral = integralMin;
-        maxIntegral = integralMax;
-    }
-
-    public void clearTotalError() {
-        totalError = 0;
-    }
-
     public void setP(double kp) {
         kP = kp;
     }
@@ -156,9 +111,6 @@ public class CustomPIDFProcessor {
         kD = kd;
     }
 
-    public void setF(double kf) {
-        kF = kf;
-    }
 
     public double getP() {
         return kP;
@@ -172,12 +124,5 @@ public class CustomPIDFProcessor {
         return kD;
     }
 
-    public double getF() {
-        return kF;
-    }
-
-    public double getPeriod() {
-        return period;
-    }
 
 }
