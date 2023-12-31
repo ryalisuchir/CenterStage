@@ -118,7 +118,7 @@ public class Robot {
             current += hub.getCurrent(CurrentUnit.AMPS);
         }
 
-        telemetry.addData("total current: ", current);
+        telemetry.addData("Total Current: ", current);
     }
 
 }
