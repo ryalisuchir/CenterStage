@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.common.hardware.Robot;
+
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -64,7 +66,7 @@ public class teleOpV4 extends LinearOpMode {
     private TouchSensor touch;
     private DistanceSensor distance;
     //  private DistanceSensor distanceB;
-
+    private Robot robot;
 
     /**
      * This function is executed when this OpMode is selected from the Driver Station.
@@ -114,7 +116,6 @@ public class teleOpV4 extends LinearOpMode {
 
 
                 // Put loop blocks here.
-                telemetry.update();
                 leftFront.setPower(speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + -1 * gamepad1.left_stick_x) / 1));
                 leftRear.setPower(speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + 1 * gamepad1.left_stick_x) / 1));
                 rightFront.setPower(speed * ((gamepad1.left_stick_y - gamepad1.right_stick_x + 1 * gamepad1.left_stick_x) / 1));
@@ -192,8 +193,6 @@ public class teleOpV4 extends LinearOpMode {
                 }
 
 
-
-
                 if (gamepad1.dpad_left) {
                     drone.setPosition(0.6);
                     //droneL.setPosition(0);
@@ -224,11 +223,12 @@ public class teleOpV4 extends LinearOpMode {
                     claw.setPosition(gamepad1.right_trigger);
 
                 }
-                telemetry.addData("armPos", arm.getCurrentPosition());
-                telemetry.addData("armPow", arm.getPower());
-                telemetry.addData("dronePos", slidesSpeed);
-                telemetry.addData("droneLPos", droneL.getPosition());
-
+                telemetry.addData("Arm Position: ", arm.getCurrentPosition());
+                telemetry.addData("Arm Power: ", arm.getPower());
+                telemetry.addData("Slides Speed: ", slidesSpeed);
+                telemetry.addData("Drone L Position: ", droneL.getPosition());
+                robot.currentUpdate(telemetry); //don't remove this. this is tracking the voltage of each motor to prevent burnout.
+                telemetry.update();
             }
         }
     }
