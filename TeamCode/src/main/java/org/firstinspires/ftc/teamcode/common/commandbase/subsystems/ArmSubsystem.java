@@ -5,12 +5,11 @@ import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.util.InterpLUT;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.util.CustomPIDController;
 
 import java.util.function.DoubleSupplier;
 
@@ -27,7 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final double ticks_to_degrees = 1425.1 / 360;
     private final double zeroOffset = 23.0;
 
-    private final PIDController controller;
+    private final CustomPIDController controller;
     private ElapsedTime time;
     private ElapsedTime voltageTimer;
     private double voltage;
@@ -44,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem(DcMotorEx a, VoltageSensor b) {
         arm = a;
 
-        controller = new PIDController(p, 0, d);
+        controller = new CustomPIDController(p, 0, d);
         controller.setPID(p, 0, d);
         this.batteryVoltageSensor = b;
         time = new ElapsedTime();

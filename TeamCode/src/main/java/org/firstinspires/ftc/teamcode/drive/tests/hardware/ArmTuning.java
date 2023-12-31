@@ -11,11 +11,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.util.CustomPIDController;
+
 @Config
 @TeleOp
 public class ArmTuning extends OpMode {
     private final double zeroOffset = 23.0;
-    private PIDController controller;
+    private CustomPIDController controller;
     public static double p = 0.01, i = 0, d = 0.00083;
     public static double f = 0.009;
     public static double servoPos = 0;
@@ -25,7 +27,7 @@ public class ArmTuning extends OpMode {
     Servo dump;
     @Override
     public void init() {
-        controller = new PIDController(p, i, d);
+        controller = new CustomPIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotor.Direction.REVERSE);
