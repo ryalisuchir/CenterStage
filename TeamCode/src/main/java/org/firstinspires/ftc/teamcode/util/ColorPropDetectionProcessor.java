@@ -110,9 +110,11 @@ public class ColorPropDetectionProcessor implements VisionProcessor, CameraStrea
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
+        frame = frame.submat(300, 480, 0, 640);
+        //(rowStart, rowEnd, colStart, colEnd)
+        //row is y
+        //col is x
 
-        // this method processes the image (frame) taken by the camera, and tries to find a suitable prop
-        // you dont need to call it
 
         // this converts the frame from RGB to HSV, which is supposed to be better for doing colour blob detection
         Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGB2HSV);

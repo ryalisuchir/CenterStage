@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.CompetitionAutonomous;
+package org.firstinspires.ftc.teamcode.drive.opmode.APerfectWorld.Backups;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,11 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.GrabBothCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.RestCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.IntakeCommand;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -25,13 +21,13 @@ import org.opencv.core.Scalar;
 
 @Autonomous
 @Config
-public class BlueLeft extends OpMode {
+public class APWBlueLeftBackup extends OpMode {
     private VisionPortal visionPortal;
     private ColorPropDetectionProcessor colorMassDetectionProcessor;
 
     private Robot robot;
-    private ElapsedTime time_since_start;
     private double loop;
+    private ElapsedTime time_since_start;
 
     @Override
     public void init() {
@@ -47,28 +43,29 @@ public class BlueLeft extends OpMode {
         telemetry.update();
 
         robot.claw.grabBoth();
-
         Scalar lower = new Scalar(80, 50, 50); //test 0,0,255
         Scalar upper = new Scalar(180, 255, 255); //test 0,255,0
-        double minArea = 100;
+
+        double minArea = 100; //min area for prop detection
 
         colorMassDetectionProcessor = new ColorPropDetectionProcessor(
                 lower,
                 upper,
                 () -> minArea,
-                () -> 213, //left third of frame
-                () -> 426 //right third of frame
+                () -> 213, //left third
+                () -> 426 //right third
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
                 .build();
+
     }
 
     @Override
     public void init_loop() {
         telemetry.addData("Successful: ", "Ready for BlueLeft (Backdrop Side)");
-        telemetry.addData("Ready to Run: ", "2 pixel autonomous. All subsystems initialized.");
+        telemetry.addData("Ready to Run: ", "1 pixel autonomous (26 points). All subsystems initialized.");
         telemetry.addData("Currently Recorded Position", colorMassDetectionProcessor.getRecordedPropPosition());
         telemetry.addData("Camera State", visionPortal.getCameraState());
         telemetry.addData("Currently Detected Mass Center", "x: " + colorMassDetectionProcessor.getLargestContourX() + ", y: " + colorMassDetectionProcessor.getLargestContourY());
@@ -79,7 +76,6 @@ public class BlueLeft extends OpMode {
 
     @Override
     public void start() {
-        time_since_start = new ElapsedTime();
         if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
             visionPortal.stopLiveView();
             visionPortal.stopStreaming();
@@ -89,47 +85,66 @@ public class BlueLeft extends OpMode {
 
         switch (recordedPropPosition) {
             case LEFT:
-            case RIGHT:
-            case MIDDLE:
             case UNFOUND:
-                TrajectorySequence OGbackBoardPixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(18.89, 66.78, Math.toRadians(-90.00)))
-                        .splineToSplineHeading(new Pose2d(49.19, 49.71, Math.toRadians(20.00)), Math.toRadians(20.00))
+                TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
+                        .splineTo(new Vector2d(27.95, 38.39), Math.toRadians(270.00))
                         .build();
 
-                TrajectorySequence tapePixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(OGbackBoardPixelLeft.end())
-                        .lineToConstantHeading(new Vector2d(38.05, 33.34))
-                        .build();
-
-                TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapePixelLeft.end())
-                        .lineToConstantHeading(new Vector2d(39.96, 76.00))
-                        .lineToConstantHeading(new Vector2d(50, 74.96))
+                TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
+                        .lineToConstantHeading(new Vector2d(27.95, 50.76))
+                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
-                                new WaitCommand(200),
-                                new ParallelCommandGroup(
-                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(OGbackBoardPixelLeft)),
-                                        new OuttakeCommand(robot)
-                                ),
-                                new WaitCommand(2500),
-                                new InstantCommand(() -> robot.claw.releaseRight()),
+                                new WaitCommand(500),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapeLeft)),
+                                new WaitCommand(2000),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkLeft)),
                                 new WaitCommand(1000),
-                                new ParallelCommandGroup(
-                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapePixelLeft)),
-                                        new TapeDropperCommand(robot)
-                                ),
-                                new WaitCommand(350),
-                                new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(350),
-                                new RestCommand(robot),
+                                new IntakeCommand(robot)
+                        )
+                );
+                break;
+            case MIDDLE:
+                TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
+                        .splineTo(new Vector2d(15.41, 32.30), Math.toRadians(270.00))
+                        .build();
+
+                TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
+                        .lineToConstantHeading(new Vector2d(15.76, 46.75))
+                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .build();
+
+                CommandScheduler.getInstance().schedule(
+                        new SequentialCommandGroup(
+                                new WaitCommand(500),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapeMiddle)),
+                                new WaitCommand(2000),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkMiddle)),
                                 new WaitCommand(1000),
-                                new GrabBothCommand(robot),
+                                new IntakeCommand(robot)
+                        )
+                );
+
+                break;
+            case RIGHT:
+                TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
+                        .splineTo(new Vector2d(7.05, 37.35), Math.toRadians(230.19))
+                        .build();
+
+                TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
+                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .build();
+
+                CommandScheduler.getInstance().schedule(
+                        new SequentialCommandGroup(
+                                new WaitCommand(500),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapeRight)),
+                                new WaitCommand(2000),
+                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkRight)),
                                 new WaitCommand(1000),
-                                new ParallelCommandGroup(
-                                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkLeft)),
-                                        new OuttakeCommand(robot)
-                                )
+                                new IntakeCommand(robot)
                         )
                 );
                 break;
@@ -141,13 +156,12 @@ public class BlueLeft extends OpMode {
         CommandScheduler.getInstance().run();
         robot.a.loop();
         robot.driveSubsystem.update();
-
         double time = System.currentTimeMillis();
         telemetry.addData("Time Elapsed: ", time_since_start);
-        telemetry.addData("Current Loop Time: ", time - loop);
+        telemetry.addData("Loop: ", time - loop);
         telemetry.addData("Arm Position: ", robot.a.getCachePos());
-        robot.currentUpdate(telemetry);
         loop = time;
+
         telemetry.update();
     }
 

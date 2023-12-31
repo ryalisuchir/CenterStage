@@ -39,7 +39,7 @@ public class BlueLeftBackup extends OpMode {
         CommandScheduler.getInstance().registerSubsystem(robot.angle);
         CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
 
-        telemetry.addData("Successful: ", "Ready for RedRight (Backdrop Side)");
+        telemetry.addData("Successful: ", "Ready for BlueLeft (Backdrop Side)");
         telemetry.addData("Running: ", "1 pixel autonomous. All subsystems will run.");
         telemetry.update();
 
