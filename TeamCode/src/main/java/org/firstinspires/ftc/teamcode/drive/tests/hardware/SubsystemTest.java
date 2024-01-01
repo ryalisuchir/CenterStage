@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.tests.hardware;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.GrabBothCommand;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperComm
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
 @TeleOp
+@Disabled
 public class SubsystemTest extends CommandOpMode {
     private Robot robot;
     double speed;

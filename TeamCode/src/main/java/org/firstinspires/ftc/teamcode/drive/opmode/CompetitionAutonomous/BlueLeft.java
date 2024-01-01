@@ -48,8 +48,8 @@ public class BlueLeft extends OpMode {
 
         robot.claw.grabBoth();
 
-        Scalar lower = new Scalar(80, 50, 50); //test 0,0,255
-        Scalar upper = new Scalar(180, 255, 255); //test 0,255,0
+        Scalar lower = new Scalar(80, 50, 50);
+        Scalar upper = new Scalar(180, 255, 255);
         double minArea = 100;
 
         colorMassDetectionProcessor = new ColorPropDetectionProcessor(

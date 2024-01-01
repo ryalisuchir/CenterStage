@@ -21,7 +21,7 @@ import org.opencv.core.Scalar;
 
 @Autonomous
 @Config
-public class APWBlueLeftBackup extends OpMode {
+public class APWBlueRightBackup extends OpMode {
     private VisionPortal visionPortal;
     private ColorPropDetectionProcessor colorMassDetectionProcessor;
 
@@ -64,7 +64,7 @@ public class APWBlueLeftBackup extends OpMode {
 
     @Override
     public void init_loop() {
-        telemetry.addData("Successful: ", "Ready for BlueLeft (Backdrop Side)");
+        telemetry.addData("Successful: ", "Ready for BlueRight (Not Backdrop Side)");
         telemetry.addData("Ready to Run: ", "1 pixel autonomous (26 points). All subsystems initialized.");
         telemetry.addData("Currently Recorded Position", colorMassDetectionProcessor.getRecordedPropPosition());
         telemetry.addData("Camera State", visionPortal.getCameraState());
@@ -82,17 +82,18 @@ public class APWBlueLeftBackup extends OpMode {
         }
 
         ColorPropDetectionProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
-        robot.driveSubsystem.setPoseEstimate(new Pose2d(12.45, 66.78, Math.toRadians(270.00)));
+        robot.driveSubsystem.setPoseEstimate(new Pose2d(-39.61, 67.30, Math.toRadians(270.00)));
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(27.95, 38.39), Math.toRadians(270.00))
+                TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, 67.30, Math.toRadians(270.00)))
+                        .splineTo(new Vector2d(-33.34, 38.57), Math.toRadians(-45.00))
                         .build();
 
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
-                        .lineToConstantHeading(new Vector2d(27.95, 50.76))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-40.14, 46.06))
+                        .lineToSplineHeading(new Pose2d(-39.44, 9.14, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.47, 14.37), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -107,13 +108,15 @@ public class APWBlueLeftBackup extends OpMode {
                 );
                 break;
             case MIDDLE:
-                TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(15.41, 32.30), Math.toRadians(270.00))
+                TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, 67.30, Math.toRadians(270.00)))
+                        .splineTo(new Vector2d(-38.74, 32.30), Math.toRadians(270.00))
                         .build();
 
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
-                        .lineToConstantHeading(new Vector2d(15.76, 46.75))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-39.44, 47.27))
+                        .lineToConstantHeading(new Vector2d(-51.28, 47.10))
+                        .lineToSplineHeading(new Pose2d(-50.93, 9.32, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.47, 14.37), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -129,12 +132,15 @@ public class APWBlueLeftBackup extends OpMode {
 
                 break;
             case RIGHT:
-                TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(7.05, 37.35), Math.toRadians(230.19))
+                TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, 67.30, Math.toRadians(270.00)))
+                        .splineToConstantHeading(new Vector2d(-50.76, 40.14), Math.toRadians(270.00))
                         .build();
 
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-51.11, 52.15))
+                        .lineToConstantHeading(new Vector2d(-35.96, 52.15))
+                        .lineToSplineHeading(new Pose2d(-35.61, 11.75, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.47, 14.37), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(

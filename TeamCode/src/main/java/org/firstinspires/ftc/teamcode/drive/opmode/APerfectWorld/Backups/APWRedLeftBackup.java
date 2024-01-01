@@ -21,7 +21,7 @@ import org.opencv.core.Scalar;
 
 @Autonomous
 @Config
-public class APWBlueLeftBackup extends OpMode {
+public class APWRedLeftBackup extends OpMode {
     private VisionPortal visionPortal;
     private ColorPropDetectionProcessor colorMassDetectionProcessor;
 
@@ -43,9 +43,8 @@ public class APWBlueLeftBackup extends OpMode {
         telemetry.update();
 
         robot.claw.grabBoth();
-        Scalar lower = new Scalar(80, 50, 50);
-        Scalar upper = new Scalar(180, 255, 255);
-
+        Scalar lower = new Scalar(0, 80, 80); // the lower hsv threshold
+        Scalar upper = new Scalar(180, 250, 250); // the upper hsv threshold
         double minArea = 100; //min area for prop detection
 
         colorMassDetectionProcessor = new ColorPropDetectionProcessor(
@@ -64,7 +63,7 @@ public class APWBlueLeftBackup extends OpMode {
 
     @Override
     public void init_loop() {
-        telemetry.addData("Successful: ", "Ready for BlueLeft (Backdrop Side)");
+        telemetry.addData("Successful: ", "Ready for RedLeft (Backdrop Side)");
         telemetry.addData("Ready to Run: ", "1 pixel autonomous (26 points). All subsystems initialized.");
         telemetry.addData("Currently Recorded Position", colorMassDetectionProcessor.getRecordedPropPosition());
         telemetry.addData("Camera State", visionPortal.getCameraState());
@@ -82,17 +81,19 @@ public class APWBlueLeftBackup extends OpMode {
         }
 
         ColorPropDetectionProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
-        robot.driveSubsystem.setPoseEstimate(new Pose2d(12.45, 66.78, Math.toRadians(270.00)));
+        robot.driveSubsystem.setPoseEstimate(new Pose2d(-32.13, -63.82, Math.toRadians(90.00)));
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(27.95, 38.39), Math.toRadians(270.00))
+                TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-32.13, -63.82, Math.toRadians(90.00)))
+                        .splineToConstantHeading(new Vector2d(-51.63, -39.96), Math.toRadians(90.00))
                         .build();
 
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
-                        .lineToConstantHeading(new Vector2d(27.95, 50.76))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-51.28, -52.67))
+                        .lineToConstantHeading(new Vector2d(-36.65, -53.02))
+                        .lineToSplineHeading(new Pose2d(-36.13, -8.27, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.64, -13.67), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -108,12 +109,14 @@ public class APWBlueLeftBackup extends OpMode {
                 break;
             case MIDDLE:
                 TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(15.41, 32.30), Math.toRadians(270.00))
+                        .splineToConstantHeading(new Vector2d(-36.48, -30.91), Math.toRadians(90.00))
                         .build();
 
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
-                        .lineToConstantHeading(new Vector2d(15.76, 46.75))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-36.65, -42.05))
+                        .lineToConstantHeading(new Vector2d(-52.67, -42.05))
+                        .lineToSplineHeading(new Pose2d(-52.15, -4.96, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.64, -13.67), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -130,11 +133,14 @@ public class APWBlueLeftBackup extends OpMode {
                 break;
             case RIGHT:
                 TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(7.05, 37.35), Math.toRadians(230.19))
+                        .splineToConstantHeading(new Vector2d(-38.05, -48.67), Math.toRadians(90.00))
+                        .splineTo(new Vector2d(-31.60, -37.87), Math.toRadians(56.31))
                         .build();
 
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(new Vector2d(-40.48, -49.89))
+                        .lineToSplineHeading(new Pose2d(-40.31, -7.40, Math.toRadians(0.00)))
+                        .splineTo(new Vector2d(63.82, -12.97), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
