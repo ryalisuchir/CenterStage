@@ -15,11 +15,6 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuild
 
 import java.util.List;
 
-/**
- * A subsystem that uses the {@link SampleMecanumDrive} class.
- * This periodically calls {@link SampleMecanumDrive#update()} which runs the internal
- * state machine for the mecanum drive. All movement/following is async to fit the paradigm.
- */
 public class DriveSubsystem extends SubsystemBase {
 
     private final SampleMecanumDrive drive;

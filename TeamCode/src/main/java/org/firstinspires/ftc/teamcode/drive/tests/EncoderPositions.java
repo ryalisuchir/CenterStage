@@ -14,7 +14,7 @@ public class EncoderPositions extends LinearOpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         leftRear = hardwareMap.get(DcMotor.class, "leftRear");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
-        linear_2 = hardwareMap.get(DcMotor.class, "linear_2");
+        linear_2 = hardwareMap.get(DcMotor.class, "linear_1");
         arm = hardwareMap.get(DcMotor.class, "arm");
 
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

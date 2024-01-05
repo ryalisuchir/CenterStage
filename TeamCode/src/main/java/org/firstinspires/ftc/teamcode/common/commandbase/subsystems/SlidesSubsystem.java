@@ -14,24 +14,13 @@ import java.util.function.DoubleSupplier;
 public class SlidesSubsystem extends SubsystemBase {
     public final DcMotorEx linear_1, linear_2;
 
-    private final VoltageSensor batteryVoltageSensor;
-
     private final double p = 0.002; //adjust TODO
     private final double d = 0; //adjust TODO
     private final double f = 0.00001; //adjust TODO
-    private final double ticks_to_degrees = 384.5 / 180.0;
+    private final double ticks_to_degrees = 751.8 / 180.0;
 
     private final PIDController controller;
-    private ElapsedTime time;
-    private ElapsedTime voltageTimer;
-    private double voltage;
-
-    private MotionProfile profile;
-    public static double max_v = 10000;
-    public static double max_a = 6000;
-
     private int target = 5;
-    private int previous_target = 5;
 
 
     private double cache = 0;
@@ -39,17 +28,11 @@ public class SlidesSubsystem extends SubsystemBase {
     public SlidesSubsystem(DcMotorEx a, DcMotorEx b, VoltageSensor c) {
         linear_1 = a;
         linear_2 = b;
-        linear_2.setDirection(DcMotorEx.Direction.REVERSE);
         linear_1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         linear_1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         controller = new PIDController(p, 0, d);
         controller.setPID(p, 0, d);
-
-        this.batteryVoltageSensor = c;
-        time = new ElapsedTime();
-        voltageTimer = new ElapsedTime();
-        voltage = batteryVoltageSensor.getVoltage();
     }
 
     public void loop() {
@@ -69,25 +52,8 @@ public class SlidesSubsystem extends SubsystemBase {
         target = pos;
     }
 
-    public void toGround() {
-        target = 5; //adjust TODO
-    }
-
     public void autoOuttake() {
-        target = -400; //adjust TODO
-    }
-
-    public void autoIntake() {
-        target = 0; //adjust TODO
-    }
-
-
-    public int pos() {
-        return linear_1.getCurrentPosition();
-    }
-
-    public void adjustArm(DoubleSupplier percentage) {
-        target = 705 + (int) (50 * percentage.getAsDouble());
+        target = 866; //adjust TODO
     }
 
     public double getCachePos() {

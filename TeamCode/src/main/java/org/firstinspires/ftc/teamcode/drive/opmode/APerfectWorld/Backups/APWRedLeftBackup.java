@@ -43,8 +43,8 @@ public class APWRedLeftBackup extends OpMode {
         telemetry.update();
 
         robot.claw.grabBoth();
-        Scalar lower = new Scalar(0, 80, 80); // the lower hsv threshold
-        Scalar upper = new Scalar(180, 250, 250); // the upper hsv threshold
+        Scalar lower = new Scalar(150, 100, 100); // the lower hsv threshold
+        Scalar upper = new Scalar(180, 255, 255); // the upper hsv threshold
         double minArea = 100; //min area for prop detection
 
         colorMassDetectionProcessor = new ColorPropDetectionProcessor(

@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.BackupAutonomous;
+package org.firstinspires.ftc.teamcode.drive.opmode.OldAutonomous;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -8,8 +9,8 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
@@ -21,7 +22,9 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
 @Autonomous
-public class BlueRightBackup extends OpMode {
+@Config
+@Disabled
+public class RedLeftBackup extends OpMode {
     private VisionPortal visionPortal;
     private ColorPropDetectionProcessor colorMassDetectionProcessor;
 
@@ -38,27 +41,26 @@ public class BlueRightBackup extends OpMode {
         CommandScheduler.getInstance().registerSubsystem(robot.angle);
         CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
 
-        telemetry.addData("Successful: ", "Ready for BlueRight (Backdrop Side)");
+        telemetry.addData("Successful: ", "Ready for RedLeft (Not Backdrop Side)");
         telemetry.addData("Running: ", "1 pixel autonomous. All subsystems will run.");
         telemetry.update();
 
         robot.claw.grabBoth();
-        Scalar lower = new Scalar(80, 50, 50);
-        Scalar upper = new Scalar(180, 255, 255);
-        double minArea = 100;
+        Scalar lower = new Scalar(0, 80, 80); // the lower hsv threshold
+        Scalar upper = new Scalar(180, 250, 250); // the upper hsv threshold
+        double minArea = 100; //min area for prop detection
 
         colorMassDetectionProcessor = new ColorPropDetectionProcessor(
                 lower,
                 upper,
                 () -> minArea,
-                () -> 213, //left third
+                () -> 225, //left third of frame
                 () -> 426 //right third
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
                 .build();
-
     }
 
     @Override
@@ -87,13 +89,13 @@ public class BlueRightBackup extends OpMode {
         switch (recordedPropPosition) {
             case LEFT:
             case UNFOUND:
-                TrajectorySequence dropPixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(-90.00)))
-                        .splineTo(
-                                new Vector2d(-28.3, 36.83), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                TrajectorySequence dropPixelLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                        .splineToConstantHeading(
+                                new Vector2d(-60.86, -35.96), Math.toRadians(90.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToConstantHeading(new Vector2d(-42.92, 36.13))
+                        .lineToConstantHeading(new Vector2d(-59.99, -45.53))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -106,16 +108,17 @@ public class BlueRightBackup extends OpMode {
                                         new InstantCommand(() -> robot.angle.intake())
                                 )
                         )
+
                 );
                 break;
             case MIDDLE:
-                TrajectorySequence dropPixelMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(270.00)))
-                        .splineToConstantHeading(
-                                new Vector2d(-35.96, 35.26), Math.toRadians(-90.00),
+                TrajectorySequence dropPixelMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                        .lineToSplineHeading(
+                                new Pose2d(-42.57, -34.39, Math.toRadians(90.00)),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToConstantHeading(new Vector2d(-35.78, 41.35))
+                        .lineToConstantHeading(new Vector2d(-37.87, -43.62))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -131,20 +134,20 @@ public class BlueRightBackup extends OpMode {
                 );
                 break;
             case RIGHT:
-                TrajectorySequence dropPixelRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, 65.04, Math.toRadians(270.00)))
-                        .splineToConstantHeading(
-                                new Vector2d(-55.11, 41.53), Math.toRadians(-90.00),
+                TrajectorySequence dropPixelRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.26, -65.04, Math.toRadians(90.00)))
+                        .splineTo(new Vector2d(
+                                        -33.0, -32.47), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToConstantHeading(new Vector2d(-44.49, 53.72))
+                        .lineToConstantHeading(new Vector2d(-48.49, -30.04))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(dropPixelRight)),
-                                new WaitCommand(350),
+                                new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new InstantCommand(() -> robot.a.armIntake()),
                                         new InstantCommand(() -> robot.angle.intake())

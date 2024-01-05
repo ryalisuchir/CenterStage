@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.tests.hardware;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,7 +14,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperComm
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
 @TeleOp
-@Disabled
 public class SubsystemTest extends CommandOpMode {
     private Robot robot;
     double speed;
@@ -30,6 +30,7 @@ public class SubsystemTest extends CommandOpMode {
     public void run() {
         super.run();
         robot.a.loop();
+        robot.slidesSubsystem.loop();
 
         boolean x = gamepad1.x;
         if (x) {
@@ -66,6 +67,13 @@ public class SubsystemTest extends CommandOpMode {
         if (gamepadDown) {
             schedule(
                     new TapeDropperCommand(robot)
+            );
+        }
+
+        boolean gamePadLeft = gamepad1.dpad_left;
+        if(gamePadLeft) {
+            schedule(
+                    new InstantCommand(() -> robot.slidesSubsystem.autoOuttake())
             );
         }
 

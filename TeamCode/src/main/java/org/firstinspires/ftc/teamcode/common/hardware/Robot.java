@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.hardware;
 
+import android.transition.Slide;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -58,8 +60,8 @@ public class Robot {
         leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         //set external motors
-        linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
-        linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");
+        linear_2 = hardwareMap.get(DcMotorEx.class, "linear_1");
+        linear_1 = hardwareMap.get(DcMotorEx.class, "linear_2");
         arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotor.Direction.REVERSE);
 
@@ -89,6 +91,7 @@ public class Robot {
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angle = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
+        slidesSubsystem = new SlidesSubsystem(linear_1, linear_2, batteryVoltageSensor);
         CommandScheduler.getInstance().registerSubsystem(a, claw, angle, driveSubsystem);
     }
 
@@ -101,16 +104,6 @@ public class Robot {
         current_list.add(arm.getCurrent(CurrentUnit.AMPS));
         current_list.add(linear_1.getCurrent(CurrentUnit.AMPS));
         current_list.add(linear_2.getCurrent(CurrentUnit.AMPS));
-
-        telemetry.addLine(String.format(Locale.ENGLISH, "left: %.2f, %.2f, %.2f right: %.2f, %.2f, %.2f intake: %.2f arm: %.2f",
-                current_list.get(0),
-                current_list.get(1),
-                current_list.get(2),
-                current_list.get(3),
-                current_list.get(4),
-                current_list.get(5),
-                current_list.get(6)
-        ));
 
         double current = 0;
 

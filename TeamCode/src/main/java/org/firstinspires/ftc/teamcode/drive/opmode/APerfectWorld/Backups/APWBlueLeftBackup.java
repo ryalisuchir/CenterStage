@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.IntakeCommand;
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ColorPropDetectionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -87,12 +89,24 @@ public class APWBlueLeftBackup extends OpMode {
             case LEFT:
             case UNFOUND:
                 TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(27.95, 38.39), Math.toRadians(270.00))
+                        .splineToConstantHeading(
+                                new Vector2d(26.00, 42.57), Math.toRadians(270.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
-                        .lineToConstantHeading(new Vector2d(27.95, 50.76))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(
+                                new Vector2d(22.90, 53.37),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(65.73, 68.34, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -108,21 +122,33 @@ public class APWBlueLeftBackup extends OpMode {
                 break;
             case MIDDLE:
                 TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(15.41, 32.30), Math.toRadians(270.00))
+                        .lineToConstantHeading(
+                                new Vector2d(14.89, 33.17),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
-                        .lineToConstantHeading(new Vector2d(15.76, 46.75))
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToConstantHeading(
+                                new Vector2d(15.41, 54.24),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(65.73, 68.34, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(tapeMiddle)),
-                                new WaitCommand(2000),
+                                new WaitCommand(500),
                                 new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequencenotAsync(parkMiddle)),
-                                new WaitCommand(1000),
+                                new WaitCommand(350),
                                 new IntakeCommand(robot)
                         )
                 );
@@ -130,11 +156,19 @@ public class APWBlueLeftBackup extends OpMode {
                 break;
             case RIGHT:
                 TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(12.45, 66.78, Math.toRadians(270.00)))
-                        .splineTo(new Vector2d(7.05, 37.35), Math.toRadians(230.19))
+                        .splineTo(
+                                new Vector2d(7.05, 37.35), Math.toRadians(230.19),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
-                        .lineToSplineHeading(new Pose2d(63.47, 62.77, Math.toRadians(0.00)))
+                        .lineToSplineHeading(
+                                new Pose2d(65.73, 68.34, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 CommandScheduler.getInstance().schedule(

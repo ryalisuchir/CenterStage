@@ -33,6 +33,9 @@ public class ClawSubsystem extends SubsystemBase {
     public void releaseLeft() {
         clawLeft.setPosition(releasePositionLeft);
     }
+    public void autoReleaseLeft() {
+        clawLeft.setPosition(0.85);
+    }
 
     public void releaseRight() {
         clawRight.setPosition(releasePositionRight);
