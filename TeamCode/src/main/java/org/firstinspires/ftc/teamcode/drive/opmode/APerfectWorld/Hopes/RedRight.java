@@ -10,7 +10,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -28,7 +27,7 @@ import org.opencv.core.Scalar;
 
 @Autonomous
 @Config
-public class HopeRedRight extends OpMode {
+public class RedRight extends OpMode {
     private VisionPortal visionPortal;
     private RedRightProcessor colorMassDetectionProcessor;
 
@@ -112,7 +111,7 @@ public class HopeRedRight extends OpMode {
 
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
                         .splineTo(
-                                new Vector2d(62.6, -58.94), Math.toRadians(0.00),
+                                new Vector2d(53.37, -59.64), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -160,7 +159,7 @@ public class HopeRedRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(34.04, -19.76, Math.toRadians(0.00)),
+                                new Pose2d(33.69, -22.37, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -168,7 +167,7 @@ public class HopeRedRight extends OpMode {
 
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
                         .splineTo(
-                                new Vector2d(62.6, -58.94), Math.toRadians(0.00),
+                                new Vector2d(53.37, -59.64), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -206,7 +205,7 @@ public class HopeRedRight extends OpMode {
             case MIDDLE:
                 TrajectorySequence backdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(15.58, -63.82, Math.toRadians(90.00)))
                         .splineToSplineHeading(
-                                new Pose2d(47.8, -36.83, Math.toRadians(0.00)), Math.toRadians(0.00),
+                                new Pose2d(49.19, -37.35, Math.toRadians(0.00)), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -214,7 +213,7 @@ public class HopeRedRight extends OpMode {
 
                 TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(backdropMiddle.end())
                         .lineToSplineHeading(
-                                new Pose2d(27.42, -20.63, Math.toRadians(0.00)),
+                                new Pose2d(27.42, -21.85, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -222,7 +221,7 @@ public class HopeRedRight extends OpMode {
 
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
                         .splineTo(
-                                new Vector2d(62.6, -58.94), Math.toRadians(0.00),
+                                new Vector2d(53.37, -59.64), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

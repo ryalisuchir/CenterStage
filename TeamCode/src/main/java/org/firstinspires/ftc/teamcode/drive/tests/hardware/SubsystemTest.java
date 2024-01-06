@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.TapeDropperComm
 import org.firstinspires.ftc.teamcode.common.hardware.Robot;
 
 @TeleOp
+@Disabled
 public class SubsystemTest extends CommandOpMode {
     private Robot robot;
     double speed;

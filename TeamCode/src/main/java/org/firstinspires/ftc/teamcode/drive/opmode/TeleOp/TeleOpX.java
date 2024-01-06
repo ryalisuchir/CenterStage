@@ -76,7 +76,7 @@ public class TeleOpX extends LinearOpMode {
                 //telemetry
                 telemetry.addData("armPos", arm.getCurrentPosition());
                 telemetry.addData("armPow", arm.getPower());
-                telemetry.addData("dronePos", slidesSpeed);
+                telemetry.addData("dronePos", drone.getPosition());
                 telemetry.addData("droneLPos", droneL.getPosition());
                 telemetry.addData("dumpy", dumpy);
                 telemetry.addData("dumpPos", dump.getPosition());
@@ -93,9 +93,9 @@ public class TeleOpX extends LinearOpMode {
                 //slides control
                 linear_1.setPower(slidesSpeed*gamepad2.right_stick_y);
                 linear_2.setPower(slidesSpeed*gamepad2.right_stick_y);
-                if(gamepad2.dpad_down)
+                if(gamepad2.right_bumper)
                     slidesSpeed = 0.8;
-                else if(gamepad2.dpad_up)
+                else if(gamepad2.left_bumper)
                     slidesSpeed = 0.5;
 
                 //claw control
@@ -107,9 +107,9 @@ public class TeleOpX extends LinearOpMode {
                     claw1.setPosition(0);
                 }
                 if(gamepad1.right_trigger > 0 && clawToggle == 0)
-                    dumpy = 0;
+                    dumpy = 0.01;
                 else if(gamepad1.right_trigger == 0 && clawToggle == 0)
-                    dumpy = 0.05;
+                    dumpy = 0.01;
                 // conditionals for arm
                 if((arm.getPower()>0 && distance.getDistance(DistanceUnit.CM) < 3) || (arm.getCurrentPosition() < 20 && arm.getPower()<0)) {
                     arm.setPower(0);
@@ -120,6 +120,7 @@ public class TeleOpX extends LinearOpMode {
                 if(arm.getPower()>0 && arm.getCurrentPosition() > 300) {
                     arm.setPower(0.13);
                 }
+
 
 
 
@@ -154,7 +155,7 @@ public class TeleOpX extends LinearOpMode {
                     sleep(250);
                 }
                 if(gamepad1.right_bumper && clawToggle == 1) {
-                    dumpy = 0.05;
+                    dumpy = 0.01;
                     clawToggle = 0;
                     dump.setPosition(dumpy);
                     sleep(250);
@@ -168,8 +169,17 @@ public class TeleOpX extends LinearOpMode {
 
                 dump.setPosition(dumpy);
 
-                //drone controls
+                //drone controls 0.7-0......0.95-0.65
 
+                if(gamepad2.dpad_down) {
+                    droneL.setPosition(0.95);
+                } else if(gamepad2.dpad_up) {
+                    droneL.setPosition(0.65);
+                    drone.setPosition(0.75);
+                }
+                if(gamepad2.x && droneL.getPosition() < 7) {
+                    drone.setPosition(0);
+                }
                 //miscellaneous speed controls
             }
         }
