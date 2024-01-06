@@ -30,7 +30,6 @@ public class SubsystemTest extends CommandOpMode {
     public void run() {
         super.run();
         robot.a.loop();
-        robot.slidesSubsystem.loop();
 
         boolean x = gamepad1.x;
         if (x) {
@@ -67,13 +66,6 @@ public class SubsystemTest extends CommandOpMode {
         if (gamepadDown) {
             schedule(
                     new TapeDropperCommand(robot)
-            );
-        }
-
-        boolean gamePadLeft = gamepad1.dpad_left;
-        if(gamePadLeft) {
-            schedule(
-                    new InstantCommand(() -> robot.slidesSubsystem.autoOuttake())
             );
         }
 

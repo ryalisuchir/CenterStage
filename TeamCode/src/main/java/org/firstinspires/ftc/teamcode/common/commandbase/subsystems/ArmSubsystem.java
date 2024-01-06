@@ -20,9 +20,9 @@ public class ArmSubsystem extends SubsystemBase {
     private final VoltageSensor batteryVoltageSensor;
 
 
-    private final double p = 0.006; //adjust TODO
-    private final double d = 0.00001; //adjust TODO
-    private final double f = 0.005; //adjust TODO
+    private final double p = 0.01; //adjust TODO
+    private final double d = 0; //adjust TODO
+    private final double f = 0; //adjust TODO //0.009
     private final double ticks_to_degrees = 1425.1 / 360;
     private final double zeroOffset = 23.0;
 
@@ -93,7 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void armOuttake() {
-        target = 600; //adjust TODO
+        target = 650; //adjust TODO
     }
 
     public void armCoast() {

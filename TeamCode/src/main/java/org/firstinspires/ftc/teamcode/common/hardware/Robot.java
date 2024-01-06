@@ -38,7 +38,7 @@ public class Robot {
 
     public ArmSubsystem a;
     public ClawSubsystem claw;
-    public SlidesSubsystem slidesSubsystem;
+
 
     public DriveSubsystem driveSubsystem;
     public MecanumDrive drive;
@@ -60,21 +60,25 @@ public class Robot {
         leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         //set external motors
-        linear_2 = hardwareMap.get(DcMotorEx.class, "linear_1");
-        linear_1 = hardwareMap.get(DcMotorEx.class, "linear_2");
+        linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
+        linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");
         arm = hardwareMap.get(DcMotorEx.class, "arm");
         arm.setDirection(DcMotor.Direction.REVERSE);
 
         linear_1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linear_2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        linear_2.setDirection(DcMotor.Direction.REVERSE);
+        linear_1.setDirection(DcMotor.Direction.REVERSE);
+
         linear_2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linear_2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linear_1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linear_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //servos
         Servo dump = hardwareMap.get(Servo.class, "dump");
@@ -91,7 +95,6 @@ public class Robot {
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angle = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
-        slidesSubsystem = new SlidesSubsystem(linear_1, linear_2, batteryVoltageSensor);
         CommandScheduler.getInstance().registerSubsystem(a, claw, angle, driveSubsystem);
     }
 

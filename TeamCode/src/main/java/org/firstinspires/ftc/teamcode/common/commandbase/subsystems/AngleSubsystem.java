@@ -23,6 +23,14 @@ public class AngleSubsystem extends SubsystemBase {
         dump.setPosition(intake_position);
     }
 
+    public void stressor() {
+        dump.setPosition(0.3);
+    }
+
+    public void redder() {
+        dump.setPosition(0.4);
+    }
+
     public void rest() {
         dump.setPosition(rest_position);
     }
