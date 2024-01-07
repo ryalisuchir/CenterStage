@@ -93,7 +93,7 @@ public class RedLeft extends OpMode {
             case UNFOUND:
                 TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, -63.99, Math.toRadians(90.00)))
                         .lineToConstantHeading(
-                                new Vector2d(-52.85, -38.92),
+                                new Vector2d(-54.41, -42.05),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -122,7 +122,7 @@ public class RedLeft extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(50.41, -34.04),
+                                new Vector2d(49.02, -32.82),
                                 SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -188,11 +188,11 @@ public class RedLeft extends OpMode {
 
                 TrajectorySequence lastBackdropRight = robot.driveSubsystem.trajectorySequenceBuilder(initialBackdropRight.end())
                         .lineToConstantHeading(
-                                new Vector2d(35.09, -38.39),
+                                new Vector2d(35.61, -42.57),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .lineToConstantHeading(
-                                new Vector2d(50.58, -43.1),
+                                new Vector2d(47.45, -41.18),
                                 SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -200,8 +200,8 @@ public class RedLeft extends OpMode {
 
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(lastBackdropRight.end())
                         .lineToConstantHeading(
-                                new Vector2d(44.84, -34.22),
-                                SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Vector2d(44.31, -41.18),
+                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
@@ -234,25 +234,21 @@ public class RedLeft extends OpMode {
                 );
                 break;
             case MIDDLE:
-                TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, 68.34, Math.toRadians(270.00)))
-                        .lineToConstantHeading(
-                                new Vector2d(-44.66, 38.57),
+                TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.61, -63.99, Math.toRadians(90.00)))
+                        .splineToConstantHeading(
+                                new Vector2d(-35.61, -33.52), Math.toRadians(90.00),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence initialBackdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
-                        .lineToConstantHeading(new Vector2d(-44.66, 50.41))
-                        .lineToConstantHeading(new Vector2d(-53.72, 50.23))
-                        .lineToConstantHeading(new Vector2d(-53.19, 16.28))
-                        .lineToSplineHeading(
-                                new Pose2d(-22.72, 15.58, Math.toRadians(0.92)),
-                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .lineToSplineHeading(
-                                new Pose2d(35.96, 13.15, Math.toRadians(0.00)),
+                        .lineToConstantHeading(new Vector2d(-35.61, -42.57))
+                        .lineToConstantHeading(new Vector2d(-51.28, -42.57))
+                        .lineToConstantHeading(new Vector2d(-51.28, -10.36))
+                        .lineToSplineHeading(new Pose2d(-13.84, -11.41, Math.toRadians(0.00)))
+                        .lineToConstantHeading(
+                                new Vector2d(38.57, -11.41),
                                 SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -260,20 +256,20 @@ public class RedLeft extends OpMode {
 
                 TrajectorySequence lastBackdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(initialBackdropMiddle.end())
                         .lineToConstantHeading(
-                                new Vector2d(34.74, 40.83),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Vector2d(38.57, -38.57),
+                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(49.7, 42.50),
-                                SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Vector2d(50.23, -38.92),
+                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(lastBackdropMiddle.end())
                         .lineToConstantHeading(
-                                new Vector2d(44.66, 40.83),
+                                new Vector2d(44.66, -38.57),
                                 SampleMecanumDrive.getVelocityConstraint(12, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
