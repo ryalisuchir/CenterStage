@@ -15,6 +15,9 @@ public class AngleSubsystem extends SubsystemBase {
         dump.setDirection(Servo.Direction.REVERSE);
     }
 
+    public void customAngle(double angle) {
+        dump.setPosition(angle);
+    }
     public void intake() {
         dump.setPosition(0);
     }

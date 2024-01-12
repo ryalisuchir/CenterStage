@@ -110,6 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
+    public void setPosition(int position) { target = position; }
     public void armIntake() { target = 0; }
     public void armOuttake() {
         target = 650;
