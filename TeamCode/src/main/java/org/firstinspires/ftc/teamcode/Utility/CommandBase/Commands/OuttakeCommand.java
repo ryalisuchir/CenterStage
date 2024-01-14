@@ -7,13 +7,12 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
-public class OuttakeCommand extends SequentialCommandGroup {
+public class OuttakeCommand extends ParallelCommandGroup {
     public OuttakeCommand(RobotHardware robot) {
         super(
-                new ParallelCommandGroup(
-                        new InstantCommand(() -> robot.armSystem.armOuttake()),
-                        new InstantCommand(() -> robot.angleOfArm.outtake())
-                )
+                new InstantCommand(() -> robot.armSystem.armOuttake()),
+                new InstantCommand(() -> robot.slidesSubsystem.outtake()),
+                new InstantCommand(() -> robot.angleOfArm.outtake())
         );
         Globals.startOuttake();
     }

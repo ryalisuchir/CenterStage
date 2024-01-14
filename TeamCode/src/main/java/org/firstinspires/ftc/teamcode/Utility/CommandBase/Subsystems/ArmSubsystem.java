@@ -57,24 +57,24 @@ public class ArmSubsystem extends SubsystemBase {
     public void loop() {
 
         if (Globals.IS_AT_REST) {
-            p = 0.5;
+            p = 0.01;
             i = 0;
-            d = 0;
-            f = 0.2;
+            d = 0.0001;
+            f = 0.009;
         };
 
         if (Globals.IS_SCORING) {
-            p = 0.5;
+            p = 0.01;
             i = 0;
-            d = 0;
-            f = 0.2;
+            d = 0.0001;
+            f = 0.009;
         };
 
         if (Globals.IS_INTAKING) {
-            p = 0.5;
+            p = 0.01;
             i = 0;
-            d = 0;
-            f = 0.2;
+            d = 0.0001;
+            f = 0.009;
         };
 
         controller.setPID(p, i, d);
@@ -95,7 +95,7 @@ public class ArmSubsystem extends SubsystemBase {
         MotionState targetState = profile == null ? new MotionState(0, 0) : profile.get(time.seconds());
         double target = targetState.getX();
         double pid = controller.calculate(currentArmPosition, target);
-        double ff = Math.sin(Math.toRadians(target / ticks_to_degrees + zeroOffset )) * f;
+        double ff = Math.sin(Math.toRadians(target / ticks_to_degrees + zeroOffset)) * f;
 
         double power = (pid + ff) / voltage * 12.0;
 
@@ -110,14 +110,24 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    public void setPosition(int position) { target = position; }
-    public void armIntake() { target = 0; }
+    public void setPosition(int position) {
+        target = position;
+    }
+    public void armIntake() {
+        target = 0;
+    }
     public void armOuttake() {
         target = 650;
     }
-    public void armCoast() { target = 30; }
-    public void stackGrab() { target = 45; } //TODO: edit this!
-    public void armTapeDrop() { target = 10; }
+    public void armCoast() {
+        target = 30;
+    }
+    public void stackGrab() {
+        target = 45;
+    } //TODO: edit this!
+    public void armTapeDrop() {
+        target = 10;
+    }
 
     public double getCachePos() {
         return cache;

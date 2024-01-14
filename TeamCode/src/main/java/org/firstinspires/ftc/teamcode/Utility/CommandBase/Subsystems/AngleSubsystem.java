@@ -21,11 +21,8 @@ public class AngleSubsystem extends SubsystemBase {
     public void intake() {
         dump.setPosition(0);
     }
-    public void backBoardPress() {
-        dump.setPosition(0.3);
-    }
     public void outtake() {
-        dump.setPosition(0.4);
+        dump.setPosition(0.6);
     }
     public void rest() {
         dump.setPosition(0.2);

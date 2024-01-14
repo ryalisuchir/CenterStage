@@ -105,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
         drive.turnAsync(radians);
     }
 
-    public List<Double> getWheelVelocities() {
+    public List < Double > getWheelVelocities() {
         return drive.getWheelVelocities();
     }
 

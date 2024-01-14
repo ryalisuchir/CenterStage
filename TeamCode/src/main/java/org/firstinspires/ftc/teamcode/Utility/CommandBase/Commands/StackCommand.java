@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 public class StackCommand extends ParallelCommandGroup {
     public StackCommand(RobotHardware robot) {
         super(
-                        new InstantCommand(() -> robot.armSystem.setPosition(55)),
-                        new InstantCommand(() -> robot.angleOfArm.customAngle(0.05)),
-                        new InstantCommand(() -> robot.claw.releaseBoth())
+                new InstantCommand(() -> robot.armSystem.setPosition(50)),
+                new InstantCommand(() -> robot.angleOfArm.customAngle(0)),
+                new InstantCommand(() -> robot.claw.releaseBoth())
         );
         Globals.startIntake();
     }

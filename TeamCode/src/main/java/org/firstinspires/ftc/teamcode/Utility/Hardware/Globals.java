@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utility.Hardware;
 
 public class Globals {
-
     public static boolean IS_SCORING = false;
     public static boolean IS_INTAKING = false;
     public static boolean IS_AT_REST = false;

@@ -65,12 +65,14 @@ public class RobotHardware {
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        linear_1.setDirection(DcMotor.Direction.REVERSE);
-
-        linear_1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linear_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linear_2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linear_2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linear_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linear_2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        linear_2.setDirection(DcMotor.Direction.REVERSE);
+
 
         Servo angleOfClaw = hardwareMap.get(Servo.class, "dump");
         Servo leftClaw = hardwareMap.get(Servo.class, "claw");
