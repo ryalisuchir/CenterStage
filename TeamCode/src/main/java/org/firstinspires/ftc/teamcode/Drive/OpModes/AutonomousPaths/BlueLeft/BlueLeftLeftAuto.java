@@ -14,9 +14,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TapeDropCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
 @Autonomous
@@ -83,14 +85,16 @@ public class BlueLeftLeftAuto extends OpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropLeft)),
+                                new DriveCommand(robot.driveSubsystem, backdropLeft),
+//                               new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropLeft)),
                                 new OuttakeCommand(robot)
                         ),
                         new WaitCommand(3500),
                         new InstantCommand(() -> robot.claw.autoReleaseLeft()),
                         new WaitCommand(350),
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeLeft)),
+                                new DriveCommand(robot.driveSubsystem, tapeLeft),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeLeft)),
                                 new TapeDropCommand(robot)
                         ),
                         new WaitCommand(350),
@@ -98,7 +102,8 @@ public class BlueLeftLeftAuto extends OpMode {
                         new WaitCommand(1000),
                         new RestCommand(robot),
                         new WaitCommand(350),
-                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(parkLeft))
+                        new DriveCommand(robot.driveSubsystem, parkLeft)
+                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(parkLeft))
 
                 )
         );
