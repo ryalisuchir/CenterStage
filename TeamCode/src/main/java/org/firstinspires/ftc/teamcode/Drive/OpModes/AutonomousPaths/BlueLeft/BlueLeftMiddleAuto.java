@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TapeDropCommand;
@@ -57,7 +58,7 @@ public class BlueLeftMiddleAuto extends OpMode {
         TrajectorySequence backdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(15.76, 63.99, Math.toRadians(-90.00)))
                 .splineTo(
                         new Vector2d(49.54, 35.61), Math.toRadians(0.00),
-                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
@@ -71,8 +72,14 @@ public class BlueLeftMiddleAuto extends OpMode {
                 .build();
 
         TrajectorySequence parkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(tapeMiddle.end())
-                .lineToConstantHeading(new Vector2d(36.48, 26.21))
-                .lineToConstantHeading(new Vector2d(35.78, 63.29))
+                .lineToConstantHeading(
+                        new Vector2d(36.48, 26.21)
+                )
+                .lineToConstantHeading(
+                        new Vector2d(35.78, 63.29),
+                        SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .lineToConstantHeading(
                         new Vector2d(58.94, 63.12),
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -83,14 +90,16 @@ public class BlueLeftMiddleAuto extends OpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropMiddle)),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropMiddle)),
+                                new DriveCommand(robot.driveSubsystem, backdropMiddle),
                                 new OuttakeCommand(robot)
                         ),
-                        new WaitCommand(3500),
+                        new WaitCommand(350),
                         new InstantCommand(() -> robot.claw.autoReleaseLeft()),
                         new WaitCommand(350),
                         new ParallelCommandGroup(
-                                new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),
+                                new DriveCommand(robot.driveSubsystem, tapeMiddle),
                                 new TapeDropCommand(robot)
                         ),
                         new WaitCommand(350),
@@ -98,7 +107,8 @@ public class BlueLeftMiddleAuto extends OpMode {
                         new WaitCommand(1000),
                         new RestCommand(robot),
                         new WaitCommand(350),
-                        new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(parkMiddle))
+                        new DriveCommand(robot.driveSubsystem, parkMiddle)
+                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(parkMiddle))
 
                 )
         );
