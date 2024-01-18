@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -29,8 +30,10 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.RedRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
+//HAVE NOT TESTED. EDITING MIDDLE.
 @Autonomous
 @Config
+@Disabled
 public class RedLeft extends OpMode {
     private VisionPortal visionPortal;
     private RedLeftProcessor colorMassDetectionProcessor;
@@ -156,31 +159,34 @@ public class RedLeft extends OpMode {
                 break;
             case RIGHT:
                 TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.96, -63.99, Math.toRadians(90.00)))
-                        .splineTo(
-                                new Vector2d(-32.13, -34.39), Math.toRadians(20.00),
-                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                        .splineTo(new Vector2d(-30.56, -37.87), Math.toRadians(45.00))
                         .build();
 
                 TrajectorySequence toWaitRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
-                        .lineToConstantHeading(new Vector2d(-46.93, -42.05))
-                        .lineToSplineHeading(new Pose2d(-46.06, -11.41, Math.toRadians(0.00)))
-                        .lineToConstantHeading(new Vector2d(39.96, -11.75))
+                        .lineToSplineHeading(
+                                new Pose2d(-37.00, -44.66, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(new Pose2d(-55.28, -44.84, Math.toRadians(90.00)))
+                        .lineToSplineHeading(new Pose2d(-54.59, -13.32, Math.toRadians(89.70)))
+                        .lineToSplineHeading(new Pose2d(40.48, -19.41, Math.toRadians(0.00)))
                         .build();
 
                 TrajectorySequence toBackBoardRight = robot.driveSubsystem.trajectorySequenceBuilder(toWaitRight.end())
+                        .lineToSplineHeading(new Pose2d(40.31, -43.79, Math.toRadians(0.00)))
                         .lineToConstantHeading(
-                                new Vector2d(49.54, -46.06),
+                                new Vector2d(47.8, -43.62),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toParkRight = robot.driveSubsystem.trajectorySequenceBuilder(toBackBoardRight.end())
-                        .lineToConstantHeading(new Vector2d(39.96, -46.40))
-                        .splineTo(
-                                new Vector2d(49.54, -15.24), Math.toRadians(0.00),
+                        .lineToConstantHeading(new Vector2d(42.4, -43.79))
+                        .lineToConstantHeading(new Vector2d(42.22, -18.37))
+                        .lineToConstantHeading(
+                                new Vector2d(56.85, -18.02),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

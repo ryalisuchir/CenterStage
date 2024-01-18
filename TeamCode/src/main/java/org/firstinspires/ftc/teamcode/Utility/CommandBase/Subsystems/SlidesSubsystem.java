@@ -38,8 +38,8 @@ public class SlidesSubsystem extends SubsystemBase {
                 linear_1.setPower(0.1);
                 linear_2.setPower(0.1);
             } else if (linear_2.getCurrentPosition() > -target) {
-                linear_1.setPower(0.4);
-                linear_2.setPower(0.4);
+                linear_1.setPower(0.6);
+                linear_2.setPower(0.6);
             }
         } else {
             if (linear_2.getCurrentPosition() < -target) {
