@@ -130,8 +130,8 @@ public class RedLeft extends OpMode {
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .splineTo(
-                                new Vector2d(38.39, -13.84), Math.toRadians(-6.00),
+                        .lineToLinearHeading(
+                                new Pose2d(39.26, -13.15, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -139,12 +139,12 @@ public class RedLeft extends OpMode {
 
                 TrajectorySequence toBackBoardLeft = robot.driveSubsystem.trajectorySequenceBuilder(toWaitLeft.end())
                         .lineTo(
-                                new Vector2d(37.87, -38),
+                                new Vector2d(37.87, -35),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .forward(
-                                6,
+                                9,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -211,20 +211,25 @@ public class RedLeft extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .splineTo(
-                                new Vector2d(37.87, -21.33), Math.toRadians(-5.00),
+                                new Vector2d(7.92, -12.10), Math.toRadians(0.31),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .splineTo(
+                                new Vector2d(40.14, -13.15), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toBackBoardRight = robot.driveSubsystem.trajectorySequenceBuilder(toWaitRight.end())
-                        .lineTo(
-                                new Vector2d(37.87, -54),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .lineToConstantHeading(
+                                new Vector2d(37.87, -48),
+                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .forward(
-                                3.5,
+                                5.9,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -244,7 +249,7 @@ public class RedLeft extends OpMode {
                                         new RestCommand(robot)
                                 ),
                                 //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitMiddle)),
-                                new WaitCommand(1000), //this can be changed to maximize auto time!
+                                new WaitCommand(6000), //this can be changed to maximize auto time!
                                 new DriveCommand(robot.driveSubsystem, toBackBoardRight),
                                 new WaitCommand(350),
                                 new HigherOuttakeCommand(robot),
@@ -298,7 +303,7 @@ public class RedLeft extends OpMode {
 
                 TrajectorySequence toBackBoardMiddle = robot.driveSubsystem.trajectorySequenceBuilder(toWaitMiddle.end())
                         .lineToSplineHeading(
-                                new Pose2d(38.00, -49.00, Math.toRadians(-7.00)),
+                                new Pose2d(38.00, -45.53, Math.toRadians(-7.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -320,7 +325,7 @@ public class RedLeft extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, toWaitMiddle),
                                         new RestCommand(robot)
                                 ),
-                                new WaitCommand(1000), //this can be changed to maximize auto time!
+                                new WaitCommand(6000), //this can be changed to maximize auto time!
                                 new DriveCommand(robot.driveSubsystem, toBackBoardMiddle),
                                 new WaitCommand(350),
                                 new HigherOuttakeCommand(robot),

@@ -165,7 +165,11 @@ public class BlueLeft extends OpMode {
                 TrajectorySequence parkRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
                         .lineToConstantHeading(new Vector2d(19.07, 38.05))
 //                        .lineToConstantHeading(new Vector2d(34.39, 58.42))
-                        .splineToConstantHeading(new Vector2d(58.24, 59.29), Math.toRadians(0.00))
+                        .splineToConstantHeading(
+                                new Vector2d(58.07, 63.12), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 CommandScheduler.getInstance().schedule(

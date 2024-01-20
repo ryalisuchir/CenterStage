@@ -129,15 +129,20 @@ public class BlueRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(35.61, 8.97, Math.toRadians(-7.00)),
-                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Pose2d(-8.27, 12.28, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToLinearHeading(
+                                new Pose2d(35.26, 11.23, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toBackBoardLeft = robot.driveSubsystem.trajectorySequenceBuilder(toWaitLeft.end())
-                        .strafeLeft(28)
-                        .forward(11,
+                        .strafeLeft(26.5)
+                        .forward(12.5,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -152,7 +157,7 @@ public class BlueRight extends OpMode {
                                 new DriveCommand(robot.driveSubsystem, tapeLeft),
                                 new WaitCommand(350),
                                 new DriveCommand(robot.driveSubsystem, toWaitLeft),
-                                new WaitCommand(6000), //this can be changed to maximize auto time!
+                                new WaitCommand(5500), //this can be changed to maximize auto time!
                                 new DriveCommand(robot.driveSubsystem, toBackBoardLeft),
                                 new WaitCommand(350),
                                 new HigherOuttakeCommand(robot),
@@ -171,7 +176,7 @@ public class BlueRight extends OpMode {
             case RIGHT:
                 TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-41.01, 65.38, Math.toRadians(-90)))
                         .splineToConstantHeading(
-                                new Vector2d(-53.89, 41.53), Math.toRadians(-90.00),
+                                new Vector2d(-52.5, 41.53), Math.toRadians(-90.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -179,7 +184,7 @@ public class BlueRight extends OpMode {
 
                 TrajectorySequence toWaitRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
                         .setReversed(true)
-                        .lineToSplineHeading(new Pose2d(-53.72, 48.49, Math.toRadians(-90.00)))
+                        .lineToSplineHeading(new Pose2d(-52.5, 48.49, Math.toRadians(-90.00)))
                         .lineToConstantHeading(
                                 new Vector2d(-36.83, 48.32),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -192,15 +197,20 @@ public class BlueRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(35.61, 8.97, Math.toRadians(-7.00)),
+                                new Pose2d(-2.00, 12.80, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToLinearHeading(
+                                new Pose2d(34.56, 12.80, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toBackBoardRight = robot.driveSubsystem.trajectorySequenceBuilder(toWaitRight.end())
-                        .strafeLeft(17.5)
-                        .forward(11,
+                        .strafeLeft(15.5)
+                        .forward(13,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -215,7 +225,7 @@ public class BlueRight extends OpMode {
                                 new DriveCommand(robot.driveSubsystem, tapeRight),
                                 new WaitCommand(350),
                                 new DriveCommand(robot.driveSubsystem, toWaitRight),
-                                new WaitCommand(6000), //this can be changed to maximize auto time!
+                                new WaitCommand(9000), //this can be changed to maximize auto time!
                                 new DriveCommand(robot.driveSubsystem, toBackBoardRight),
                                 new WaitCommand(350),
                                 new HigherOuttakeCommand(robot),
@@ -258,14 +268,19 @@ public class BlueRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(35.72, 4.5, Math.toRadians(-7.00)),
-                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Pose2d(-9.49, 11.41, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToLinearHeading(
+                                new Pose2d(35.26, 11.23, Math.toRadians(0.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toBackBoardMiddle = robot.driveSubsystem.trajectorySequenceBuilder(toWaitMiddle.end())
-                        .strafeLeft(15.8)
+                        .strafeLeft(18.5)
                         .forward(12.3,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
@@ -291,7 +306,6 @@ public class BlueRight extends OpMode {
                                 new ParallelCommandGroup(
                                         new DropperSometimes(robot),
                                         new DriveCommand(robot.driveSubsystem, toParkMiddle)
-                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkMiddle))
                                 )
                         )
                 );
