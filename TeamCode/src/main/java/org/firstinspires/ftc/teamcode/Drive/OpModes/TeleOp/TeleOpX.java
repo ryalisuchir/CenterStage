@@ -89,22 +89,22 @@ public class TeleOpX extends LinearOpMode {
                 telemetry.update();
 
                 //movement
-                leftFront.setPower(speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
-                leftRear.setPower(speed * (((gamepad1.left_stick_y + gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
-                rightFront.setPower(speed * ((gamepad1.left_stick_y - gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
-                rightRear.setPower(speed * ((gamepad1.left_stick_y - gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
+                leftFront.setPower(speed * (((gamepad1.left_stick_y + 1.1 * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
+                leftRear.setPower(speed * (((gamepad1.left_stick_y + 1.1 * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
+                rightFront.setPower(speed * ((gamepad1.left_stick_y - 1.1 * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
+                rightRear.setPower(speed * ((gamepad1.left_stick_y - 1.1 * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
 
                 //slides control
 
-                if(gamepad1.right_stick_y > 0 && slidesPosition <= 15 && !OVERRIDE) {
+                if(gamepad2.right_stick_y > 0 && slidesPosition <= 15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
-                } else if(gamepad1.right_stick_y == 0 && slidesPosition > 450) {
+                } else if(gamepad2.right_stick_y == 0 && slidesPosition > 450) {
                     linear_1.setPower(-0.1);
                     linear_2.setPower(-0.1);
                 } else {
-                    linear_1.setPower(slidesSpeed * gamepad1.right_stick_y);
-                    linear_2.setPower(slidesSpeed * gamepad1.right_stick_y);
+                    linear_1.setPower(slidesSpeed * gamepad2.right_stick_y);
+                    linear_2.setPower(slidesSpeed * gamepad2.right_stick_y);
                 }
 
                 if(gamepad2.right_bumper)
