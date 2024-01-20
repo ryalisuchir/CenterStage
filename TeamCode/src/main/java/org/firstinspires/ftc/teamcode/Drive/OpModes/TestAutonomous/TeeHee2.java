@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -20,16 +21,23 @@ import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SpecialOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.StackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TapeDropCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.RedLeftProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.BlueLeftProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.RedRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
+//USE IF ALL ELSE FAILS
 @Autonomous
 @Config
-public class TeeHee extends OpMode {
+
+public class TeeHee2 extends OpMode {
+    private VisionPortal visionPortal;
+    private RedRightProcessor colorMassDetectionProcessor;
+
     private RobotHardware robot;
     private ElapsedTime time_since_start;
     private double loop;
@@ -49,26 +57,43 @@ public class TeeHee extends OpMode {
 
         robot.claw.grabBoth();
 
-    }
+        Scalar lower = new Scalar(0, 80, 80);
+        Scalar upper = new Scalar(180, 250, 250);
+        double minArea = 100;
 
-    @Override
-    public void init_loop() {
-        telemetry.addData("Successful: ", "Ready for :)");
-        telemetry.addData("Ready to Run: ", "2 pixel autonomous. All subsystems initialized.");
-
-        CommandScheduler.getInstance().run();
-        robot.armSystem.loop();
+        colorMassDetectionProcessor = new RedRightProcessor(
+                lower,
+                upper,
+                () -> minArea,
+                () -> 213, //left third of frame
+                () -> 426 //right third of frame
+        );
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
+                .addProcessor(colorMassDetectionProcessor)
+                .build();
     }
 
     @Override
     public void start() {
+        time_since_start = new ElapsedTime();
+        if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
+            visionPortal.stopLiveView();
+            visionPortal.stopStreaming();
+        }
 
+        RedRightProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(16.11, -64.34, Math.toRadians(90.00)));
 
+        switch (recordedPropPosition) {
+            case LEFT:
+            case UNFOUND:
+            case RIGHT:
+            case MIDDLE:
                 TrajectorySequence movement1Right = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.11, -64.34, Math.toRadians(90.00)))
                         .splineToConstantHeading(new Vector2d(19.24, -31.78), Math.toRadians(90.00))
-                    .splineToConstantHeading(new Vector2d(19.07, -53.54), Math.toRadians(90.00))
-                    .splineTo(new Vector2d(50.76, -39.09), Math.toRadians(0.00))
+                        .splineToConstantHeading(new Vector2d(19.07, -53.54), Math.toRadians(90.00))
+                        .splineTo(new Vector2d(50.76, -39.09), Math.toRadians(0.00))
                         .build();
 
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
@@ -92,7 +117,7 @@ public class TeeHee extends OpMode {
                         .setReversed(true)
                         .splineTo(new Vector2d(41.35, -39.61), Math.toRadians(180.00))
                         .splineToConstantHeading(new Vector2d(57.55, -62.07), Math.toRadians(0.00))
-                                .build();
+                        .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
@@ -123,7 +148,9 @@ public class TeeHee extends OpMode {
                                 )
                         )
                 );
+                break;
         }
+    }
 
     @Override
     public void loop() {
@@ -145,7 +172,6 @@ public class TeeHee extends OpMode {
 
     @Override
     public void stop() {
-        telemetry.addLine("Closed Camera.");
         telemetry.update();
         CommandScheduler.getInstance().reset();
     }

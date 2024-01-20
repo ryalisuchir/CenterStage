@@ -182,12 +182,12 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
         PropPositions propPosition;
         if (largestContour == null) {
             propPosition = PropPositions.UNFOUND;
-        } else if (largestContourArea < 2500) {
-            propPosition = PropPositions.RIGHT;
-        } else if (largestContourX < left.getAsDouble()) {
+        } else if (largestContourArea < 1200) {
             propPosition = PropPositions.LEFT;
-        } else if (largestContourX > right.getAsDouble()) {
+        } else if (largestContourX < left.getAsDouble()) {
             propPosition = PropPositions.MIDDLE;
+        } else if (largestContourX > right.getAsDouble()) {
+            propPosition = PropPositions.RIGHT;
         } else {
             propPosition = PropPositions.MIDDLE;
         }

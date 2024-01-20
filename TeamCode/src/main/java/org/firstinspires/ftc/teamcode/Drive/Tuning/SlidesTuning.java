@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @TeleOp
+@Disabled
 public class SlidesTuning extends OpMode {
     private PIDController controller;
     public static double p = 0, i = 0, d = 0;

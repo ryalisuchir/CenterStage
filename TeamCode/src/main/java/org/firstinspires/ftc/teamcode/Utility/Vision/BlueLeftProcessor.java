@@ -182,7 +182,7 @@ public class BlueLeftProcessor implements VisionProcessor, CameraStreamSource {
         PropPositions propPosition;
         if (largestContour == null) {
             propPosition = PropPositions.UNFOUND;
-        } else if (largestContourArea < 2500) {
+        } else if (largestContourArea < 2000) {
             propPosition = PropPositions.RIGHT;
         } else if (largestContourX < left.getAsDouble()) {
             propPosition = PropPositions.LEFT;

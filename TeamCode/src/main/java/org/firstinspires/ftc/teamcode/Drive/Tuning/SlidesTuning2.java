@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Drive.Tuning;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Config
 @TeleOp
+@Disabled
 public class SlidesTuning2 extends OpMode {
     private PIDController controller;
     private DcMotorEx linear_1, linear_2;

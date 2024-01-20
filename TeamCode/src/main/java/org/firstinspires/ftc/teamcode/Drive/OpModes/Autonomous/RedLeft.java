@@ -19,6 +19,8 @@ import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DropperSometimes;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.HigherOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SpecialOuttakeCommand;
@@ -33,7 +35,7 @@ import org.opencv.core.Scalar;
 //HAVE NOT TESTED. EDITING MIDDLE.
 @Autonomous
 @Config
-@Disabled
+
 public class RedLeft extends OpMode {
     private VisionPortal visionPortal;
     private RedLeftProcessor colorMassDetectionProcessor;
@@ -99,128 +101,168 @@ public class RedLeft extends OpMode {
 
         switch (recordedPropPosition) {
             case LEFT:
-            case UNFOUND:
                 TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.96, -63.99, Math.toRadians(90.00)))
-                        .splineToConstantHeading(new Vector2d(-50.41, -41.53), Math.toRadians(90.00))
+                        .splineToConstantHeading(
+                                new Vector2d(-50.58, -43.53), Math.toRadians(90.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence toWaitLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
-                        .lineToConstantHeading(new Vector2d(-50.58, -49.19))
-                        .lineToConstantHeading(
-                                new Vector2d(-37.52, -49.36),
-                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .lineToSplineHeading(
+                                new Pose2d(-50.41, -48.84, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToConstantHeading(new Vector2d(-36.3, -11.93))
-                        .lineToSplineHeading(new Pose2d(8.79, -11.58, Math.toRadians(0.00)))
-                        .lineToConstantHeading(new Vector2d(39.96, -11.75))
+                        .lineToSplineHeading(
+                                new Pose2d(-35.61, -49.02, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-37.00, -12.28, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-14.54, -12.80, Math.toRadians(-6.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .splineTo(
+                                new Vector2d(38.39, -13.84), Math.toRadians(-6.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence toBackBoardLeft = robot.driveSubsystem.trajectorySequenceBuilder(toWaitLeft.end())
-                        .lineToConstantHeading(
-                                new Vector2d(49.54, -30.73),
+                        .lineTo(
+                                new Vector2d(37.87, -38),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .forward(
+                                6,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toParkLeft = robot.driveSubsystem.trajectorySequenceBuilder(toBackBoardLeft.end())
-                        .lineToConstantHeading(new Vector2d(39.44, -31.26))
-                        .splineTo(
-                                new Vector2d(49.54, -15.24), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                        .forward(-3)
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, tapeLeft),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeLeft)),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),
                                 new WaitCommand(350),
-                                new DriveCommand(robot.driveSubsystem, toWaitLeft),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitLeft)),
-                                new WaitCommand(350), //this can be changed to maximize auto time!
                                 new ParallelCommandGroup(
-                                        new DriveCommand(robot.driveSubsystem, toBackBoardLeft),
-                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toBackBoardLeft)),
-                                        new OuttakeCommand(robot)
+                                        new DriveCommand(robot.driveSubsystem, toWaitLeft),
+                                        new RestCommand(robot)
                                 ),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitMiddle)),
+                                new WaitCommand(1000), //this can be changed to maximize auto time!
+                                new DriveCommand(robot.driveSubsystem, toBackBoardLeft),
                                 new WaitCommand(350),
+                                new HigherOuttakeCommand(robot),
+                                new WaitCommand(1500),
                                 new InstantCommand(() -> robot.claw.autoReleaseLeft()),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
-                                        new RestCommand(robot),
+                                        new DropperSometimes(robot),
                                         new DriveCommand(robot.driveSubsystem, toParkLeft)
-                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkLeft))
+                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkMiddle))
                                 )
                         )
                 );
                 break;
+            case UNFOUND:
             case RIGHT:
                 TrajectorySequence tapeRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.96, -63.99, Math.toRadians(90.00)))
-                        .splineTo(new Vector2d(-30.56, -37.87), Math.toRadians(45.00))
+                        .splineTo(
+                                new Vector2d(-34.04, -37.0), Math.toRadians(40.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence toWaitRight = robot.driveSubsystem.trajectorySequenceBuilder(tapeRight.end())
                         .lineToSplineHeading(
-                                new Pose2d(-37.00, -44.66, Math.toRadians(90.00)),
+                                new Pose2d(-42.05, -45.36, Math.toRadians(90.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToSplineHeading(new Pose2d(-55.28, -44.84, Math.toRadians(90.00)))
-                        .lineToSplineHeading(new Pose2d(-54.59, -13.32, Math.toRadians(89.70)))
-                        .lineToSplineHeading(new Pose2d(40.48, -19.41, Math.toRadians(0.00)))
+                        .lineToSplineHeading(
+                                new Pose2d(-52.85, -44.84, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-52.32, -15.10, Math.toRadians(86.28)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-24.12, -13.32, Math.toRadians(-7.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .splineTo(
+                                new Vector2d(37.87, -21.33), Math.toRadians(-5.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
                         .build();
 
                 TrajectorySequence toBackBoardRight = robot.driveSubsystem.trajectorySequenceBuilder(toWaitRight.end())
-                        .lineToSplineHeading(new Pose2d(40.31, -43.79, Math.toRadians(0.00)))
-                        .lineToConstantHeading(
-                                new Vector2d(47.8, -43.62),
+                        .lineTo(
+                                new Vector2d(37.87, -54),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .forward(
+                                3.5,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toParkRight = robot.driveSubsystem.trajectorySequenceBuilder(toBackBoardRight.end())
-                        .lineToConstantHeading(new Vector2d(42.4, -43.79))
-                        .lineToConstantHeading(new Vector2d(42.22, -18.37))
-                        .lineToConstantHeading(
-                                new Vector2d(56.85, -18.02),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                        .forward(-3)
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, tapeRight),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeRight)),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),
                                 new WaitCommand(350),
-                                new DriveCommand(robot.driveSubsystem, toWaitRight),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitRight)),
-                                new WaitCommand(350), //this can be changed to maximize auto time!
                                 new ParallelCommandGroup(
-                                        new DriveCommand(robot.driveSubsystem, toBackBoardRight),
-                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toBackBoardRight)),
-                                        new OuttakeCommand(robot)
+                                        new DriveCommand(robot.driveSubsystem, toWaitRight),
+                                        new RestCommand(robot)
                                 ),
+                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitMiddle)),
+                                new WaitCommand(1000), //this can be changed to maximize auto time!
+                                new DriveCommand(robot.driveSubsystem, toBackBoardRight),
                                 new WaitCommand(350),
+                                new HigherOuttakeCommand(robot),
+                                new WaitCommand(1500),
                                 new InstantCommand(() -> robot.claw.autoReleaseLeft()),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
-                                        new RestCommand(robot),
+                                        new DropperSometimes(robot),
                                         new DriveCommand(robot.driveSubsystem, toParkRight)
-                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkRight))
+                                        //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkMiddle))
                                 )
                         )
                 );
-
                 break;
             case MIDDLE:
                 TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-39.96, -63.99, Math.toRadians(90.00)))
                         .splineToConstantHeading(
-                                new Vector2d(-34.56, -34.39), Math.toRadians(90.00),
+                                new Vector2d(-34.56, -35), Math.toRadians(90.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -232,46 +274,61 @@ public class RedLeft extends OpMode {
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToSplineHeading(new Pose2d(-55.28, -44.84, Math.toRadians(90.00)))
-                        .lineToSplineHeading(new Pose2d(-54.59, -13.32, Math.toRadians(89.70)))
-                        .lineToSplineHeading(new Pose2d(40.48, -19.41, Math.toRadians(0.00)))
+                        .lineToSplineHeading(
+                                new Pose2d(-52.85, -44.84, Math.toRadians(90.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-52.32, -12.10, Math.toRadians(86.28)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(-23.77, -14, Math.toRadians(-7.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .splineTo(
+                                new Vector2d(37.00, -20), Math.toRadians(-7.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                )
                         .build();
 
                 TrajectorySequence toBackBoardMiddle = robot.driveSubsystem.trajectorySequenceBuilder(toWaitMiddle.end())
-                        .lineToSplineHeading(new Pose2d(40.31, -43.79, Math.toRadians(0.00)))
-                        .lineToConstantHeading(
-                                new Vector2d(47.8, -43.62),
+                        .lineToSplineHeading(
+                                new Pose2d(38.00, -49.00, Math.toRadians(-7.00)),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .forward(5.5,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence toParkMiddle = robot.driveSubsystem.trajectorySequenceBuilder(toBackBoardMiddle.end())
-                        .lineToConstantHeading(new Vector2d(42.4, -43.79))
-                        .lineToConstantHeading(new Vector2d(42.22, -18.37))
-                        .lineToConstantHeading(
-                                new Vector2d(56.85, -18.02),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                        .forward(-5)
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, tapeMiddle),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),
                                 new WaitCommand(350),
-                                new DriveCommand(robot.driveSubsystem, toWaitMiddle),
-                                //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toWaitMiddle)),
+                                new ParallelCommandGroup(
+                                        new DriveCommand(robot.driveSubsystem, toWaitMiddle),
+                                        new RestCommand(robot)
+                                ),
                                 new WaitCommand(1000), //this can be changed to maximize auto time!
                                 new DriveCommand(robot.driveSubsystem, toBackBoardMiddle),
                                 new WaitCommand(350),
-                                new OuttakeCommand(robot),
+                                new HigherOuttakeCommand(robot),
                                 new WaitCommand(1500),
                                 new InstantCommand(() -> robot.claw.autoReleaseLeft()),
                                 new WaitCommand(1000),
                                 new ParallelCommandGroup(
-                                        new TapeDropCommand(robot),
+                                        new DropperSometimes(robot),
                                         new DriveCommand(robot.driveSubsystem, toParkMiddle)
                                         //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(toParkMiddle))
                                 )

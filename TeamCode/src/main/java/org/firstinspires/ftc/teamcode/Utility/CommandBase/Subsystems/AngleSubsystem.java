@@ -22,7 +22,7 @@ public class AngleSubsystem extends SubsystemBase {
         dump.setPosition(0);
     }
     public void outtake() {
-        dump.setPosition(0.6);
+        dump.setPosition(0.56);
     }
     public void rest() {
         dump.setPosition(0.2);

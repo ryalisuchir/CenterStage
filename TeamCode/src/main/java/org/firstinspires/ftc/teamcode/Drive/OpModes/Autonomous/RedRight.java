@@ -32,7 +32,7 @@ import org.opencv.core.Scalar;
 //USE IF ALL ELSE FAILS
 @Autonomous
 @Config
-@Disabled
+
 public class RedRight extends OpMode {
     private VisionPortal visionPortal;
     private RedRightProcessor colorMassDetectionProcessor;
@@ -101,7 +101,7 @@ public class RedRight extends OpMode {
             case UNFOUND:
                 TrajectorySequence backdropLeft = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(17.85, -65.56, Math.toRadians(90.00)))
                         .splineTo(
-                                new Vector2d(52.5, -35.43), Math.toRadians(0.00),
+                                new Vector2d(52, -35.43), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -109,20 +109,15 @@ public class RedRight extends OpMode {
 
                 TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(backdropLeft.end())
                         .lineToSplineHeading(
-                                new Pose2d(13.84, -33.87, Math.toRadians(0.00)),
+                                new Pose2d(13.45, -32.65, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence parkLeft = robot.driveSubsystem.trajectorySequenceBuilder(tapeLeft.end())
-                        .lineToConstantHeading(new Vector2d(19.24, -38.22))
-                        .lineToConstantHeading(new Vector2d(34.56, -62.42))
-                        .lineToSplineHeading(
-                                new Pose2d(60, -64, Math.toRadians(0.00)),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
+                        //.splineTo(new Vector2d(20.46, -34.22), Math.toRadians(3.81))
+                        .splineTo(new Vector2d(57.2, -64.34), Math.toRadians(0.00))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -154,7 +149,7 @@ public class RedRight extends OpMode {
             case RIGHT:
                 TrajectorySequence backdropRight = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(17.85, -65.56, Math.toRadians(90.00)))
                         .splineTo(
-                                new Vector2d(52.4, -45.5), Math.toRadians(0.00),
+                                new Vector2d(51, -47), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -207,7 +202,7 @@ public class RedRight extends OpMode {
             case MIDDLE:
                 TrajectorySequence backdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(17.85, -65.56, Math.toRadians(90.00)))
                         .splineTo(
-                                new Vector2d(52.3, -39.5), Math.toRadians(0.00),
+                                new Vector2d(50, -41.35), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -215,7 +210,7 @@ public class RedRight extends OpMode {
 
                 TrajectorySequence tapeMiddle = robot.driveSubsystem.trajectorySequenceBuilder(backdropMiddle.end())
                         .lineToConstantHeading(
-                                new Vector2d(29.69, -23.94),
+                                new Vector2d(29.69, -22.9),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -225,7 +220,7 @@ public class RedRight extends OpMode {
                         .lineToConstantHeading(new Vector2d(34.91, -24.81))
                         .lineToConstantHeading(new Vector2d(34.56, -62.42))
                         .lineToSplineHeading(
-                                new Pose2d(62.95, -62.25, Math.toRadians(0.00)),
+                                new Pose2d(59, -62.25, Math.toRadians(0.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -236,7 +231,7 @@ public class RedRight extends OpMode {
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, backdropMiddle),
                                         //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropMiddle)),
-                                        new SpecialOuttakeCommand(robot)
+                                        new OuttakeCommand(robot)
                                 ),
                                 new WaitCommand(350),
                                 new InstantCommand(() -> robot.claw.autoReleaseLeft()),
