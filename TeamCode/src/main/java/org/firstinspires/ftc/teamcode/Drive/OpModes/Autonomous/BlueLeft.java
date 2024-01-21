@@ -104,7 +104,7 @@ public class BlueLeft extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
-                //
+
                 TrajectorySequence tapeLeft = robot.driveSubsystem.trajectorySequenceBuilder(backdropLeft.end())
                         .lineToSplineHeading(
                                 new Pose2d(32.5, 38.39, Math.toRadians(0.00)),
