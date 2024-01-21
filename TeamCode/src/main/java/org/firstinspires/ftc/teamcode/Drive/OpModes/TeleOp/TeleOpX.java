@@ -60,11 +60,10 @@ public class TeleOpX extends LinearOpMode {
         linear_2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setDirection(DcMotor.Direction.REVERSE);
         int clawToggle = 0;
-        double dumpy = 0;
+        double dumpy = 0.08;
         double slidesSpeed = 0.8;
         double speed = 0.65;
         boolean droneReady = false;
-        dumpy = 0.05;
         double slidesPosition = 0;
         boolean OVERRIDE = false;
 
@@ -89,10 +88,10 @@ public class TeleOpX extends LinearOpMode {
                 telemetry.update();
 
                 //movement
-                leftFront.setPower(speed * (((gamepad1.left_stick_y + 1.1 * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
-                leftRear.setPower(speed * (((gamepad1.left_stick_y + 1.1 * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
-                rightFront.setPower(speed * ((gamepad1.left_stick_y - 1.1 * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
-                rightRear.setPower(speed * ((gamepad1.left_stick_y - 1.1 * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
+                leftFront.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
+                leftRear.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
+                rightFront.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
+                rightRear.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
 
                 //slides control
 

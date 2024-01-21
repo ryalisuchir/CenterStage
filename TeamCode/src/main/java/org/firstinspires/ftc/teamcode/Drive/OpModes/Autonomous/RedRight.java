@@ -206,7 +206,7 @@ public class RedRight extends OpMode {
             case MIDDLE:
                 TrajectorySequence backdropMiddle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(17.85, -65.56, Math.toRadians(90.00)))
                         .splineTo(
-                                new Vector2d(50, -41.35), Math.toRadians(0.00),
+                                new Vector2d(51, -41.35), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -237,9 +237,9 @@ public class RedRight extends OpMode {
                                         //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(backdropMiddle)),
                                         new OuttakeCommand(robot)
                                 ),
-                                new WaitCommand(350),
+                                new WaitCommand(1000),
                                 new InstantCommand(() -> robot.claw.autoReleaseLeft()),
-                                new WaitCommand(500),
+                                new WaitCommand(1000),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, tapeMiddle),
                                         //new InstantCommand(() -> robot.driveSubsystem.followTrajectorySequenceNotAsync(tapeMiddle)),

@@ -280,7 +280,7 @@ public class BlueRight extends OpMode {
                         .build();
 
                 TrajectorySequence toBackBoardMiddle = robot.driveSubsystem.trajectorySequenceBuilder(toWaitMiddle.end())
-                        .strafeLeft(18.5)
+                        .strafeLeft(19.5)
                         .forward(12.3,
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
