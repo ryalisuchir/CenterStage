@@ -70,7 +70,8 @@ public class BlueRight extends OpMode {
                 upper,
                 () -> minArea,
                 () -> 213, //left third of frame
-                () -> 426 //right third of frame
+                () -> 426, //right third of frame
+                400
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
