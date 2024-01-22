@@ -30,6 +30,7 @@ import java.util.function.DoubleSupplier;
 
 public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
     private final DoubleSupplier minArea, left, right;
+    private final int maxY;
     private final Scalar upper; // lower bounds for masking
     private final Scalar lower; // upper bounds for masking
     private final TextPaint textPaint;
@@ -56,13 +57,14 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
      * @param left    the dividing point for the prop to be on the left
      * @param right   the diving point for the prop to be on the right
      */
-    public BlueRightProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right) {
+    public BlueRightProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right, int maxY) {
         this.contours = new ArrayList<>();
         this.lower = lower;
         this.upper = upper;
         this.minArea = minArea;
         this.left = left;
         this.right = right;
+        this.maxY = maxY;
 
         // setting up the paint for the text in the center of the box
         textPaint = new TextPaint();
@@ -111,27 +113,25 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
 
-        Mat ROI = frame.submat(0,480,0,640);
-
         // this method processes the image (frame) taken by the camera, and tries to find a suitable prop
         // you dont need to call it
 
         // this converts the frame from RGB to HSV, which is supposed to be better for doing colour blob detection
-        Imgproc.cvtColor(ROI, ROI, Imgproc.COLOR_RGB2HSV);
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGB2HSV);
         // thats why you need to give your scalar upper and lower bounds as HSV values
 
         if (upper.val[0] < lower.val[0]) {
             // makes new scalars for the upper [upper, 0] detection, places the result in sel1
-            Core.inRange(ROI, new Scalar(upper.val[0], lower.val[1], lower.val[2]), new Scalar(0, upper.val[1], upper.val[2]), sel1);
+            Core.inRange(frame, new Scalar(upper.val[0], lower.val[1], lower.val[2]), new Scalar(0, upper.val[1], upper.val[2]), sel1);
             // makes new scalars for the lower [0, lower] detection, places the result in sel2
             Core.inRange(frame, new Scalar(0, lower.val[1], lower.val[2]), new Scalar(lower.val[0], upper.val[1], upper.val[2]), sel2);
 
             // combines the selections
-            Core.bitwise_or(sel1, sel2, ROI);
+            Core.bitwise_or(sel1, sel2, frame);
         } else {
             // this process is simpler if we are not trying to wrap through 0
             // this method makes the colour image black and white, with everything between your upper and lower bound values as white, and everything else black
-            Core.inRange(ROI, lower, upper, ROI);
+            Core.inRange(frame, lower, upper, frame);
         }
 
 
@@ -140,7 +140,7 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
 
         // this finds the contours, which are borders between black and white, and tries to simplify them to make nice outlines around potential objects
         // this basically helps us to find all the shapes/outlines of objects that exist within our colour range
-        Imgproc.findContours(ROI, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(frame, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         // this sets up our largest contour area to be 0
         largestContourArea = -1;
@@ -173,23 +173,21 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
             largestContourY = (moment.m01 / moment.m00);
         }
 
-        if (largestContourY < 250) {
-            largestContour = null;
-            largestContourX = largestContourY = -1;
-        }
         // determines the current prop position, using the left and right dividers we gave earlier
         // if we didn't find any contours which were large enough, sets it to be unfound
         PropPositions propPosition;
         if (largestContour == null) {
             propPosition = PropPositions.UNFOUND;
-        } else if (largestContourArea < 1200) {
+        } else if (largestContourArea < 1900) {
             propPosition = PropPositions.LEFT;
-        } else if (largestContourX < left.getAsDouble()) {
+        } else if (largestContourX < left.getAsDouble() && largestContourY < maxY) {
             propPosition = PropPositions.MIDDLE;
-        } else if (largestContourX > right.getAsDouble()) {
+        } else if (largestContourX > right.getAsDouble() && largestContourY < maxY) {
             propPosition = PropPositions.RIGHT;
-        } else {
+        } else if (largestContourY < maxY) {
             propPosition = PropPositions.MIDDLE;
+        } else {
+            propPosition = PropPositions.UNFOUND;
         }
 
         // if we have found a new prop position, and it is not unfound, updates the recorded position,
@@ -205,10 +203,10 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
 //		Imgproc.drawContours(frame, contours, -1, colour);
 
         // returns back the edited image, don't worry about this too much
-        Bitmap b = Bitmap.createBitmap(ROI.width(), ROI.height(), Bitmap.Config.RGB_565);
-        Utils.matToBitmap(ROI, b);
+        Bitmap b = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.RGB_565);
+        Utils.matToBitmap(frame, b);
         lastFrame.set(b);
-        return ROI;
+        return frame;
     }
 
     @Override
@@ -232,6 +230,7 @@ public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
 
             canvas.drawLine(points[0], points[3], points[2], points[3], linePaint);
             canvas.drawLine(points[2], points[1], points[2], points[3], linePaint);
+            canvas.drawLine(0, 0, 0, maxY, linePaint);
 
             String text = String.format(Locale.ENGLISH, "%s", recordedPropPosition.toString());
 

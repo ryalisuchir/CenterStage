@@ -32,7 +32,7 @@ import org.opencv.core.Scalar;
 //USE IF ALL ELSE FAILS
 @Autonomous
 @Config
-
+@Disabled
 public class RedRight extends OpMode {
     private VisionPortal visionPortal;
     private RedRightProcessor colorMassDetectionProcessor;

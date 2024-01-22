@@ -36,6 +36,7 @@ import org.opencv.core.Scalar;
 //HAVE NOT TESTED. EDITING MIDDLE.
 @Autonomous
 @Config
+@Disabled
 
 public class BlueRight extends OpMode {
     private VisionPortal visionPortal;
@@ -60,8 +61,8 @@ public class BlueRight extends OpMode {
 
         robot.claw.grabBoth();
 
-        Scalar lower = new Scalar(110, 50, 50);
-        Scalar upper = new Scalar(130, 255, 255);
+        Scalar lower = new Scalar(107.7, 143.1, 38.3);
+        Scalar upper = new Scalar(119, 229.5, 133.3);
         double minArea = 100;
 
         colorMassDetectionProcessor = new BlueRightProcessor(

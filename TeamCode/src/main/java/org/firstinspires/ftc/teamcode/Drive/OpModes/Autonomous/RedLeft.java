@@ -35,6 +35,7 @@ import org.opencv.core.Scalar;
 //HAVE NOT TESTED. EDITING MIDDLE.
 @Autonomous
 @Config
+@Disabled
 
 public class RedLeft extends OpMode {
     private VisionPortal visionPortal;
