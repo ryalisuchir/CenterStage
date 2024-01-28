@@ -6,12 +6,14 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.AngleSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ArmSubsystem;
@@ -34,6 +36,7 @@ public class RobotHardware {
     public ArmSubsystem armSystem;
     public ClawSubsystem claw;
     public DriveSubsystem driveSubsystem;
+    private DistanceSensor distanceSensor;
     public SlidesSubsystem slidesSubsystem;
     public MecanumDrive drive;
 
@@ -43,6 +46,8 @@ public class RobotHardware {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -84,7 +89,7 @@ public class RobotHardware {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        armSystem = new ArmSubsystem(arm, batteryVoltageSensor);
+        armSystem = new ArmSubsystem(arm, batteryVoltageSensor, distanceSensor);
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angleOfArm = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
@@ -116,4 +121,7 @@ public class RobotHardware {
         telemetry.addData("Arm PIDF Limits: ", armSystem.p + ", " + armSystem.i + ", " + armSystem.d + ", " + armSystem.f);
     }
 
+    public void distanceUpdate(Telemetry telemetry) {
+        telemetry.addData("Distance: ", distanceSensor.getDistance(DistanceUnit.INCH));
+    }
 }

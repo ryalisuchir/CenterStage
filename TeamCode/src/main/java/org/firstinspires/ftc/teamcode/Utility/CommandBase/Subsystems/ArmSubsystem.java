@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.CustomPIDController;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
+
 
 import java.util.function.DoubleSupplier;
 
@@ -29,6 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final double zeroOffset = 23.0;
 
     private final CustomPIDController controller;
+    private DistanceSensor distanceSensor;
     private ElapsedTime time;
     private ElapsedTime voltageTimer;
     private double voltage;
@@ -42,9 +47,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     private double cache = 0;
 
-    public ArmSubsystem(DcMotorEx a, VoltageSensor b) {
+    public ArmSubsystem(DcMotorEx a, VoltageSensor b, DistanceSensor distance) {
         arm = a;
-
+        distanceSensor = distance;
         controller = new CustomPIDController(p, i, d);
         controller.setPID(p, i, d);
         this.batteryVoltageSensor = b;
@@ -59,15 +64,15 @@ public class ArmSubsystem extends SubsystemBase {
         if (Globals.IS_AT_REST) {
             p = 0.01;
             i = 0;
-            d = 0.0001;
-            f = 0.009;
+            d = 0.00005;
+            f = 0.1;
         };
 
         if (Globals.IS_SCORING) {
             p = 0.01;
             i = 0;
-            d = 0.0001;
-            f = 0.009;
+            d = 0.00005;
+            f = 0.1;
         };
 
         if (Globals.IS_INTAKING) {
@@ -76,6 +81,20 @@ public class ArmSubsystem extends SubsystemBase {
             d = 0.0001;
             f = 0.009;
         };
+
+//        if((target == 650 && distanceSensor.getDistance(DistanceUnit.INCH) < 3)) {
+//            p = 0;
+//            i = 0;
+//            d = 0;
+//            f = 0;
+//        }
+
+        if((target == 650 && arm.getCurrentPosition() > 625)) {
+            p = 0;
+            i = 0;
+            d = 0;
+            f = 0;
+        }
 
         controller.setPID(p, i, d);
 
@@ -99,8 +118,8 @@ public class ArmSubsystem extends SubsystemBase {
 
         double power = (pid + ff) / voltage * 12.0;
 
-        if (power > 0.2) {
-            power = 0.2;
+        if (power > 0.3) {
+            power = 0.3;
         }
         if (power < -0.2) {
             power = -0.2;
@@ -113,23 +132,11 @@ public class ArmSubsystem extends SubsystemBase {
     public void setPosition(int position) {
         target = position;
     }
-    public void armIntake() {
-        target = 0;
-    }
     public void armOuttake() {
         target = 650;
     }
     public void armCoast() {
-        target = 30;
-    }
-    public void stackGrab() {
-        target = 45;
-    } //TODO: edit this!
-    public void armTapeDrop() {
-        target = 10;
+        target = 20;
     }
 
-    public double getCachePos() {
-        return cache;
-    }
 }

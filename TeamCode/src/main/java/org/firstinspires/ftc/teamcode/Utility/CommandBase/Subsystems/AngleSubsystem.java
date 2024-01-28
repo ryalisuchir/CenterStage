@@ -19,15 +19,18 @@ public class AngleSubsystem extends SubsystemBase {
         dump.setPosition(angle);
     }
     public void intake() {
-        dump.setPosition(0);
+        dump.setPosition(0.15);
+    }
+    public void stack() {
+        dump.setPosition(0.14);
     }
     public void outtake() {
-        dump.setPosition(0.56);
+        dump.setPosition(0.54);
     }
     public void rest() {
-        dump.setPosition(0.2);
+        dump.setPosition(0.3);
     }
     public void tapeDrop() {
-        dump.setPosition(0.05);
+        dump.setPosition(0.1);
     }
 }

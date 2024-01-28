@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TrajectorySequences;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.PathContinuityViolationException;
+
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -19,6 +20,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.Angle;
 
+
 import org.firstinspires.ftc.teamcode.TrajectorySequences.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.sequencesegment.TrajectorySegment;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.sequencesegment.TurnSegment;
@@ -30,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TrajectorySequenceBuilder {
-    private final double resolution = 0.25;
+    private final double resolution = 0.5; //changed here to make splines faster :)
 
     private final TrajectoryVelocityConstraint baseVelConstraint;
     private final TrajectoryAccelerationConstraint baseAccelConstraint;

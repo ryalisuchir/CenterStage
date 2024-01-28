@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands;
+package org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.StackCommands;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -13,8 +13,8 @@ public class StackCommand extends ParallelCommandGroup {
         super(
                 new InstantCommand(() -> robot.slidesSubsystem.intake()),
                 new InstantCommand(() -> robot.armSystem.setPosition(50)),
-                new InstantCommand(() -> robot.angleOfArm.customAngle(0)),
-                new InstantCommand(() -> robot.claw.releaseLeft())
+                new InstantCommand(() -> robot.angleOfArm.stack()),
+                new InstantCommand(() -> robot.claw.releaseRight())
         );
         Globals.startIntake();
     }

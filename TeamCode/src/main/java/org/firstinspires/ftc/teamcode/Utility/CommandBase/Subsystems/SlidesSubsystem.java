@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import java.util.function.DoubleSupplier;
 
 @Config
 public class SlidesSubsystem extends SubsystemBase {
@@ -58,14 +53,11 @@ public class SlidesSubsystem extends SubsystemBase {
     }
 
     public void outtake() {
-        target = 866;
+        target = 180;
         up = true;
     }
-    public void specialOuttake() {
-        target = 600;
-        up = true;
-    }   public void HIGHouttake() {
-        target = 800;
+    public void highOuttake() {
+        target = 720;
         up = true;
     }
     public void intake() {

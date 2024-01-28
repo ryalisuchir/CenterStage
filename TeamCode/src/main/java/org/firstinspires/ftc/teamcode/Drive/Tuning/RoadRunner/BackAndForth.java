@@ -26,8 +26,8 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
  * is recommended that you use the FollowerPIDTuner opmode for further fine tuning.
  */
 @Config
-@Disabled
 @Autonomous(group = "drive")
+@Disabled
 public class BackAndForth extends LinearOpMode {
 
     public static double DISTANCE = 50;

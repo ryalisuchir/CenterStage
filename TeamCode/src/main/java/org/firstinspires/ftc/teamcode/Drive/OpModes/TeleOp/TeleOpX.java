@@ -27,9 +27,7 @@ public class TeleOpX extends LinearOpMode {
 
     private TouchSensor touch;
     private DistanceSensor distance;
-    /**
-     * This function is executed when this OpMode is selected from the Driver Station.
-     */
+
     @Override
     public void runOpMode() {
 
@@ -74,7 +72,7 @@ public class TeleOpX extends LinearOpMode {
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                slidesPosition = (linear_1.getCurrentPosition() + linear_2.getCurrentPosition())/2;
+                slidesPosition = (linear_1.getCurrentPosition() + linear_2.getCurrentPosition()) / 2;
                 //telemetry
                 telemetry.addData("armPos", arm.getCurrentPosition());
                 telemetry.addData("armPow", arm.getPower());
@@ -95,10 +93,10 @@ public class TeleOpX extends LinearOpMode {
 
                 //slides control
 
-                if(gamepad2.right_stick_y > 0 && slidesPosition <= 15 && !OVERRIDE) {
+                if (gamepad2.right_stick_y > 0 && slidesPosition <= 15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
-                } else if(gamepad2.right_stick_y == 0 && slidesPosition > 450) {
+                } else if (gamepad2.right_stick_y == 0 && slidesPosition > 450) {
                     linear_1.setPower(-0.1);
                     linear_2.setPower(-0.1);
                 } else {
@@ -106,60 +104,51 @@ public class TeleOpX extends LinearOpMode {
                     linear_2.setPower(slidesSpeed * gamepad2.right_stick_y);
                 }
 
-                if(gamepad2.right_bumper)
+                if (gamepad2.right_bumper)
                     slidesSpeed = 1;
-                else if(gamepad2.left_bumper)
+                else if (gamepad2.left_bumper)
                     slidesSpeed = 0.8;
 
                 //claw control
-                if(gamepad1.x)
-                {
-                    claw.setPosition(0.68+gamepad1.right_trigger);
+                if (gamepad1.x) {
+                    claw.setPosition(0.68 + gamepad1.right_trigger);
                     claw1.setPosition(0);
-                } else if(gamepad1.y && gamepad1.right_trigger > 0.68)
-                {
+                } else if (gamepad1.y && gamepad1.right_trigger > 0.68) {
                     claw.setPosition(0);
                     claw1.setPosition(gamepad1.right_trigger);
-                } else if(gamepad1.x && gamepad1.right_trigger > 0.68)
-                {
+                } else if (gamepad1.x && gamepad1.right_trigger > 0.68) {
                     claw.setPosition(gamepad1.right_trigger);
                     claw1.setPosition(0);
-                } else if(gamepad1.y)
-                {
+                } else if (gamepad1.y) {
                     claw.setPosition(0);
-                    claw1.setPosition(0.68+gamepad1.right_trigger);
-                } else if(gamepad1.right_trigger > 0 && clawToggle == 0)
-                {
+                    claw1.setPosition(0.68 + gamepad1.right_trigger);
+                } else if (gamepad1.right_trigger > 0 && clawToggle == 0) {
                     claw.setPosition(1);
                     claw1.setPosition(1);
-                } else if(gamepad1.right_trigger > 0 && gamepad1.right_trigger <= 0.68 && clawToggle == 2)
-                {
+                } else if (gamepad1.right_trigger > 0 && gamepad1.right_trigger <= 0.68 && clawToggle == 2) {
                     claw.setPosition(0.68);
                     claw1.setPosition(0.68);
-                } else if(gamepad1.right_trigger > 0.68 && clawToggle == 2)
-                {
+                } else if (gamepad1.right_trigger > 0.68 && clawToggle == 2) {
                     claw.setPosition(gamepad1.right_trigger);
                     claw1.setPosition(gamepad1.right_trigger);
-                } else
-                {
+                } else {
                     claw.setPosition(0);
                     claw1.setPosition(0);
                 }
 
-
                 // conditionals for arm
-                if((arm.getPower()>0 && distance.getDistance(DistanceUnit.CM) < 3) || (arm.getCurrentPosition() < 20 && arm.getPower()<0)) {
+                if ((arm.getPower() > 0 && distance.getDistance(DistanceUnit.CM) < 3) || (arm.getCurrentPosition() < 20 && arm.getPower() < 0)) {
                     arm.setPower(0);
                 }
-                if(arm.getPower()<0 && arm.getCurrentPosition() < 230) {
+                if (arm.getPower() < 0 && arm.getCurrentPosition() < 230) {
                     arm.setPower(0.0006);
                 }
-                if(arm.getPower()>0 && arm.getCurrentPosition() > 300) {
+                if (arm.getPower() > 0 && arm.getCurrentPosition() > 300) {
                     arm.setPower(0.16);
                 }
 
                 //arm and slides encoder reset
-                if(gamepad1.dpad_right) {
+                if (gamepad1.dpad_right) {
                     arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                     linear_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -168,34 +157,34 @@ public class TeleOpX extends LinearOpMode {
                     linear_2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 }
 
-                /* arm toggling controls
-                   NOTE: clawToggle {0 = ground, 1 = resting pos in middle, 2 = raised claw, 5 = hanging}
-                 */
-                if(gamepad1.dpad_down) {
+        /* arm toggling controls
+           NOTE: clawToggle {0 = ground, 1 = resting pos in middle, 2 = raised claw, 5 = hanging}
+         */
+                if (gamepad1.dpad_down) {
                     arm.setPower(.35);
                     dumpy = 0;
                     clawToggle = 5;
                 }
 
-                if(gamepad1.left_bumper && clawToggle == 0) {
+                if (gamepad1.left_bumper && clawToggle == 0) {
                     dumpy = 0.3;
                     clawToggle = 1;
                     sleep(250);
                 }
-                if(gamepad1.left_bumper && (clawToggle == 1 || clawToggle == 5)) {
+                if (gamepad1.left_bumper && (clawToggle == 1 || clawToggle == 5)) {
                     arm.setPower(.35);
                     dumpy = 0.57;
                     clawToggle = 2;
                     dump.setPosition(dumpy);
                     sleep(250);
                 }
-                if(gamepad1.right_bumper && clawToggle == 1) {
+                if (gamepad1.right_bumper && clawToggle == 1) {
                     dumpy = 0.02;
                     clawToggle = 0;
                     dump.setPosition(dumpy);
                     sleep(250);
                 }
-                if(gamepad1.right_bumper && clawToggle == 2) {
+                if (gamepad1.right_bumper && clawToggle == 2) {
                     arm.setPower(-.41);
                     dumpy = 0.768;
                     clawToggle = 1;
@@ -203,17 +192,16 @@ public class TeleOpX extends LinearOpMode {
                 }
                 dump.setPosition(dumpy);
 
-
                 //drone controls 0.7-0......0.95-0.65
-                if(gamepad2.dpad_down) {
+                if (gamepad2.dpad_down) {
                     droneL.setPosition(0.92);
                     droneReady = false;
-                } else if(gamepad2.dpad_up) {
+                } else if (gamepad2.dpad_up) {
                     droneL.setPosition(0.58);
                     drone.setPosition(0.75);
                     droneReady = true;
                 }
-                if(gamepad2.x && droneReady) {
+                if (gamepad2.x && droneReady) {
                     drone.setPosition(0);
                 }
                 //miscellaneous speed controls
