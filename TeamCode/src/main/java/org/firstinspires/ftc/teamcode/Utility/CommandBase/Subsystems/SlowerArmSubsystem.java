@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
 import java.util.function.DoubleSupplier;
 
 @Config
-public class ArmSubsystem extends SubsystemBase {
+public class SlowerArmSubsystem extends SubsystemBase {
     public final DcMotorEx arm;
 
     private final VoltageSensor batteryVoltageSensor;
@@ -46,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     private double cache = 0;
 
-    public ArmSubsystem(DcMotorEx a, VoltageSensor b) {
+    public SlowerArmSubsystem(DcMotorEx a, VoltageSensor b) {
         arm = a;
         controller = new CustomPIDController(p, i, d);
         controller.setPID(p, i, d);
@@ -59,71 +59,15 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void loop() {
 
-        if (Globals.IS_AT_REST) {
-            p = 0.01;
-            i = 0;
-            d = 0.00005;
-            f = 0.1;
-        };
-
-        if (Globals.IS_SCORING) {
-            p = 0.01;
-            i = 0;
-            d = 0.00005;
-            f = 0.1;
-        };
-
-        if (Globals.IS_INTAKING) {
-            p = 0.01;
-            i = 0;
-            d = 0.0001;
-            f = 0.009;
-        };
-
-//        if((target == 650 && distanceSensor.getDistance(DistanceUnit.INCH) < 3)) {
-//            p = 0;
-//            i = 0;
-//            d = 0;
-//            f = 0;
-//        }
-
-        if((target == 650 && arm.getCurrentPosition() > 625)) {
-            p = 0;
-            i = 0;
-            d = 0;
-            f = 0;
+        if(arm.getCurrentPosition() >= 70) {
+            arm.setPower(0);
+        } else if(arm.getCurrentPosition() >= 40 && arm.getCurrentPosition() < 70) {
+            arm.setPower(0.05);
+        } else if(arm.getCurrentPosition() >= 20 && arm.getCurrentPosition() < 40) {
+            arm.setPower(0.2);
+        } else if(arm.getCurrentPosition() < 20) {
+            arm.setPower(0.34);
         }
-
-        controller.setPID(p, i, d);
-
-        if (target != previous_target) {
-            profile = MotionProfileGenerator.generateSimpleMotionProfile(new MotionState(previous_target, 0), new MotionState(target, 0), max_v, max_a);
-            time.reset();
-            previous_target = target;
-        }
-
-        if (voltageTimer.seconds() > 5) {
-            voltage = batteryVoltageSensor.getVoltage();
-            voltageTimer.reset();
-        }
-
-        int currentArmPosition = arm.getCurrentPosition();
-        cache = currentArmPosition;
-        MotionState targetState = profile == null ? new MotionState(0, 0) : profile.get(time.seconds());
-        double target = targetState.getX();
-        double pid = controller.calculate(currentArmPosition, target);
-        double ff = Math.sin(Math.toRadians(target / ticks_to_degrees + zeroOffset)) * f;
-
-        double power = (pid + ff) / voltage * 12.0;
-
-        if (power > 0.3) {
-            power = 0.3;
-        }
-        if (power < -0.2) {
-            power = -0.2;
-        }
-
-        arm.setPower(power);
 
     }
 

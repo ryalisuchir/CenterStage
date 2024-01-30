@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.CustomPIDController;
 
 @Config
 @TeleOp
-@Disabled
 public class ArmTuning extends OpMode {
     private final double zeroOffset = 23.0;
     private CustomPIDController controller;
@@ -50,6 +49,13 @@ public class ArmTuning extends OpMode {
         double ff = Math.sin(Math.toRadians(armPos / ticks_in_degree + zeroOffset )) * f;
 
         double power = pid + ff;
+
+        if (power > 0.3) {
+            power = 0.3;
+        }
+        if (power < -0.2) {
+            power = -0.2;
+        }
 
         arm.setPower(power);
 

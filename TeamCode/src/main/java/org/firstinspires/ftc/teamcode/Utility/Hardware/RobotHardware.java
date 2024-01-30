@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ArmSubsyste
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.SlidesSubsystem;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.SlowerArmSubsystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,9 @@ public class RobotHardware {
 
     public AngleSubsystem angleOfArm;
     public ArmSubsystem armSystem;
+    public SlowerArmSubsystem slowArmSystem;
     public ClawSubsystem claw;
     public DriveSubsystem driveSubsystem;
-    private DistanceSensor distanceSensor;
     public SlidesSubsystem slidesSubsystem;
     public MecanumDrive drive;
 
@@ -46,8 +47,6 @@ public class RobotHardware {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -89,7 +88,8 @@ public class RobotHardware {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        armSystem = new ArmSubsystem(arm, batteryVoltageSensor, distanceSensor);
+        armSystem = new ArmSubsystem(arm, batteryVoltageSensor);
+        slowArmSystem = new SlowerArmSubsystem(arm, batteryVoltageSensor);
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angleOfArm = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
@@ -121,7 +121,4 @@ public class RobotHardware {
         telemetry.addData("Arm PIDF Limits: ", armSystem.p + ", " + armSystem.i + ", " + armSystem.d + ", " + armSystem.f);
     }
 
-    public void distanceUpdate(Telemetry telemetry) {
-        telemetry.addData("Distance: ", distanceSensor.getDistance(DistanceUnit.INCH));
-    }
 }
