@@ -308,8 +308,6 @@ public class VergeBlueRight extends OpMode {
         telemetry.addData("Time Elapsed: ", time_since_start);
         telemetry.addData("Current Loop Time: ", time - loop);
 
-        robot.currentUpdate(telemetry);
-        robot.pidArmUpdateTelemetry(telemetry);
         loop = time;
 
         telemetry.update();
