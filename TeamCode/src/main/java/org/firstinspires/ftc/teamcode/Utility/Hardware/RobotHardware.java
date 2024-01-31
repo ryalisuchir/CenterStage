@@ -31,7 +31,6 @@ public class RobotHardware {
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     public Servo angleOfClaw, leftClaw, rightClaw;
     public VoltageSensor batteryVoltageSensor;
-    private final List<LynxModule> hubs;
 
     public AngleSubsystem angleOfArm;
     public ArmSubsystem armSystem;
@@ -42,7 +41,7 @@ public class RobotHardware {
     public MecanumDrive drive;
 
     public RobotHardware(HardwareMap hardwareMap) {
-
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
@@ -84,7 +83,7 @@ public class RobotHardware {
 
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
-        for (LynxModule hub : hubs = hardwareMap.getAll(LynxModule.class)) {
+        for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
@@ -96,29 +95,6 @@ public class RobotHardware {
         slidesSubsystem = new SlidesSubsystem(linear_1, linear_2, batteryVoltageSensor);
         CommandScheduler.getInstance().registerSubsystem(armSystem, claw, angleOfArm, driveSubsystem, slidesSubsystem);
 
-    }
-
-    public void currentUpdate(Telemetry telemetry) {
-        List<Double> current_list = new ArrayList<>();
-        current_list.add(leftFront.getCurrent(CurrentUnit.AMPS));
-        current_list.add(rightFront.getCurrent(CurrentUnit.AMPS));
-        current_list.add(leftRear.getCurrent(CurrentUnit.AMPS));
-        current_list.add(rightRear.getCurrent(CurrentUnit.AMPS));
-        current_list.add(arm.getCurrent(CurrentUnit.AMPS));
-        current_list.add(linear_1.getCurrent(CurrentUnit.AMPS));
-        current_list.add(linear_2.getCurrent(CurrentUnit.AMPS));
-
-        double current = 0;
-
-        for (LynxModule hub : hubs) {
-            current += hub.getCurrent(CurrentUnit.AMPS);
-        }
-
-        telemetry.addData("Total Current Usage: ", current);
-    }
-
-    public void pidArmUpdateTelemetry(Telemetry telemetry) {
-        telemetry.addData("Arm PIDF Limits: ", armSystem.p + ", " + armSystem.i + ", " + armSystem.d + ", " + armSystem.f);
     }
 
 }

@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.BlueLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
+@Photon
 @Autonomous
 public class BlueLeft extends OpMode {
     private VisionPortal visionPortal;
@@ -286,9 +288,6 @@ public class BlueLeft extends OpMode {
         double time = System.currentTimeMillis();
         telemetry.addData("Time Elapsed: ", time_since_start);
         telemetry.addData("Current Loop Time: ", time - loop);
-
-        robot.currentUpdate(telemetry);
-        robot.pidArmUpdateTelemetry(telemetry);
 
         loop = time;
         telemetry.update();
