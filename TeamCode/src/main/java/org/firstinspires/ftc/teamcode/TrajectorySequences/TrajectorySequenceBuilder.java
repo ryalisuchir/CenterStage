@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TrajectorySequenceBuilder {
-    private final double resolution = 0.5; //changed here to make splines faster :)
+    private final double resolution = 0.5; //change here
 
     private final TrajectoryVelocityConstraint baseVelConstraint;
     private final TrajectoryAccelerationConstraint baseAccelConstraint;
