@@ -25,7 +25,6 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.BlueLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-@Photon
 @Autonomous
 public class BlueLeft extends OpMode {
     private VisionPortal visionPortal;

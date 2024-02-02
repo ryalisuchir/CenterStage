@@ -54,6 +54,8 @@ public class RobotHardware {
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftRear.setDirection(DcMotor.Direction.REVERSE);
+//        rightFront.setDirection(DcMotor.Direction.REVERSE);
+//        rightRear.setDirection(DcMotor.Direction.REVERSE);
 
         linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
         linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");

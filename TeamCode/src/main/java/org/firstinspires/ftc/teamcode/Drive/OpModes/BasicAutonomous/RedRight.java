@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.RedRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-@Photon
+
 @Autonomous
 public class RedRight extends OpMode {
     private VisionPortal visionPortal;

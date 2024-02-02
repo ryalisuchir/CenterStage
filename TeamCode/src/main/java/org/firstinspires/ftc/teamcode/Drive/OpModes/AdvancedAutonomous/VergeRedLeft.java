@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.RedLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-@Photon
+
 @Autonomous
 public class VergeRedLeft extends OpMode {
     private VisionPortal visionPortal;
@@ -142,6 +142,7 @@ public class VergeRedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(5000),
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
                                 new LowOuttakeCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, movement2Left),
@@ -211,6 +212,7 @@ public class VergeRedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(5000),
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
                                 new LowOuttakeCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, movement2Right),
@@ -279,6 +281,7 @@ public class VergeRedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(5000),
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
                                 new LowOuttakeCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, movement2Middle),
