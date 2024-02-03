@@ -16,7 +16,7 @@ public class LowOuttakeCommand extends SequentialCommandGroup {
                         new InstantCommand(() -> robot.armSystem.armOuttake())
                 ),
                 new WaitCommand(1000),
-                new InstantCommand(() -> robot.slidesSubsystem.lowOuttake())
+                new InstantCommand(() -> robot.slidesSubsystem.mediumOuttake())
         );
         Globals.startOuttake();
     }

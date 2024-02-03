@@ -229,7 +229,7 @@ public class RedRight extends OpMode {
 
                 TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                         .splineToSplineHeading(
-                                new Pose2d(54.2, -33.40, Math.toRadians(360.00)), Math.toRadians(360.00),
+                                new Pose2d(54.2, -32.40, Math.toRadians(360.00)), Math.toRadians(360.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -237,7 +237,7 @@ public class RedRight extends OpMode {
 
                 TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                         .lineToConstantHeading(
-                                new Vector2d(38.41, -33.40),
+                                new Vector2d(38.41, -32.40),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

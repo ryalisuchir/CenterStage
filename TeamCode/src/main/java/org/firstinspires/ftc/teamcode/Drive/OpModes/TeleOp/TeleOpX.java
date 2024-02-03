@@ -61,8 +61,10 @@ public class TeleOpX extends LinearOpMode {
         double clawToggle = 0;
         boolean currentleftBP;
         boolean prevleftBP;
-        double dumpy = 0.15;
-        double slidesSpeed = 0.8;
+        boolean currentRightBP;
+        boolean prevRightBP;
+        double dumpy = 0.125;
+        double slidesSpeed = 1;
         double speed = 0.65;
         boolean droneReady = false;
         double slidesPosition;
@@ -75,11 +77,14 @@ public class TeleOpX extends LinearOpMode {
         if (opModeIsActive()) {
 
             currentleftBP = gamepad1.left_bumper;
+            currentRightBP = gamepad1.right_bumper;
 
             while (opModeIsActive()) {
                 slidesPosition = (linear_1.getCurrentPosition() + linear_2.getCurrentPosition())/2;
                 prevleftBP = currentleftBP;
+                prevRightBP = currentRightBP;
                 currentleftBP = gamepad1.left_bumper;
+                currentRightBP = gamepad1.right_bumper;
 
                 //telemetry
                 telemetry.addData("armPos", arm.getCurrentPosition());
@@ -90,7 +95,7 @@ public class TeleOpX extends LinearOpMode {
                 telemetry.addData("dumpPos", dump.getPosition());
                 telemetry.addData("clawToggle", clawToggle);
                 telemetry.addData("slidesPos", slidesPosition);
-                telemetry.addData("slidesPow", (gamepad1.right_trigger-gamepad1.left_trigger-gamepad2.right_stick_y));
+                telemetry.addData("slidesPow", (gamepad2.right_trigger));
                 telemetry.update();
 
                 //movement
@@ -101,15 +106,15 @@ public class TeleOpX extends LinearOpMode {
 
                 //slides control
 
-                if((gamepad1.right_trigger-gamepad1.left_trigger-gamepad2.right_stick_y) < 0 && slidesPosition >= -9 && !OVERRIDE) {
+                if((-gamepad2.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
-                } else if((gamepad1.right_trigger-gamepad1.left_trigger-gamepad2.right_stick_y) == 0 && slidesPosition < -450) {
-                    linear_1.setPower(0.1);
-                    linear_2.setPower(0.1);
+                } else if((-gamepad2.right_stick_y) == 0 && slidesPosition < -230) {
+                    linear_1.setPower(0.06);
+                    linear_2.setPower(0.06);
                 } else {
-                    linear_1.setPower(slidesSpeed * (gamepad1.right_trigger-gamepad1.left_trigger-gamepad2.right_stick_y));
-                    linear_2.setPower(slidesSpeed * (gamepad1.right_trigger-gamepad1.left_trigger-gamepad2.right_stick_y));
+                    linear_1.setPower(slidesSpeed * (-gamepad2.right_stick_y));
+                    linear_2.setPower(slidesSpeed * (-gamepad2.right_stick_y));
                 }
 
                 if(gamepad2.right_bumper)
@@ -122,18 +127,22 @@ public class TeleOpX extends LinearOpMode {
                 {
                     claw.setPosition(0.7);
                     claw1.setPosition(0);
-                } else if(gamepad1.b)
+                } else if(gamepad1.y)
                 {
                     claw.setPosition(0);
                     claw1.setPosition(0.7);
-                } else if(gamepad1.right_bumper && clawToggle == 0)
+                } else if(gamepad1.right_trigger > 0 && clawToggle == 0)
                 {
-                    claw.setPosition(1);
-                    claw1.setPosition(1);
-                } else if(gamepad1.right_bumper && clawToggle == 2)
-                {
+                    claw.setPosition(0.9);
+                    claw1.setPosition(0.9);
+                } else if(gamepad1.right_trigger > 0 && clawToggle == 2) {
+                    if(gamepad1.right_trigger>=0.4) {
+                    claw.setPosition(gamepad1.right_trigger);
+                    claw1.setPosition(gamepad1.right_trigger);
+                } else {
                     claw.setPosition(0.7);
                     claw1.setPosition(0.7);
+                }
                 } else
                 {
                     claw.setPosition(0);
@@ -148,8 +157,8 @@ public class TeleOpX extends LinearOpMode {
                 if(arm.getPower()<0 && arm.getCurrentPosition() < 230) {
                     arm.setPower(0.0006);
                 }
-                if(arm.getPower()>0 && arm.getCurrentPosition() > 300) {
-                    arm.setPower(0.16);
+                if(arm.getPower()>0 && arm.getCurrentPosition() > 350) {
+                    arm.setPower(0.14);
                 }
 
                 //arm and slides encoder reset
@@ -171,7 +180,7 @@ public class TeleOpX extends LinearOpMode {
                     clawToggle = 5;
                 }
                 if(gamepad1.dpad_up && clawToggle == 1.1) {
-                    dumpy = 0.15;
+                    dumpy = 0.125;
                     clawToggle = 0;
 
                 }
@@ -184,21 +193,24 @@ public class TeleOpX extends LinearOpMode {
                 if((currentleftBP && !prevleftBP) && clawToggle == 0) {
                     dumpy = 0.3;
                     clawToggle = 1.1;
-                }else if((currentleftBP && !prevleftBP) && (clawToggle == 1.1 || clawToggle == 5)) {
-                    arm.setPower(.43);
+                }else if((currentleftBP && !prevleftBP) && (clawToggle == 1.2 || clawToggle == 1.1 || clawToggle == 5)) {
+                    arm.setPower(.5);
                     dumpy = 0.57;
                     clawToggle = 2;
 
-                }else if((currentleftBP && !prevleftBP) && clawToggle == 1.2) {
-                    dumpy = 0.15;
+                }else if((currentRightBP && !prevRightBP) && (clawToggle == 1.2 || clawToggle == 1.1)) {
+                    dumpy = 0.125;
                     clawToggle = 0;
 
-                }else if((currentleftBP && !prevleftBP) && clawToggle == 2) {
+                }else if((currentRightBP && !prevRightBP) && clawToggle == 2) {
                     arm.setPower(-.43);
                     dumpy = 0.3;
                     clawToggle = 1.2;
                 }
-                dump.setPosition(dumpy);
+                if(gamepad1.left_trigger > 0) {
+                    dump.setPosition(dumpy - (0.1)*gamepad1.left_trigger);
+                } else dump.setPosition(dumpy);
+
 
 
                 //drone controls 0.7-0......0.95-0.65
