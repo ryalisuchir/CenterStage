@@ -154,14 +154,14 @@ public class RedLeft extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new WaitCommand(5000),
+                                new WaitCommand(9000),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
                                         new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
                                 new InstantCommand(() -> robot.claw.releaseRight()),
-                                new WaitCommand(750),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Left),
                                 new RestCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, movement4Left)
@@ -231,14 +231,14 @@ public class RedLeft extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
-                                new WaitCommand(5000),
+                                new WaitCommand(9000),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Right),
                                         new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
                                 new InstantCommand(() -> robot.claw.releaseRight()),
-                                new WaitCommand(750),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Right),
                                 new RestCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, movement4Right)
@@ -312,14 +312,14 @@ public class RedLeft extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                new WaitCommand(5000),
+                                new WaitCommand(9000),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Middle),
                                         new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
                                 new InstantCommand(() -> robot.claw.releaseRight()),
-                                new WaitCommand(750),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
