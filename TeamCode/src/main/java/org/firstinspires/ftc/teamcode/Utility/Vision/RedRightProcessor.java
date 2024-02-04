@@ -130,7 +130,9 @@ public class RedRightProcessor implements VisionProcessor, CameraStreamSource {
         PropPositions propPosition;
         if (largestContour == null) {
             propPosition = PropPositions.UNFOUND;
-        } else if (largestContourArea < 750) {
+        } else if (getLargestContourArea() == -1) {
+            propPosition = PropPositions.LEFT;
+        } else if (largestContourArea < 300) {
             propPosition = PropPositions.LEFT;
         } else if (largestContourX < left.getAsDouble() && largestContourY < maxY) {
             propPosition = PropPositions.MIDDLE;

@@ -50,8 +50,10 @@ public class RedLeft extends OpMode {
 
         robot.claw.grabBoth();
 
-        Scalar lower = new Scalar(0, 110, 65);
-        Scalar upper = new Scalar(8, 200, 150);
+//        Scalar lower = new Scalar(0, 110, 65);
+//        Scalar upper = new Scalar(8, 200, 150);
+        Scalar lower = new Scalar(165, 150, 13);
+        Scalar upper = new Scalar(180, 255.0, 60);
         double minArea = 100;
 
         colorMassDetectionProcessor = new RedLeftProcessor(
@@ -60,7 +62,7 @@ public class RedLeft extends OpMode {
                 () -> minArea,
                 () -> 213, //left third of frame
                 () -> 426, //right third of frame
-                400
+                400 //400
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
@@ -153,8 +155,9 @@ public class RedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
                                         new HighOuttakeCommand(robot)
@@ -230,8 +233,9 @@ public class RedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Right),
                                         new HighOuttakeCommand(robot)
@@ -311,8 +315,9 @@ public class RedLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Middle),
                                         new HighOuttakeCommand(robot)

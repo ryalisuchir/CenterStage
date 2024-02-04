@@ -149,8 +149,9 @@ public class BlueRight extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
                                         new HighOuttakeCommand(robot)
@@ -196,12 +197,12 @@ public class BlueRight extends OpMode {
 
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                         .lineToConstantHeading(
-                                new Vector2d(37.54, 27.5),
+                                new Vector2d(37.54, 26.8),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(48.61, 27.5),
+                                new Vector2d(48.61, 26.8),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -230,8 +231,9 @@ public class BlueRight extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Right),
                                         new HighOuttakeCommand(robot)
@@ -311,8 +313,9 @@ public class BlueRight extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                new WaitCommand(9000),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Middle),
                                         new HighOuttakeCommand(robot)

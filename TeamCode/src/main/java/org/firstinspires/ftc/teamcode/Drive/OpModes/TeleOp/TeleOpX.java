@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.TeleOp;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -65,7 +67,7 @@ public class TeleOpX extends LinearOpMode {
         boolean prevRightBP;
         double dumpy = 0.125;
         double slidesSpeed = 1;
-        double speed = 0.65;
+        double speed = 0.67;
         boolean droneReady = false;
         double slidesPosition;
         boolean OVERRIDE = false;
@@ -78,6 +80,8 @@ public class TeleOpX extends LinearOpMode {
 
             currentleftBP = gamepad1.left_bumper;
             currentRightBP = gamepad1.right_bumper;
+
+
 
             while (opModeIsActive()) {
                 slidesPosition = (linear_1.getCurrentPosition() + linear_2.getCurrentPosition())/2;
@@ -99,11 +103,16 @@ public class TeleOpX extends LinearOpMode {
                 telemetry.update();
 
                 //movement
-                leftFront.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
-                leftRear.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
-                rightFront.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
-                rightRear.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
 
+                    leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+                    leftFront.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
+                    leftRear.setPower(speed * (((gamepad1.left_stick_y + 1 * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x) / 1));
+                    rightFront.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x) / 1));
+                    rightRear.setPower(speed * ((gamepad1.left_stick_y - 1 * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x) / 1));
                 //slides control
 
                 if((-gamepad2.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
@@ -175,7 +184,7 @@ public class TeleOpX extends LinearOpMode {
                    NOTE: clawToggle {0 = ground, 1.1/1.2 = resting pos in middle, 2 = raised claw, 5 = hanging}
                  */
                 if(gamepad1.dpad_down) {
-                    arm.setPower(.37);
+                    arm.setPower(.5);
                     dumpy = 0;
                     clawToggle = 5;
                 }

@@ -50,8 +50,10 @@ public class RedRight extends OpMode {
 
         robot.claw.grabBoth();
 
-        Scalar lower = new Scalar(0, 110, 65);
-        Scalar upper = new Scalar(8, 200, 150);
+//        Scalar lower = new Scalar(0, 110, 65);
+//        Scalar upper = new Scalar(8, 200, 150);
+        Scalar lower = new Scalar(0, 150, 13);
+        Scalar upper = new Scalar(8, 255.0, 60);
         double minArea = 100;
 
         colorMassDetectionProcessor = new RedRightProcessor(
