@@ -9,9 +9,9 @@ public class RestCommand extends SequentialCommandGroup {
     public RestCommand(RobotHardware robot) {
         super(
                 new InstantCommand(() -> robot.slidesSubsystem.intake()),
-                new InstantCommand(() -> robot.claw.grabBoth()),
                 new InstantCommand(() -> robot.armSystem.armCoast()),
-                new InstantCommand(() -> robot.angleOfArm.rest())
+                new InstantCommand(() -> robot.angleOfArm.rest()),
+                new InstantCommand(() -> robot.claw.grabBoth())
         );
         Globals.goToRest();
     }

@@ -3,28 +3,18 @@ package org.firstinspires.ftc.teamcode.Utility.Hardware;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.AngleSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.SlidesSubsystem;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.SlowerArmSubsystem;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @Config
 public class RobotHardware {
@@ -34,14 +24,19 @@ public class RobotHardware {
 
     public AngleSubsystem angleOfArm;
     public ArmSubsystem armSystem;
-    public SlowerArmSubsystem slowArmSystem;
     public ClawSubsystem claw;
     public DriveSubsystem driveSubsystem;
     public SlidesSubsystem slidesSubsystem;
     public MecanumDrive drive;
 
+    public enum PropPosition{
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     public RobotHardware(HardwareMap hardwareMap) {
-        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+//        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
@@ -85,12 +80,11 @@ public class RobotHardware {
 
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
-        for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
+//        for (LynxModule hub : allHubs) {
+//            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+//        }
 
         armSystem = new ArmSubsystem(arm, batteryVoltageSensor);
-        slowArmSystem = new SlowerArmSubsystem(arm, batteryVoltageSensor);
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angleOfArm = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);

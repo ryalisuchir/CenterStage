@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SlowerCommands;
+package org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -8,15 +8,15 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
-public class SlowOuttakeCommand extends SequentialCommandGroup {
-    public SlowOuttakeCommand(RobotHardware robot) {
+public class SuperHighOuttakeCommand extends SequentialCommandGroup {
+    public SuperHighOuttakeCommand(RobotHardware robot) {
         super(
                 new ParallelCommandGroup(
                         new InstantCommand(() -> robot.angleOfArm.outtake()),
-                        new InstantCommand(() -> robot.slowArmSystem.armOuttake())
+                        new InstantCommand(() -> robot.armSystem.armOuttake())
                 ),
                 new WaitCommand(1000),
-                new InstantCommand(() -> robot.slidesSubsystem.outtake())
+                new InstantCommand(() -> robot.slidesSubsystem.superHighOuttakeCommand())
         );
         Globals.startOuttake();
     }
