@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utility.Vision;
+package org.firstinspires.ftc.teamcode.Utility.Vision.Prop;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
 
-public class RedRightProcessor implements VisionProcessor, CameraStreamSource {
+public class BlueRightProcessor implements VisionProcessor, CameraStreamSource {
     private final DoubleSupplier minArea, left, right;
     private final int maxY;
     private final Scalar upper;
@@ -47,7 +47,7 @@ public class RedRightProcessor implements VisionProcessor, CameraStreamSource {
     private PropPositions previousPropPosition;
     private PropPositions recordedPropPosition = PropPositions.UNFOUND;
 
-    public RedRightProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right, int maxY) {
+    public BlueRightProcessor(@NonNull Scalar lower, @NonNull Scalar upper, DoubleSupplier minArea, DoubleSupplier left, DoubleSupplier right, int maxY) {
         this.contours = new ArrayList < > ();
         this.lower = lower;
         this.upper = upper;
@@ -132,7 +132,8 @@ public class RedRightProcessor implements VisionProcessor, CameraStreamSource {
             propPosition = PropPositions.UNFOUND;
         } else if (getLargestContourArea() == -1) {
             propPosition = PropPositions.LEFT;
-        } else if (largestContourArea < 300) {
+        }
+        else if (largestContourArea < 600) {
             propPosition = PropPositions.LEFT;
         } else if (largestContourX < left.getAsDouble() && largestContourY < maxY) {
             propPosition = PropPositions.MIDDLE;

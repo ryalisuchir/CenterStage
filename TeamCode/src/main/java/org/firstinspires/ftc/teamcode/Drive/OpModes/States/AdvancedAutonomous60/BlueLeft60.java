@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Drive.OpModes.ALittleYapSession;
+package org.firstinspires.ftc.teamcode.Drive.OpModes.States.AdvancedAutonomous60;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -25,16 +24,17 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.StackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SuperHighOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.BlueLeftProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.ANewBlueProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.BlueLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
 import java.util.List;
 
 @Autonomous
-public class YapsterBlueLeft extends OpMode {
+public class BlueLeft60 extends OpMode {
     private VisionPortal visionPortal;
-    private BlueLeftProcessor colorMassDetectionProcessor;
+    private ANewBlueProcessor colorMassDetectionProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -63,13 +63,12 @@ public class YapsterBlueLeft extends OpMode {
         Scalar upper = new Scalar(119, 229.5, 133.3);
         double minArea = 100;
 
-        colorMassDetectionProcessor = new BlueLeftProcessor(
+        colorMassDetectionProcessor = new ANewBlueProcessor(
                 lower,
                 upper,
                 () -> minArea,
-                () -> 213, //left third of frame
-                () -> 426, //right third of frame
-                400
+                () -> 213,
+                () -> 426
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
@@ -94,7 +93,7 @@ public class YapsterBlueLeft extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        BlueLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
+        ANewBlueProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)));
         switch (recordedPropPosition) {
             case LEFT:
@@ -111,7 +110,7 @@ public class YapsterBlueLeft extends OpMode {
                         .splineToSplineHeading(
                                 new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00)
                         )
-                        .build();
+                        .build(); //raise slides with this motion
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                         .setReversed(true)
@@ -124,43 +123,35 @@ public class YapsterBlueLeft extends OpMode {
                         .splineToConstantHeading(
                                 new Vector2d(-62, 38), Math.toRadians(180)
                         )
-                        .build();
+                        .build(); //get ready to pick up a pixel with this motion
 
                 TrajectorySequence movement4Left = robot.driveSubsystem.trajectorySequenceBuilder(movement3Left.end())
+                        .setReversed(false)
                         .splineToConstantHeading(
-                                new Vector2d(-30.01, 62.33), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                new Vector2d(-30, 60), Math.toRadians(0)
                         )
                         .splineToConstantHeading(
-                                new Vector2d(37.93, 60.94), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                new Vector2d(31, 60), Math.toRadians(0)
                         )
                         .splineToConstantHeading(
-                                new Vector2d(38.33, 37.14), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                new Vector2d(39, 37), Math.toRadians(0)
                         )
-                        .build();
+                        .build(); //get back to board with this motion
 
                 TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
-                        .lineToConstantHeading(
-                                new Vector2d(50, 36.74),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        .splineToConstantHeading(
+                                new Vector2d(50, 37), Math.toRadians(0.00)
                         )
-                        .build();
+                        .build(); //lift slides with this motion
 
                 TrajectorySequence movement6Left = robot.driveSubsystem.trajectorySequenceBuilder(movement5Left.end())
-                        .lineToConstantHeading(new Vector2d(41.69, 37.14))
-                        .build();
+                        .setReversed(true)
+                        .splineToConstantHeading(new Vector2d(37, 37), Math.toRadians(0.00))
+                        .build(); //get to rest position with this motion
 
                 TrajectorySequence movement7Left = robot.driveSubsystem.trajectorySequenceBuilder(movement6Left.end())
                         .splineToConstantHeading(
-                                new Vector2d(56.15, 61.30), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                                new Vector2d(56.15, 61.30), Math.toRadians(0.00)
                         )
                         .build();
 
@@ -171,9 +162,9 @@ public class YapsterBlueLeft extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
                                         new OuttakeCommand(robot)
                                 ),
-                                new WaitCommand(750),
+                                new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(750),
+                                new WaitCommand(500),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Left),
                                         new StackCommand(robot)
@@ -182,17 +173,18 @@ public class YapsterBlueLeft extends OpMode {
                                 new InstantCommand(() -> robot.claw.grabBoth()),
                                 new WaitCommand(750),
                                 new DriveCommand(robot.driveSubsystem, movement4Left),
-                                new SuperHighOuttakeCommand(robot),
-                                new DriveCommand(robot.driveSubsystem, movement5Left),
+                                new ParallelCommandGroup(
+                                        new SuperHighOuttakeCommand(robot),
+                                        new DriveCommand(robot.driveSubsystem, movement5Left)
+                                ),
                                 new WaitCommand(750),
                                 new TwoPixelDropCommand(robot),
-                                new WaitCommand(750),
-                                new DriveCommand(robot.driveSubsystem, movement6Left),
+                                new WaitCommand(350),
                                 new ParallelCommandGroup(
-                                        new DriveCommand(robot.driveSubsystem, movement7Left),
+                                        new DriveCommand(robot.driveSubsystem, movement6Left),
                                         new RestCommand(robot)
-                                )
-
+                                ),
+                                new DriveCommand(robot.driveSubsystem, movement7Left)
                         )
                 );
 

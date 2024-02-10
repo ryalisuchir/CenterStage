@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Drive.OpModes.BasicAutonomous;
+package org.firstinspires.ftc.teamcode.Drive.OpModes.States.BasicAutonomous50;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,17 +17,18 @@ import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.HighOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.BlueLeftProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.RedLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
+
 @Autonomous
-public class BlueLeft extends OpMode {
+public class RedLeftNormal extends OpMode {
     private VisionPortal visionPortal;
-    private BlueLeftProcessor colorMassDetectionProcessor;
+    private RedLeftProcessor colorMassDetectionProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -49,17 +49,19 @@ public class BlueLeft extends OpMode {
 
         robot.claw.grabBoth();
 
-        Scalar lower = new Scalar(107.7, 143.1, 38.3);
-        Scalar upper = new Scalar(119, 229.5, 133.3);
+//        Scalar lower = new Scalar(0, 110, 65);
+//        Scalar upper = new Scalar(8, 200, 150);
+        Scalar lower = new Scalar(165, 150, 13);
+        Scalar upper = new Scalar(180, 255.0, 60);
         double minArea = 100;
 
-        colorMassDetectionProcessor = new BlueLeftProcessor(
+        colorMassDetectionProcessor = new RedLeftProcessor(
                 lower,
                 upper,
                 () -> minArea,
                 () -> 213, //left third of frame
                 () -> 426, //right third of frame
-                400
+                400 //400
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
@@ -84,34 +86,54 @@ public class BlueLeft extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        BlueLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
-        robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)));
+        RedLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
+        robot.driveSubsystem.setPoseEstimate(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)));
         switch (recordedPropPosition) {
             case LEFT:
-                TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))
+                TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)))
                         .splineToConstantHeading(
-                                new Vector2d(27.8, 43.31), Math.toRadians(270.00),
+                                new Vector2d(-51, -41.70), Math.toRadians(90.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(27.52, 56.52),
+                                new Vector2d(-52.39, -50.41),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(-35.54, -50.41),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(-35.54, -10.5),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(39.03, -10.5, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
-                        .splineToSplineHeading(
-                                new Pose2d(52.3, 41, Math.toRadians(0.00)), Math.toRadians(0.00),
+                        .lineToConstantHeading(
+                                new Vector2d(37.54, -24.9),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(51.79, -24.9),
+                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                         .lineToConstantHeading(
-                                new Vector2d(38.41, 42),
+                                new Vector2d(36.91, -24.9),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -119,12 +141,12 @@ public class BlueLeft extends OpMode {
 
                 TrajectorySequence movement4Left = robot.driveSubsystem.trajectorySequenceBuilder(movement3Left.end())
                         .lineToConstantHeading(
-                                new Vector2d(39.06, 60),
+                                new Vector2d(36.52, -8),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(58, 60),
+                                new Vector2d(56.35, -8),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -132,49 +154,64 @@ public class BlueLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
-                                        new OuttakeCommand(robot)
+                                        new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
-                                new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(750),
+                                new InstantCommand(() -> robot.claw.releaseRight()),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Left),
-                                new ParallelCommandGroup(
-                                        new DriveCommand(robot.driveSubsystem, movement4Left),
-                                        new RestCommand(robot)
-                                )
+                                new RestCommand(robot),
+                                new DriveCommand(robot.driveSubsystem, movement4Left)
 
                         )
                 );
                 break;
             case RIGHT:
             case UNFOUND:
-                TrajectorySequence movement1Right = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))
+                TrajectorySequence movement1Right = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)))
                         .splineTo(
-                                new Vector2d(9.8, 35.78), Math.toRadians(220.00),
+                                new Vector2d(-34.99, -37.93), Math.toRadians(45.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(19.31, 46.84, Math.toRadians(270.00)),
+                                new Pose2d(-46.84, -43.28, Math.toRadians(90.00)),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(-46.55, -11),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(36.98, -11, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
-                        .splineToSplineHeading(
-                                new Pose2d(51.8, 28.4, Math.toRadians(0.00)), Math.toRadians(0.00),
+                        .lineToConstantHeading(
+                                new Vector2d(37.72, -36.20),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .forward(
+                                14,
+                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
                         .lineToConstantHeading(
-                                new Vector2d(38.41, 28.4),
+                                new Vector2d(37.54, -35.0),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -182,12 +219,12 @@ public class BlueLeft extends OpMode {
 
                 TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
                         .lineToConstantHeading(
-                                new Vector2d(39.06, 60),
+                                new Vector2d(36.52, -7),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(58, 60),
+                                new Vector2d(56.35, -7),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -195,40 +232,60 @@ public class BlueLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Right),
-                                        new OuttakeCommand(robot)
+                                        new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
-                                new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(750),
+                                new InstantCommand(() -> robot.claw.releaseRight()),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Right),
-                                new ParallelCommandGroup(
-                                        new DriveCommand(robot.driveSubsystem, movement4Right),
-                                        new RestCommand(robot)
-                                )
+                                new RestCommand(robot),
+                                new DriveCommand(robot.driveSubsystem, movement4Right)
 
                         )
                 );
                 break;
             case MIDDLE:
-                TrajectorySequence movement1Middle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))
+                TrajectorySequence movement1Middle = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)))
                         .splineToConstantHeading(
-                                new Vector2d(20.25, 33.88), Math.toRadians(270.00),
+                                new Vector2d(-44.50, -34.10), Math.toRadians(90.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(20.25, 50.07),
+                                new Vector2d(-43.50, -45.46),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(-52.39, -45.66),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(-53.78, -12.38),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToSplineHeading(
+                                new Pose2d(36.98, -11.46, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
-                        .splineToSplineHeading(
-                                new Pose2d(52.6, 33.4, Math.toRadians(0.00)), Math.toRadians(0.00),
+                        .lineToConstantHeading(
+                                new Vector2d(37.16, -30.75),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .lineToConstantHeading(
+                                new Vector2d(51.5, -30.75),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -236,7 +293,7 @@ public class BlueLeft extends OpMode {
 
                 TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                         .lineToConstantHeading(
-                                new Vector2d(38.41, 33.4),
+                                new Vector2d(37.54, -30.75),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -244,12 +301,12 @@ public class BlueLeft extends OpMode {
 
                 TrajectorySequence movement4Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                         .lineToConstantHeading(
-                                new Vector2d(39.06, 60),
+                                new Vector2d(36.52, -9.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(58, 60),
+                                new Vector2d(56.35, -9.00),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -257,14 +314,16 @@ public class BlueLeft extends OpMode {
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
+                                new WaitCommand(7000),
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
+                                new WaitCommand(750),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Middle),
-                                        new OuttakeCommand(robot)
+                                        new HighOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(750),
-                                new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(750),
+                                new InstantCommand(() -> robot.claw.releaseRight()),
+                                new WaitCommand(2000),
                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
