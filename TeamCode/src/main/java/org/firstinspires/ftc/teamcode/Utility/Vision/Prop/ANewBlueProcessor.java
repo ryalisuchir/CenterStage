@@ -88,7 +88,7 @@ public class ANewBlueProcessor implements VisionProcessor, CameraStreamSource {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-        frame = frame.submat(new Rect(300, 480, 0, 640));
+        //frame = frame.submat(new Rect(0, 0, 300, 640));
 
         Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGB2HSV);
 
@@ -156,7 +156,7 @@ public class ANewBlueProcessor implements VisionProcessor, CameraStreamSource {
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-        canvas.drawRect(240, 480, 0, 640, linePaint);
+        canvas.drawRect(0, 480, 240, 640, linePaint);
 
         if (largestContour != null) {
             Rect rect = Imgproc.boundingRect(largestContour);

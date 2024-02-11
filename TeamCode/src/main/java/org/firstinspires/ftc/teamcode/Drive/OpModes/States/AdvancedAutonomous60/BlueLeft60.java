@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
@@ -34,26 +35,119 @@ import java.util.List;
 @Autonomous
 public class BlueLeft60 extends OpMode {
     private VisionPortal visionPortal;
-    private ANewBlueProcessor colorMassDetectionProcessor;
+    private BlueLeftProcessor colorMassDetectionProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
     private double loop;
     List<LynxModule> allHubs;
+
+    TrajectorySequence movement1Left;
+    TrajectorySequence movement2Left;
+    TrajectorySequence movement3Left;
+    TrajectorySequence movement4Left;
+    TrajectorySequence movement5Left;
+    TrajectorySequence movement6Left;
+    TrajectorySequence movement7Left;
+    SampleMecanumDrive driver;
     @Override
     public void init() {
         allHubs = hardwareMap.getAll(LynxModule.class);
         CommandScheduler.getInstance().reset();
         robot = new RobotHardware(hardwareMap);
-
+        driver = new SampleMecanumDrive(hardwareMap);
         CommandScheduler.getInstance().registerSubsystem(robot.armSystem);
         CommandScheduler.getInstance().registerSubsystem(robot.claw);
         CommandScheduler.getInstance().registerSubsystem(robot.angleOfArm);
         CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
 
-        telemetry.addData("Not Ready: ", "Not able to proceed to camera detection... Restart robot now.");
+//        telemetry.addData("Not Ready: ", "Not able to proceed to camera detection... Restart robot now.");
+//        telemetry.update();
+
+        telemetry.addData("Status", "Starting to Build Trajectories");
         telemetry.update();
 
+        TrajectorySequence movement1Left = driver.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))
+                .splineToConstantHeading(
+                        new Vector2d(27.8, 43.31), Math.toRadians(270.00)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(27.52, 56.52), Math.toRadians(270.00)
+                )
+                .build();
+
+        telemetry.addData("Status", "Built Trajectory 1");
+        telemetry.update();
+
+        TrajectorySequence movement2Left = driver.trajectorySequenceBuilder(movement1Left.end())
+                .splineToSplineHeading(
+                        new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00),
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //raise slides with this motion
+        telemetry.addData("Status", "Built Trajectory 2");
+        telemetry.update();
+
+        TrajectorySequence movement3Left = driver.trajectorySequenceBuilder(movement2Left.end())
+                .setReversed(true)
+                .splineToConstantHeading(
+                        new Vector2d(10.84, 63), Math.toRadians(180.00)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(-50, 63), Math.toRadians(180.00)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(-57, 38), Math.toRadians(180)
+                )
+                .forward(-5,
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //get ready to pick up a pixel with this motion
+        telemetry.addData("Status", "Built Trajectory 3");
+        telemetry.update();
+
+        TrajectorySequence movement4Left = driver.trajectorySequenceBuilder(movement3Left.end())
+                .setReversed(false)
+                .splineToConstantHeading(
+                        new Vector2d(-30, 60), Math.toRadians(0)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(31, 60), Math.toRadians(0)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(39, 37), Math.toRadians(0)
+                )
+                .build(); //get back to board with this motion
+        telemetry.addData("Status", "Built Trajectory 4");
+        telemetry.update();
+
+        TrajectorySequence movement5Left = driver.trajectorySequenceBuilder(movement4Left.end())
+                .splineToConstantHeading(
+                        new Vector2d(50, 37), Math.toRadians(0.00),
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //lift slides with this motion
+        telemetry.addData("Status", "Built Trajectory 5");
+        telemetry.update();
+
+        TrajectorySequence movement6Left = driver.trajectorySequenceBuilder(movement5Left.end())
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(37, 37), Math.toRadians(0.00))
+                .build(); //get to rest position with this motion
+        telemetry.addData("Status", "Built Trajectory 6");
+        telemetry.update();
+
+        TrajectorySequence movement7Left = driver.trajectorySequenceBuilder(movement6Left.end())
+                .splineToConstantHeading(
+                        new Vector2d(56.15, 61.30), Math.toRadians(0.00)
+                )
+                .build();
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
         robot.claw.grabBoth();
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -63,17 +157,20 @@ public class BlueLeft60 extends OpMode {
         Scalar upper = new Scalar(119, 229.5, 133.3);
         double minArea = 100;
 
-        colorMassDetectionProcessor = new ANewBlueProcessor(
+        colorMassDetectionProcessor = new BlueLeftProcessor(
                 lower,
                 upper,
                 () -> minArea,
                 () -> 213,
-                () -> 426
+                () -> 426,
+                400
         );
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
                 .build();
+        robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)));
+
     }
 
     @Override
@@ -93,76 +190,10 @@ public class BlueLeft60 extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        ANewBlueProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
-        robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)));
+        BlueLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
+
         switch (recordedPropPosition) {
             case LEFT:
-                TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))
-                        .splineToConstantHeading(
-                                new Vector2d(27.8, 43.31), Math.toRadians(270.00)
-                        )
-                        .splineToConstantHeading(
-                                new Vector2d(27.52, 56.52), Math.toRadians(270.00)
-                        )
-                        .build();
-
-                TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
-                        .splineToSplineHeading(
-                                new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .build(); //raise slides with this motion
-
-                TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
-                        .setReversed(true)
-                        .splineToConstantHeading(
-                                new Vector2d(10.84, 63), Math.toRadians(180.00)
-                        )
-                        .splineToConstantHeading(
-                                new Vector2d(-50, 63), Math.toRadians(180.00)
-                        )
-                        .splineToConstantHeading(
-                                new Vector2d(-57, 38), Math.toRadians(180)
-                        )
-                        .forward(-5,
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .build(); //get ready to pick up a pixel with this motion
-
-                TrajectorySequence movement4Left = robot.driveSubsystem.trajectorySequenceBuilder(movement3Left.end())
-                        .setReversed(false)
-                        .splineToConstantHeading(
-                                new Vector2d(-30, 60), Math.toRadians(0)
-                        )
-                        .splineToConstantHeading(
-                                new Vector2d(31, 60), Math.toRadians(0)
-                        )
-                        .splineToConstantHeading(
-                                new Vector2d(39, 37), Math.toRadians(0)
-                        )
-                        .build(); //get back to board with this motion
-
-                TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
-                        .splineToConstantHeading(
-                                new Vector2d(50, 37), Math.toRadians(0.00),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .build(); //lift slides with this motion
-
-                TrajectorySequence movement6Left = robot.driveSubsystem.trajectorySequenceBuilder(movement5Left.end())
-                        .setReversed(true)
-                        .splineToConstantHeading(new Vector2d(37, 37), Math.toRadians(0.00))
-                        .build(); //get to rest position with this motion
-
-                TrajectorySequence movement7Left = robot.driveSubsystem.trajectorySequenceBuilder(movement6Left.end())
-                        .splineToConstantHeading(
-                                new Vector2d(56.15, 61.30), Math.toRadians(0.00)
-                        )
-                        .build();
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),

@@ -227,12 +227,12 @@ public class TeleOpX extends LinearOpMode {
                     droneL.setPosition(0.92);
                     droneReady = false;
                 } else if(gamepad2.dpad_up) {
-                    droneL.setPosition(0.68);
-                    drone.setPosition(0.75);
+                    droneL.setPosition(0.63);
+                    drone.setPosition(0.8);
                     droneReady = true;
                 }
                 if(gamepad2.x && droneReady) {
-                    drone.setPosition(0);
+                    drone.setPosition(0.3);
                 }
                 //miscellaneous speed controls
                 if (gamepad1.dpad_left) {
