@@ -108,7 +108,9 @@ public class BlueLeft60 extends OpMode {
 
                 TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                         .splineToSplineHeading(
-                                new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00)
+                                new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build(); //raise slides with this motion
 
@@ -121,7 +123,11 @@ public class BlueLeft60 extends OpMode {
                                 new Vector2d(-50, 63), Math.toRadians(180.00)
                         )
                         .splineToConstantHeading(
-                                new Vector2d(-62, 38), Math.toRadians(180)
+                                new Vector2d(-57, 38), Math.toRadians(180)
+                        )
+                        .forward(-5,
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build(); //get ready to pick up a pixel with this motion
 
@@ -140,7 +146,9 @@ public class BlueLeft60 extends OpMode {
 
                 TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
                         .splineToConstantHeading(
-                                new Vector2d(50, 37), Math.toRadians(0.00)
+                                new Vector2d(50, 37), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build(); //lift slides with this motion
 
