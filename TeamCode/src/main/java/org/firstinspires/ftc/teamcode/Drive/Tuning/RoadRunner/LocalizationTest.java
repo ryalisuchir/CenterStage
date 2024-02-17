@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning.RoadRunner;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 @TeleOp(group = "drive")
+@Photon
 @Disabled
 public class LocalizationTest extends LinearOpMode {
     @Override

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning.RoadRunner;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
+@Photon
 @Disabled
 public class TurnTest extends LinearOpMode {
     public static double ANGLE = 90; // deg

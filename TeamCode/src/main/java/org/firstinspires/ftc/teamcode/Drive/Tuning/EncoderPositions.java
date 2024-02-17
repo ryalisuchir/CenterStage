@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
+@Photon
 public class EncoderPositions extends LinearOpMode {
     private DcMotor leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     @Override

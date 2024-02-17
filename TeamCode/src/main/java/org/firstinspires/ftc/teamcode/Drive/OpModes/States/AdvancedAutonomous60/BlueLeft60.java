@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -25,17 +26,18 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.StackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SuperHighOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.ANewBlueProcessor;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.BlueLeftProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.New.RRBRTeamPropProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
 import java.util.List;
 
 @Autonomous
+@Photon
 public class BlueLeft60 extends OpMode {
     private VisionPortal visionPortal;
-    private BlueLeftProcessor colorMassDetectionProcessor;
+    private RRBRTeamPropProcessor colorMassDetectionProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -153,18 +155,10 @@ public class BlueLeft60 extends OpMode {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
-        Scalar lower = new Scalar(107.7, 143.1, 38.3);
-        Scalar upper = new Scalar(119, 229.5, 133.3);
-        double minArea = 100;
+        colorMassDetectionProcessor = new RRBRTeamPropProcessor();
 
-        colorMassDetectionProcessor = new BlueLeftProcessor(
-                lower,
-                upper,
-                () -> minArea,
-                () -> 213,
-                () -> 426,
-                400
-        );
+        colorMassDetectionProcessor.setDetectionColor(false); //false is blue, true is red
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
@@ -177,7 +171,6 @@ public class BlueLeft60 extends OpMode {
     public void init_loop() {
         telemetry.addData("Currently Recorded Position: ", colorMassDetectionProcessor.getRecordedPropPosition());
         telemetry.addData("Camera State: ", visionPortal.getCameraState());
-        telemetry.addData("Currently Detected Mass Area: ", colorMassDetectionProcessor.getLargestContourArea());
         CommandScheduler.getInstance().run();
 //        robot.armSystem.loop();
     }
@@ -190,7 +183,7 @@ public class BlueLeft60 extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        BlueLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
+        RRBRTeamPropProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
 
         switch (recordedPropPosition) {
             case LEFT:
@@ -259,7 +252,6 @@ public class BlueLeft60 extends OpMode {
 
     @Override
     public void stop() {
-        colorMassDetectionProcessor.close();
         visionPortal.close();
         telemetry.addLine("Closed Camera.");
         telemetry.update();
