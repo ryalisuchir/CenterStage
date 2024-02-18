@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.localization.Localizer;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
@@ -23,6 +27,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void setMode(DcMotor.RunMode mode) {
         drive.setMode(mode);
+    }
+
+    public void setPIDFCoefficients(DcMotor.RunMode mode, PIDFCoefficients coefficients) {
+        drive.setPIDFCoefficients(mode, coefficients);
     }
 
     public void setPoseEstimate(Pose2d pose) {
@@ -53,16 +61,40 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
+    public void setDrivePower(Pose2d drivePower) {
+        drive.setDrivePower(drivePower);
+    }
+
     public Pose2d getPoseEstimate() {
         return drive.getPoseEstimate();
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
+        return drive.trajectoryBuilder(startPose);
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, boolean reversed) {
+        return drive.trajectoryBuilder(startPose, reversed);
+    }
+
+    public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, double startHeading) {
+        return drive.trajectoryBuilder(startPose, startHeading);
     }
 
     public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) {
         return drive.trajectorySequenceBuilder(startPose);
     }
 
+    public void followTrajectory(Trajectory trajectory) {
+        drive.followTrajectoryAsync(trajectory);
+    }
+
     public void followTrajectorySequence(TrajectorySequence trajectory) {
         drive.followTrajectorySequenceAsync(trajectory);
+    }
+
+    public void followTrajectorySequenceNotAsync(TrajectorySequence trajectory) {
+        drive.followTrajectorySequence(trajectory);
     }
 
     public boolean isBusy() {
@@ -81,5 +113,12 @@ public class DriveSubsystem extends SubsystemBase {
         drive(0, 0, 0);
     }
 
+    public Pose2d getPoseVelocity() {
+        return drive.getPoseVelocity();
+    }
+
+    public Localizer getLocalizer() {
+        return drive.getLocalizer();
+    }
 
 }
