@@ -33,7 +33,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import java.util.List;
 
 @Autonomous
-@Photon
 public class BlueLeft60 extends OpMode {
 
     private VisionPortal visionPortal;
@@ -80,72 +79,72 @@ public class BlueLeft60 extends OpMode {
         telemetry.addData("Status", "Built Trajectory 1");
         telemetry.update();
 
-//        TrajectorySequence movement2Left = driver.trajectorySequenceBuilder(movement1Left.end())
-//                .splineToSplineHeading(
-//                        new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00),
-//                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                )
-//                .build(); //raise slides with this motion
-//        telemetry.addData("Status", "Built Trajectory 2");
-//        telemetry.update();
-//
-//        TrajectorySequence movement3Left = driver.trajectorySequenceBuilder(movement2Left.end())
-//                .setReversed(true)
-//                .splineToConstantHeading(
-//                        new Vector2d(10.84, 63), Math.toRadians(180.00)
-//                )
-//                .splineToConstantHeading(
-//                        new Vector2d(-50, 63), Math.toRadians(180.00)
-//                )
-//                .splineToConstantHeading(
-//                        new Vector2d(-57, 38), Math.toRadians(180)
-//                )
-//                .forward(-5,
-//                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                )
-//                .build(); //get ready to pick up a pixel with this motion
-//        telemetry.addData("Status", "Built Trajectory 3");
-//        telemetry.update();
-//
-//        TrajectorySequence movement4Left = driver.trajectorySequenceBuilder(movement3Left.end())
-//                .setReversed(false)
-//                .splineToConstantHeading(
-//                        new Vector2d(-30, 60), Math.toRadians(0)
-//                )
-//                .splineToConstantHeading(
-//                        new Vector2d(31, 60), Math.toRadians(0)
-//                )
-//                .splineToConstantHeading(
-//                        new Vector2d(39, 37), Math.toRadians(0)
-//                )
-//                .build(); //get back to board with this motion
-//        telemetry.addData("Status", "Built Trajectory 4");
-//        telemetry.update();
-//
-//        TrajectorySequence movement5Left = driver.trajectorySequenceBuilder(movement4Left.end())
-//                .splineToConstantHeading(
-//                        new Vector2d(50, 37), Math.toRadians(0.00),
-//                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                )
-//                .build(); //lift slides with this motion
-//        telemetry.addData("Status", "Built Trajectory 5");
-//        telemetry.update();
-//
-//        TrajectorySequence movement6Left = driver.trajectorySequenceBuilder(movement5Left.end())
-//                .setReversed(true)
-//                .splineToConstantHeading(new Vector2d(37, 37), Math.toRadians(0.00))
-//                .build(); //get to rest position with this motion
-//        telemetry.addData("Status", "Built Trajectory 6");
-//        telemetry.update();
-//
-//        TrajectorySequence movement7Left = driver.trajectorySequenceBuilder(movement6Left.end())
-//                .splineToConstantHeading(
-//                        new Vector2d(56.15, 61.30), Math.toRadians(0.00)
-//                )
-//                .build();
+        TrajectorySequence movement2Left = driver.trajectorySequenceBuilder(movement1Left.end())
+                .splineToSplineHeading(
+                        new Pose2d(52.30, 41.00, Math.toRadians(0.00)), Math.toRadians(0.00),
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //raise slides with this motion
+        telemetry.addData("Status", "Built Trajectory 2");
+        telemetry.update();
+
+        TrajectorySequence movement3Left = driver.trajectorySequenceBuilder(movement2Left.end())
+                .setReversed(true)
+                .splineToConstantHeading(
+                        new Vector2d(10.84, 63), Math.toRadians(180.00)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(-50, 63), Math.toRadians(180.00)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(-57, 38), Math.toRadians(180)
+                )
+                .forward(-5,
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //get ready to pick up a pixel with this motion
+        telemetry.addData("Status", "Built Trajectory 3");
+        telemetry.update();
+
+        TrajectorySequence movement4Left = driver.trajectorySequenceBuilder(movement3Left.end())
+                .setReversed(false)
+                .splineToConstantHeading(
+                        new Vector2d(-30, 60), Math.toRadians(0)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(31, 60), Math.toRadians(0)
+                )
+                .splineToConstantHeading(
+                        new Vector2d(39, 37), Math.toRadians(0)
+                )
+                .build(); //get back to board with this motion
+        telemetry.addData("Status", "Built Trajectory 4");
+        telemetry.update();
+
+        TrajectorySequence movement5Left = driver.trajectorySequenceBuilder(movement4Left.end())
+                .splineToConstantHeading(
+                        new Vector2d(50, 37), Math.toRadians(0.00),
+                        SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build(); //lift slides with this motion
+        telemetry.addData("Status", "Built Trajectory 5");
+        telemetry.update();
+
+        TrajectorySequence movement6Left = driver.trajectorySequenceBuilder(movement5Left.end())
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(37, 37), Math.toRadians(0.00))
+                .build(); //get to rest position with this motion
+        telemetry.addData("Status", "Built Trajectory 6");
+        telemetry.update();
+
+        TrajectorySequence movement7Left = driver.trajectorySequenceBuilder(movement6Left.end())
+                .splineToConstantHeading(
+                        new Vector2d(56.15, 61.30), Math.toRadians(0.00)
+                )
+                .build();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();

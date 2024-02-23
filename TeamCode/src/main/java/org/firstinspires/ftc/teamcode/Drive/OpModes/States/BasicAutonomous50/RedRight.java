@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -21,15 +20,13 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.RedRightProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.New.NewRedRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.opencv.core.Scalar;
 
 @Autonomous
-@Photon
 public class RedRight extends OpMode {
     private VisionPortal visionPortal;
-    private RedRightProcessor colorMassDetectionProcessor;
+    private NewRedRightProcessor colorMassDetectionProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -50,20 +47,8 @@ public class RedRight extends OpMode {
 
         robot.claw.grabBoth();
 
-//        Scalar lower = new Scalar(0, 110, 65);
-//        Scalar upper = new Scalar(8, 200, 150);
-        Scalar lower = new Scalar(0, 150, 13);
-        Scalar upper = new Scalar(8, 255.0, 60);
-        double minArea = 100;
-
-        colorMassDetectionProcessor = new RedRightProcessor(
-                lower,
-                upper,
-                () -> minArea,
-                () -> 213, //left third of frame
-                () -> 426, //right third of frame
-                400
-        );
+        colorMassDetectionProcessor = new NewRedRightProcessor();
+        colorMassDetectionProcessor.setDetectionColor(true); //false is blue, true is red
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
@@ -72,9 +57,8 @@ public class RedRight extends OpMode {
 
     @Override
     public void init_loop() {
-        telemetry.addData("Currently Recorded Position: ", colorMassDetectionProcessor.getRecordedPropPosition());
+        telemetry.addData("Currently Recorded Position: ", colorMassDetectionProcessor.getPropLocation());
         telemetry.addData("Camera State: ", visionPortal.getCameraState());
-        telemetry.addData("Currently Detected Mass Area: ", colorMassDetectionProcessor.getLargestContourArea());
         CommandScheduler.getInstance().run();
         robot.armSystem.loop();
     }
@@ -87,7 +71,7 @@ public class RedRight extends OpMode {
             visionPortal.stopStreaming();
         }
 
-        RedRightProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getRecordedPropPosition();
+        NewRedRightProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getPropLocation();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, -63.32, Math.toRadians(90.00)));
         switch (recordedPropPosition) {
             case LEFT:
@@ -297,7 +281,6 @@ public class RedRight extends OpMode {
 
     @Override
     public void stop() {
-        colorMassDetectionProcessor.close();
         visionPortal.close();
         telemetry.addLine("Closed Camera.");
         telemetry.update();
