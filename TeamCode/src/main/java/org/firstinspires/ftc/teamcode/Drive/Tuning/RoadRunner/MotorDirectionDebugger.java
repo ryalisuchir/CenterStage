@@ -42,7 +42,6 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 @Disabled
 @Config
 @TeleOp(group = "drive")
-@Photon
 public class MotorDirectionDebugger extends LinearOpMode {
     public static double MOTOR_POWER = 0.7;
 

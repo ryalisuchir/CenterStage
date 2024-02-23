@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 @TeleOp(group = "drive")
-@Photon
 @Disabled
 public class LocalizationTest extends LinearOpMode {
     @Override

@@ -26,7 +26,6 @@ import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 @Config
 @Disabled
 @Autonomous(group = "drive")
-@Photon
 public class FollowerPIDTuner extends LinearOpMode {
     public static double DISTANCE = 48; // in
 

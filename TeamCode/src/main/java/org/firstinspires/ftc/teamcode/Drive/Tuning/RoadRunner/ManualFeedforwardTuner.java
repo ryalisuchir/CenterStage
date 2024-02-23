@@ -46,7 +46,6 @@ import java.util.Objects;
 @Config
 @Disabled
 @Autonomous(group = "drive")
-@Photon
 public class ManualFeedforwardTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 

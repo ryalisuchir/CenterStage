@@ -29,7 +29,6 @@ import java.util.Objects;
 @Config
 @Disabled
 @Autonomous(group = "drive")
-@Photon
 public class MaxVelocityTuner extends LinearOpMode {
     public static double RUNTIME = 2.0;
 

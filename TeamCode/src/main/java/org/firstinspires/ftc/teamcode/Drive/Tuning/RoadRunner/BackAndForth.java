@@ -29,7 +29,6 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 @Disabled
-@Photon
 public class BackAndForth extends LinearOpMode {
 
     public static double DISTANCE = 50;

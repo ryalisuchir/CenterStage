@@ -38,7 +38,6 @@ import org.firstinspires.ftc.teamcode.Drive.StandardTrackingWheelLocalizer;
  */
 @Config
 @Autonomous(group="drive")
-@Photon
 @Disabled
 public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public static double ANGLE = 180; // deg

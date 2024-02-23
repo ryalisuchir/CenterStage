@@ -27,7 +27,6 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
-@Photon
 @Disabled
 public class TrackWidthTuner extends LinearOpMode {
     public static double ANGLE = 180; // deg
