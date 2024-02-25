@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utility.Vision.Prop.New;
+package org.firstinspires.ftc.teamcode.Utility.Vision.Prop;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 you what functions you NEED to have, but it doesn't have it's own version of them. So that's why
 you have to write the init() and processFrame() methods here
  */
-public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSource {
+public class NewRedLeftProcessor implements VisionProcessor, CameraStreamSource {
 
     // you can delete this
     private final AtomicReference<Bitmap> lastFrame =
@@ -46,15 +46,15 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
     private Mat finalMat = new Mat();
 
     private double middleThreshold = 0.5;
-    private double rightThreshold = 0.3;
+    private double leftThreshold = 0.5;
     Telemetry telemetry;
 
     PropPositions propLocation;
+    double leftPerc;
     double middlePerc;
-    double rightPerc;
 
+    Rect LEFT_RECTANGLE;
     Rect MIDDLE_RECTANGLE;
-    Rect RIGHT_RECTANGLE;
     private boolean detectingRed = true;
 
     @Override
@@ -69,15 +69,14 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
 		I had the multipliers as fractions before, but I'm changing them to the equivalent decimals.
 		I think it's easier to move them around in decimals.
 		 */
-
-        this.MIDDLE_RECTANGLE = new Rect(
-                new Point(0.25 * width, 0.4 * height),
-                new Point(0.5 * width, 0.68 * height)
+        this.LEFT_RECTANGLE = new Rect(
+                new Point(0.06 * width, 0.4 * height),
+                new Point(0.35 * width, 0.75 * height)
         );
 
-        this.RIGHT_RECTANGLE = new Rect(
-                new Point(0.8 * width, 0.4 * height),
-                new Point(width, 0.75 * height)
+        this.MIDDLE_RECTANGLE = new Rect(
+                new Point(0.55 * width, 0.4 * height),
+                new Point(0.8 * width, 0.7 * height)
         );
 
         // you can delete this
@@ -150,7 +149,7 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
 		the part of "finalMat" defined by the coordinates of LEFT_RECTANGLE. Then we just add up
 		all the values.
 		 */
-        double rightBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
+        double leftBox = Core.sumElems(finalMat.submat(LEFT_RECTANGLE)).val[0];
         double middleBox = Core.sumElems(finalMat.submat(MIDDLE_RECTANGLE)).val[0];
 
 		/*
@@ -158,7 +157,7 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
 		because a bigger area will just naturally have more detected stuff in it. Then we divide by 255
 		because white is represented as 255 and black as 0. This makes it an actual percent
 		 */
-        this.rightPerc = rightBox / RIGHT_RECTANGLE.area() / 255;
+        this.leftPerc = leftBox / LEFT_RECTANGLE.area() / 255;
         this.middlePerc = middleBox / MIDDLE_RECTANGLE.area() / 255; //Makes value [0,1]
 
 		/*
@@ -168,12 +167,13 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
         this.middlePerc *= 2;
 
         // this part should make sense
-        if(rightPerc > middlePerc && rightPerc > rightThreshold) {
-            propLocation = PropPositions.RIGHT;
-        } else if (middlePerc > rightPerc && middlePerc > middleThreshold) {
+        if(leftPerc > middlePerc && leftPerc > leftThreshold) {
+            propLocation = PropPositions.LEFT;
+        } else if (middlePerc > leftPerc
+                && middlePerc > middleThreshold) {
             propLocation = PropPositions.MIDDLE;
         } else {
-            propLocation = PropPositions.LEFT;
+            propLocation = PropPositions.RIGHT;
         }
 
 		/*This line should only be added in when you want to see your custom pipeline
@@ -186,15 +186,15 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
         // just draws a red border if it doesn't see it and a green border if it does.
         switch (propLocation) {
             case LEFT:
-                Imgproc.rectangle(frame, RIGHT_RECTANGLE, redBorder);
+                Imgproc.rectangle(frame, LEFT_RECTANGLE, greenBorder);
                 Imgproc.rectangle(frame, MIDDLE_RECTANGLE, redBorder);
                 break;
             case MIDDLE:
                 Imgproc.rectangle(frame, MIDDLE_RECTANGLE, greenBorder);
-                Imgproc.rectangle(frame, RIGHT_RECTANGLE, redBorder);
+                Imgproc.rectangle(frame, LEFT_RECTANGLE, redBorder);
                 break;
             case RIGHT:
-                Imgproc.rectangle(frame, RIGHT_RECTANGLE, greenBorder);
+                Imgproc.rectangle(frame, LEFT_RECTANGLE, redBorder);
                 Imgproc.rectangle(frame, MIDDLE_RECTANGLE, redBorder);
                 break;
         }
@@ -219,7 +219,7 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
     }
 
     public double[] getPercents() {
-        return new double[]{rightPerc, middlePerc};
+        return new double[]{leftPerc, middlePerc};
     }
 
     public void setTelemetry(Telemetry telemetry) {
@@ -228,7 +228,7 @@ public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSourc
 
     public void updateTelemetry() {
         telemetry.addLine("Prop Processor")
-                .addData("Left Percent", rightPerc)
+                .addData("Left Percent", leftPerc)
                 .addData("Middle Percent", middlePerc)
                 .addData("Prop Location", propLocation);
     }

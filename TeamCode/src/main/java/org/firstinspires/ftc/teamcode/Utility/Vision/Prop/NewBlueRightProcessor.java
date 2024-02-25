@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utility.Vision.Prop.New;
+package org.firstinspires.ftc.teamcode.Utility.Vision.Prop;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 you what functions you NEED to have, but it doesn't have it's own version of them. So that's why
 you have to write the init() and processFrame() methods here
  */
-public class NewRedRightProcessor implements VisionProcessor, CameraStreamSource {
+public class NewBlueRightProcessor implements VisionProcessor, CameraStreamSource {
 
     // you can delete this
     private final AtomicReference<Bitmap> lastFrame =
@@ -72,7 +72,7 @@ public class NewRedRightProcessor implements VisionProcessor, CameraStreamSource
 
         this.MIDDLE_RECTANGLE = new Rect(
                 new Point(0.25 * width, 0.4 * height),
-                new Point(0.55 * width, 0.68 * height)
+                new Point(0.5 * width, 0.68 * height)
         );
 
         this.RIGHT_RECTANGLE = new Rect(

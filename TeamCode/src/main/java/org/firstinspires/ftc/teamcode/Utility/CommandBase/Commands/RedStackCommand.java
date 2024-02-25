@@ -8,13 +8,13 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
-public class StackCommand extends ParallelCommandGroup {
-    public StackCommand(RobotHardware robot) {
+public class RedStackCommand extends SequentialCommandGroup {
+    public RedStackCommand(RobotHardware robot) {
         super(
                 new InstantCommand(() -> robot.slidesSubsystem.intake()),
-                new WaitCommand(750),
-                new InstantCommand(() -> robot.armSystem.armCoast()),
                 new InstantCommand(() -> robot.angleOfArm.stack()),
+                new WaitCommand(250),
+                new InstantCommand(() -> robot.armSystem.armCoast()),
                 new InstantCommand(() -> robot.claw.releaseLeft())
         );
         Globals.startIntake();

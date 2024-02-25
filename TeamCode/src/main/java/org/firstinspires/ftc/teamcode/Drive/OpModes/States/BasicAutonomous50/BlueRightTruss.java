@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.New.NewBlueRightProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
