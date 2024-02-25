@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.TeleOp;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +12,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
-public class TeleOpX extends LinearOpMode {
+@Disabled
+public class OldTeleOpX extends LinearOpMode {
 
     private DcMotor rightFront;
     private DcMotor rightRear;
@@ -114,11 +116,11 @@ public class TeleOpX extends LinearOpMode {
                     turnMulitplier = 1;
                     speed = 1;
                 } else if (clawToggle == 0) {
-                    speed = 1;
-                    turnMulitplier = 0.7;
+                    speed = 0.9;
+                    turnMulitplier = 0.8;
                 } else {
                     speed = 0.8;
-                    turnMulitplier = 0.9;
+                    turnMulitplier = 0.8;
                 }
 
                 leftFront.setPower(speed * (((gamepad1.left_stick_y + turnMulitplier * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x) / 1));
@@ -128,16 +130,20 @@ public class TeleOpX extends LinearOpMode {
 
 
                 //slides control
-                if((-gamepad2.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
+                if((-gamepad1.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
-                } else if((-gamepad2.right_stick_y) == 0 && slidesPosition < -230) {
+                } else if((-gamepad1.right_stick_y) == 0 && slidesPosition < -230) {
                     linear_1.setPower(0.06);
                     linear_2.setPower(0.06);
                 } else {
-
-                        linear_1.setPower(slidesSpeed * (-gamepad2.right_stick_y));
-                        linear_2.setPower(slidesSpeed * (-gamepad2.right_stick_y));
+                    if(clawToggle == 2 || clawToggle == 5) {
+                        linear_1.setPower(slidesSpeed * (-gamepad1.right_stick_y));
+                        linear_2.setPower(slidesSpeed * (-gamepad1.right_stick_y));
+                    } else if(gamepad1.right_stick_y > 0.7 || gamepad1.right_stick_y < -0.54) {
+                        linear_1.setPower(slidesSpeed/2 * (-gamepad1.right_stick_y));
+                        linear_2.setPower(slidesSpeed/2 * (-gamepad1.right_stick_y));
+                    }
                 }
 
                 if(gamepad2.right_bumper)

@@ -71,7 +71,9 @@ public class NewRedRightProcessor implements VisionProcessor, CameraStreamSource
 		 */
 
         this.MIDDLE_RECTANGLE = new Rect(
-                new Point(0.25 * width, 0.4 * height),
+//                new Point(0.25 * width, 0.4 * height),
+//                new Point(0.55 * width, 0.68 * height)
+                new Point(0.32 * width, 0.43 * height),
                 new Point(0.55 * width, 0.68 * height)
         );
 

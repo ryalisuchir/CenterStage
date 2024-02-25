@@ -46,7 +46,8 @@ public class NewRedLeftProcessor implements VisionProcessor, CameraStreamSource 
     private Mat finalMat = new Mat();
 
     private double middleThreshold = 0.5;
-    private double leftThreshold = 0.5;
+//    private double leftThreshold = 0.5;
+private double leftThreshold = 0.25;
     Telemetry telemetry;
 
     PropPositions propLocation;
@@ -70,13 +71,17 @@ public class NewRedLeftProcessor implements VisionProcessor, CameraStreamSource 
 		I think it's easier to move them around in decimals.
 		 */
         this.LEFT_RECTANGLE = new Rect(
-                new Point(0.06 * width, 0.4 * height),
-                new Point(0.35 * width, 0.75 * height)
+//                new Point(0.06 * width, 0.4 * height),
+//                new Point(0.35 * width, 0.75 * height)
+                new Point(0.1 * width, 0.44 * height),
+                new Point(0.32 * width, 0.75 * height)
         );
 
         this.MIDDLE_RECTANGLE = new Rect(
-                new Point(0.55 * width, 0.4 * height),
-                new Point(0.8 * width, 0.7 * height)
+//                new Point(0.55 * width, 0.4 * height),
+//                new Point(0.8 * width, 0.7 * height)
+                new Point(0.55 * width, 0.42 * height),
+                new Point(0.75 * width, 0.69 * height)
         );
 
         // you can delete this

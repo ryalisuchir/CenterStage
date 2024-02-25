@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Drive.OpModes.TeleOp;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.outoftheboxrobotics.photoncore.Photon;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.HighOuttakeCommand;
@@ -12,8 +13,8 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SuperHighOutt
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
-@Photon
 @TeleOp
+@Disabled
 public class Subsystems extends CommandOpMode {
     private RobotHardware robot;
     double speed;

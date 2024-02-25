@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,11 +22,13 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCom
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RedStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SlidesDownCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
+@Disabled
 public class fityfiveredleft extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
@@ -167,7 +170,7 @@ public class fityfiveredleft extends OpMode {
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement5Right),
                                         new RestCommand(robot)
-                                )
+                      )
 
                         )
                 );
@@ -209,7 +212,7 @@ public class fityfiveredleft extends OpMode {
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                         .splineToConstantHeading(
-                                new Vector2d(49.3, -26), Math.toRadians(0.00),
+                                new Vector2d(49.3, -25), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

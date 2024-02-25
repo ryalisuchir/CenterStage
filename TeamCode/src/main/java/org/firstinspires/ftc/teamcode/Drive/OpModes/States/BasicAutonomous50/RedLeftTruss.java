@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
+@Disabled
 public class RedLeftTruss extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
@@ -99,7 +101,7 @@ public class RedLeftTruss extends OpMode {
 
                 TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                         .lineToConstantHeading(
-                                new Vector2d(50, -24),
+                                new Vector2d(50, -25.8),
                                 SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

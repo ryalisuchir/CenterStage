@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
+@Disabled
 public class fityfiveblueright extends OpMode {
     private VisionPortal visionPortal;
     private NewBlueRightProcessor colorMassDetectionProcessor;
@@ -320,7 +322,7 @@ public class fityfiveblueright extends OpMode {
 
                 TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                         .back(10)
-                        .strafeLeft(28)
+                        .strafeLeft(26)
                         .forward(16)
                         .build();
 
