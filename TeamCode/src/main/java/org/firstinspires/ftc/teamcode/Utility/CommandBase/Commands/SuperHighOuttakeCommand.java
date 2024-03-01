@@ -12,10 +12,10 @@ public class SuperHighOuttakeCommand extends SequentialCommandGroup {
     public SuperHighOuttakeCommand(RobotHardware robot) {
         super(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> robot.angleOfArm.outtake()),
+                        new InstantCommand(() -> robot.angleOfArm.doubleOuttake()),
                         new InstantCommand(() -> robot.armSystem.armOuttake())
                 ),
-                new WaitCommand(1000),
+                new WaitCommand(500),
                 new InstantCommand(() -> robot.slidesSubsystem.superHighOuttakeCommand())
         );
         Globals.startOuttake();

@@ -8,26 +8,24 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-
 import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.BlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.BlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
-public class fityfiveblueright extends OpMode {
+public class SixtyFiveBlueRight extends OpMode {
     private VisionPortal visionPortal;
     private NewBlueRightProcessor colorMassDetectionProcessor;
 
@@ -99,7 +97,7 @@ public class fityfiveblueright extends OpMode {
 
                 TrajectorySequence lilMoreCuh = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                         .lineToConstantHeading(
-                                new Vector2d(-60, 39),
+                                new Vector2d(-61, 39),
                                 SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -136,14 +134,18 @@ public class fityfiveblueright extends OpMode {
 
                 TrajectorySequence movement5Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
                         .lineToConstantHeading(new Vector2d(42.56, 35.39))
-                        .lineToConstantHeading(new Vector2d(43.31, 48))
-                        .lineToConstantHeading(new Vector2d(54, 48))
+
+                        .build();
+                TrajectorySequence movement6Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
+                        .lineToConstantHeading(new Vector2d(20, 60.5))
+                        .lineToConstantHeading(new Vector2d(-57.47, 60.5))
+                        .lineToConstantHeading(new Vector2d(-56.34, 38.4))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
-                                new BlueStackCommand(robot, 0.21),
+                                new BlueStackCommand(robot),
                                 new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, lilMoreCuh),
                                 new WaitCommand(500),
@@ -165,7 +167,8 @@ public class fityfiveblueright extends OpMode {
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement5Right),
                                         new RestCommand(robot)
-                                )
+                                ),
+                                new DriveCommand(robot.driveSubsystem, movement6Right)
 
                         )
                 );
@@ -229,14 +232,14 @@ public class fityfiveblueright extends OpMode {
 
                 TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
                         .lineToConstantHeading(new Vector2d(42.56, 35.39))
-                        .lineToConstantHeading(new Vector2d(43.31, 60))
-                        .lineToConstantHeading(new Vector2d(54, 60))
+                        .lineToConstantHeading(new Vector2d(43.31, 58))
+                        .lineToConstantHeading(new Vector2d(54, 58))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new BlueStackCommand(robot),
+                                new BlueStackCommand(robot, 21),
                                 new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, lilMoreCuh2),
                                 new WaitCommand(500),

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropC
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
 @TeleOp
-@Disabled
+
 public class Subsystems extends CommandOpMode {
     private RobotHardware robot;
     double speed;

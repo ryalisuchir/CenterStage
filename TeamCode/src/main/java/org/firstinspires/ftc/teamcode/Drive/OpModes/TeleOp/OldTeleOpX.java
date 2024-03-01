@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
-@Disabled
+
 public class OldTeleOpX extends LinearOpMode {
 
     private DcMotor rightFront;
@@ -72,7 +72,7 @@ public class OldTeleOpX extends LinearOpMode {
         boolean prevleftBP;
         boolean currentRightBP;
         boolean prevRightBP;
-        double dumpy = 0.136;
+        double dumpy = 0.158;
         double slidesSpeed = 1;
         double speed = 0.7;
         boolean droneReady = false;
@@ -130,20 +130,15 @@ public class OldTeleOpX extends LinearOpMode {
 
 
                 //slides control
-                if((-gamepad1.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
+                if((-gamepad2.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
-                } else if((-gamepad1.right_stick_y) == 0 && slidesPosition < -230) {
+                } else if((-gamepad2.right_stick_y) == 0 && slidesPosition < -230) {
                     linear_1.setPower(0.06);
                     linear_2.setPower(0.06);
                 } else {
-                    if(clawToggle == 2 || clawToggle == 5) {
-                        linear_1.setPower(slidesSpeed * (-gamepad1.right_stick_y));
-                        linear_2.setPower(slidesSpeed * (-gamepad1.right_stick_y));
-                    } else if(gamepad1.right_stick_y > 0.7 || gamepad1.right_stick_y < -0.54) {
-                        linear_1.setPower(slidesSpeed/2 * (-gamepad1.right_stick_y));
-                        linear_2.setPower(slidesSpeed/2 * (-gamepad1.right_stick_y));
-                    }
+                        linear_1.setPower(slidesSpeed * (-gamepad2.right_stick_y));
+                        linear_2.setPower(slidesSpeed * (-gamepad2.right_stick_y));
                 }
 
                 if(gamepad2.right_bumper)
@@ -211,12 +206,12 @@ public class OldTeleOpX extends LinearOpMode {
                     clawToggle = 5;
                 }
                 if(gamepad1.dpad_up && clawToggle == 1.1) {
-                    dumpy = 0.136;
+                    dumpy = 0.158;
                     clawToggle = 0;
 
                 }
                 if(gamepad1.dpad_up && clawToggle == 1.2) {
-                    arm.setPower(.37);
+                    arm.setPower(.53);
                     dumpy = 0.57;
                     clawToggle = 2;
 
@@ -225,16 +220,16 @@ public class OldTeleOpX extends LinearOpMode {
                     dumpy = 0.4;
                     clawToggle = 1.1;
                 }else if((currentleftBP && !prevleftBP) && (clawToggle == 1.2 || clawToggle == 1.1 || clawToggle == 5)) {
-                    arm.setPower(.5);
+                    arm.setPower(.53);
                     dumpy = 0.57;
                     clawToggle = 2;
 
                 }else if((currentRightBP && !prevRightBP) && (clawToggle == 1.2 || clawToggle == 1.1)) {
-                    dumpy = 0.136;
+                    dumpy = 0.158;
                     clawToggle = 0;
 
                 }else if((currentRightBP && !prevRightBP) && clawToggle == 2) {
-                    arm.setPower(-.43);
+                    arm.setPower(-.53);
                     dumpy = 0.4;
                     clawToggle = 1.2;
                 }
