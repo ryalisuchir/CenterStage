@@ -72,7 +72,7 @@ public class OldTeleOpX extends LinearOpMode {
         boolean prevleftBP;
         boolean currentRightBP;
         boolean prevRightBP;
-        double dumpy = 0.158;
+        double dumpy = 0.151;
         double slidesSpeed = 1;
         double speed = 0.7;
         boolean droneReady = false;
@@ -206,7 +206,7 @@ public class OldTeleOpX extends LinearOpMode {
                     clawToggle = 5;
                 }
                 if(gamepad1.dpad_up && clawToggle == 1.1) {
-                    dumpy = 0.158;
+                    dumpy = 0.151;
                     clawToggle = 0;
 
                 }
@@ -225,7 +225,7 @@ public class OldTeleOpX extends LinearOpMode {
                     clawToggle = 2;
 
                 }else if((currentRightBP && !prevRightBP) && (clawToggle == 1.2 || clawToggle == 1.1)) {
-                    dumpy = 0.158;
+                    dumpy = 0.151;
                     clawToggle = 0;
 
                 }else if((currentRightBP && !prevRightBP) && clawToggle == 2) {
@@ -247,7 +247,7 @@ public class OldTeleOpX extends LinearOpMode {
                     droneL.setPosition(0.94);
                     droneReady = false;
                 } else if(gamepad2.dpad_up) {
-                    droneL.setPosition(0.61);
+                    droneL.setPosition(0.58);
                     drone.setPosition(0.78);
                     droneReady = true;
                 }
