@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.AngleSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ArmSubsystem;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ArmSubsystemTeleOpVersion;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Subsystems.SlidesSubsystem;
@@ -25,7 +24,6 @@ public class RobotHardware {
 
     public AngleSubsystem angleOfArm;
     public ArmSubsystem armSystem;
-    public ArmSubsystemTeleOpVersion armTeleOpSystem;
     public ClawSubsystem claw;
     public DriveSubsystem driveSubsystem;
     public SlidesSubsystem slidesSubsystem;
@@ -87,12 +85,11 @@ public class RobotHardware {
 //        }
 
         armSystem = new ArmSubsystem(arm, batteryVoltageSensor);
-        armTeleOpSystem = new ArmSubsystemTeleOpVersion(arm);
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");
         angleOfArm = new AngleSubsystem(hardwareMap, "dump");
         driveSubsystem = new DriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
         slidesSubsystem = new SlidesSubsystem(linear_1, linear_2, batteryVoltageSensor);
-        CommandScheduler.getInstance().registerSubsystem(armSystem, claw, angleOfArm, driveSubsystem, slidesSubsystem, armTeleOpSystem);
+        CommandScheduler.getInstance().registerSubsystem(armSystem, claw, angleOfArm, driveSubsystem, slidesSubsystem);
 
     }
 

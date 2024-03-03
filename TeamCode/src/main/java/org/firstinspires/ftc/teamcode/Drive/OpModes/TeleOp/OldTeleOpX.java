@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
-
 public class OldTeleOpX extends LinearOpMode {
 
     private DcMotor rightFront;
