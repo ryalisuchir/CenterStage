@@ -72,6 +72,7 @@ public class RobotHardware {
 
 
         linear_2.setDirection(DcMotor.Direction.REVERSE);
+//          arm.setDirection(DcMotor.Direction.REVERSE);
 
 
         Servo angleOfClaw = hardwareMap.get(Servo.class, "dump");

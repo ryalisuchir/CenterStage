@@ -12,7 +12,7 @@ public class BlueStackCommand extends SequentialCommandGroup {
     public BlueStackCommand(RobotHardware robot) {
         super(
                 new ParallelCommandGroup(new InstantCommand(() -> robot.slidesSubsystem.intake()),
-                        new InstantCommand(() -> robot.angleOfArm.stack())),
+                        new InstantCommand(() -> robot.angleOfArm.lolStack())),
                 new WaitCommand(250),
                 new ParallelCommandGroup(new InstantCommand(() -> robot.armSystem.armCoast()),
                         new InstantCommand(() -> robot.claw.releaseRight()))

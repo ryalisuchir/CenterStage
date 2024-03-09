@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 
 @Autonomous
 @Disabled
-@Photon
 public class LockToTest extends LinearOpMode {
     double xyP = 0.5;
     double headingP = 0.5;

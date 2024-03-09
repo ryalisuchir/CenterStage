@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.Worlds;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -68,12 +70,11 @@ public class AttemptAprilTag extends LinearOpMode {
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
-                double x = detection.ftcPose.x-cameraOffset.getX();
-                double y = detection.ftcPose.y-cameraOffset.getY();
+                double x = -detection.ftcPose.x-cameraOffset.getX();
+                double y = -detection.ftcPose.y-cameraOffset.getY();
 
                 double botHeading = -roadrunnerDrive.getPoseEstimate().getHeading();
 
@@ -93,17 +94,14 @@ public class AttemptAprilTag extends LinearOpMode {
                     absY = tagPosition.get(1) + x2;
 
                 }
-                Vector2d fieldCentricPosition = new Vector2d(absX, absY);
+
+                Pose2d fieldCentricPosition = new Pose2d(absX, absY, botHeading);
                 telemetry.addData("Position: ", fieldCentricPosition);
-            } else {
-                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+                roadrunnerDrive.setPoseEstimate(fieldCentricPosition);
             }
         }
 
-        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-        telemetry.addLine("RBE = Range, Bearing & Elevation");
+        roadrunnerDrive.update();
 
     }
     public static AprilTagLibrary getCenterStageTagLibrary()

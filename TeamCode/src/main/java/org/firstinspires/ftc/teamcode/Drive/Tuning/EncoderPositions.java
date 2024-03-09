@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
-@Photon
 public class EncoderPositions extends LinearOpMode {
     private DcMotor leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     @Override

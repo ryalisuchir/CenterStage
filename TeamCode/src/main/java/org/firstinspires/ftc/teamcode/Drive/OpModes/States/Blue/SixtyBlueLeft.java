@@ -7,11 +7,15 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.Drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
@@ -25,11 +29,22 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropC
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueLeftProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @Autonomous
 public class SixtyBlueLeft extends OpMode {
     private VisionPortal visionPortal;
     private NewBlueLeftProcessor colorMassDetectionProcessor;
+
+    private AprilTagProcessor aprilTag;
+    private AprilTagDetection tag;
+    private VisionPortal visionPortal2;
+    public Vector2d cameraOffset = new Vector2d(
+            -3,
+            7.5);
+
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -69,6 +84,8 @@ public class SixtyBlueLeft extends OpMode {
 
     @Override
     public void start() {
+        visionPortal.close();
+        initAprilTag();
         time_since_start = new ElapsedTime();
         if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
             visionPortal.stopLiveView();
@@ -446,6 +463,14 @@ public class SixtyBlueLeft extends OpMode {
         robot.slidesSubsystem.loop();
         robot.driveSubsystem.update();
 
+        if(aprilTag.getDetections().size() > 0) {
+            tag = aprilTag.getDetections().get(0);
+        }
+        if(!aprilTag.getDetections().isEmpty()) {
+            telemetry.addData("Yipee: ", "Relocalized.");
+            robot.driveSubsystem.setPoseEstimate(telemetryAprilTag(tag, robot.driveSubsystem.getPoseEstimate().getHeading()));
+        }
+
         double time = System.currentTimeMillis();
         telemetry.addData("Time Elapsed: ", time_since_start);
         telemetry.addData("Current Loop Time: ", time - loop);
@@ -456,9 +481,82 @@ public class SixtyBlueLeft extends OpMode {
 
     @Override
     public void stop() {
-        visionPortal.close();
+        visionPortal2.close();
         telemetry.addLine("Closed Camera.");
         telemetry.update();
         CommandScheduler.getInstance().reset();
+    }
+    private void initAprilTag() {
+
+        aprilTag = new AprilTagProcessor.Builder()
+                //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506) //TODO: tune this
+                .build();
+
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
+        builder.addProcessor(aprilTag);
+        builder.build();
+    }
+
+    private Pose2d telemetryAprilTag(AprilTagDetection detection, double robotHeading) {
+        double x = -detection.ftcPose.x - cameraOffset.getX();
+        double y = -detection.ftcPose.y - cameraOffset.getY();
+
+        double botHeading = -robot.driveSubsystem.getPoseEstimate().getHeading();
+
+
+        double x2 = x * Math.cos(botHeading) + y * Math.sin(botHeading);
+        double y2 = x * -Math.sin(botHeading) + y * Math.cos(botHeading);
+        double absX;
+        double absY;
+
+        VectorF tagPosition = getCenterStageTagLibrary().lookupTag(detection.id).fieldPosition;
+        if (detection.metadata.id <= 6) {
+            absX = tagPosition.get(0) + y2;
+            absY = tagPosition.get(1) - x2;
+
+        } else {
+            absX = tagPosition.get(0) - y2;
+            absY = tagPosition.get(1) + x2;
+
+        }
+        return new Pose2d(absX, absY, botHeading);
+        //telemetry.addData("Position: ", fieldCentricPosition);
+    }
+
+    public static AprilTagLibrary getCenterStageTagLibrary()
+    {
+        return new AprilTagLibrary.Builder()
+                .addTag(1, "BlueAllianceLeft",
+                        2, new VectorF(61.75f, 41.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(2, "BlueAllianceCenter",
+                        2, new VectorF(61.75f, 35.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(3, "BlueAllianceRight",
+                        2, new VectorF(61.75f, 29.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(4, "RedAllianceLeft",
+                        2, new VectorF(61.75f, -29.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(5, "RedAllianceCenter",
+                        2, new VectorF(61.75f, -35.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(6, "RedAllianceRight",
+                        2, new VectorF(61.75f, -41.41f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.3536f, -0.6124f, 0.6124f, -0.3536f, 0))
+                .addTag(7, "RedAudienceWallLarge",
+                        5, new VectorF(-70.25f, -40.625f, 5.5f), DistanceUnit.INCH,
+                        new Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0))
+                .addTag(8, "RedAudienceWallSmall",
+                        2, new VectorF(-70.25f, -35.125f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0))
+                .addTag(9, "BlueAudienceWallSmall",
+                        2, new VectorF(-70.25f, 35.125f, 4f), DistanceUnit.INCH,
+                        new Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0))
+                .addTag(10, "BlueAudienceWallLarge",
+                        5, new VectorF(-70.25f, 40.625f, 5.5f), DistanceUnit.INCH,
+                        new Quaternion(0.5f, -0.5f, -0.5f, 0.5f, 0))
+                .build();
     }
 }

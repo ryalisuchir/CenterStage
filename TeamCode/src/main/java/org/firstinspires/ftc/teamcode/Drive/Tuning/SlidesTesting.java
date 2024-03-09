@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @Config
 @TeleOp
 @Disabled
-@Photon
 public class SlidesTesting extends OpMode {
     private PIDController controller;
     private DcMotorEx linear_1, linear_2;

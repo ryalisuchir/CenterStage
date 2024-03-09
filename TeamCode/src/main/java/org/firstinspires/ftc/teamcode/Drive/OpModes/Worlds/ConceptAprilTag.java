@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.Worlds;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -105,7 +106,7 @@ public class ConceptAprilTag extends LinearOpMode {
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
