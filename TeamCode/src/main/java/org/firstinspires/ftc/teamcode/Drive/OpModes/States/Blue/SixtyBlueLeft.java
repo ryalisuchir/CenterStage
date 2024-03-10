@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.States.Blue;
 
+import static java.lang.Thread.sleep;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -13,6 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
@@ -32,6 +36,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.concurrent.TimeUnit;
 
 @Autonomous
 public class SixtyBlueLeft extends OpMode {
@@ -523,6 +529,8 @@ public class SixtyBlueLeft extends OpMode {
         return new Pose2d(absX, absY, botHeading);
         //telemetry.addData("Position: ", fieldCentricPosition);
     }
+
+
 
     public static AprilTagLibrary getCenterStageTagLibrary()
     {

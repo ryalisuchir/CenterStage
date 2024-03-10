@@ -67,6 +67,7 @@ public class RedRightAprilTag extends OpMode {
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessor(colorMassDetectionProcessor)
                 .build();
+        initAprilTag();
     }
 
     @Override
@@ -80,7 +81,6 @@ public class RedRightAprilTag extends OpMode {
     @Override
     public void start() {
         visionPortal.close();
-        initAprilTag();
         time_since_start = new ElapsedTime();
         if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
             visionPortal.stopLiveView();
