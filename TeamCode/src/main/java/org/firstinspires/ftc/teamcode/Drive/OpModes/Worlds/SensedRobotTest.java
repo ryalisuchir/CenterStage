@@ -42,6 +42,7 @@ public class SensedRobotTest extends OpMode {
     public void init_loop() {
         telemetry.addData("Robot Recorded: ", colorMassDetectionProcessor.getSensedBoolean());
         telemetry.addData("Camera State: ", visionPortal.getCameraState());
+        telemetry.addData("Sensed Percent: ", colorMassDetectionProcessor.getSensedPercent());
         CommandScheduler.getInstance().run();
     }
 
@@ -53,9 +54,9 @@ public class SensedRobotTest extends OpMode {
     @Override
     public void loop() {
        if (colorMassDetectionProcessor.getSensedBoolean() == RedRobot.Sensed.TRUE) {
-           telemetry.addData("Robot in the Way: ", "FALSE");
-       } else if (colorMassDetectionProcessor.getSensedBoolean() == RedRobot.Sensed.FALSE) {
            telemetry.addData("Robot in the Way: ", "TRUE");
+       } else if (colorMassDetectionProcessor.getSensedBoolean() == RedRobot.Sensed.FALSE) {
+           telemetry.addData("Robot in the Way: ", "FALSE");
        } else {
            telemetry.addLine("Unable to detect.");
        }

@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Utility.Hardware;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,6 +23,7 @@ public class RobotHardware {
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     public Servo angleOfClaw, leftClaw, rightClaw;
     public VoltageSensor batteryVoltageSensor;
+    public Rev2mDistanceSensor distanceSensor;
 
     public AngleSubsystem angleOfArm;
     public ArmSubsystem armSystem;
@@ -79,6 +82,7 @@ public class RobotHardware {
         Servo leftClaw = hardwareMap.get(Servo.class, "claw");
         Servo rightClaw = hardwareMap.get(Servo.class, "claw1");
 
+        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 //        for (LynxModule hub : allHubs) {

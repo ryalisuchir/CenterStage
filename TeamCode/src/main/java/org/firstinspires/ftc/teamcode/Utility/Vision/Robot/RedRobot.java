@@ -30,7 +30,7 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
     private Mat lowMat = new Mat();
     private Mat finalMat = new Mat();
 
-    private double senseThreshold = 0.25;
+    private double senseThreshold = 0.03;
     Telemetry telemetry;
 
     Sensed sensedBoolean;
@@ -42,8 +42,8 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
     public void init(int width, int height, CameraCalibration calibration) {
 
         this.SENSED_RECTANGLE = new Rect(
-                new Point(0.1 * width, 0.44 * height),
-                new Point(0.32 * width, 0.75 * height)
+                new Point(0, 0.54 * height),
+                new Point(0.9 * width, 0.78 * height)
         );
 
         lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
@@ -69,9 +69,9 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
         this.sensedPerc = sensedBox / SENSED_RECTANGLE.area() / 255;
 
         if(sensedPerc > senseThreshold) {
-            sensedBoolean = Sensed.TRUE;
-        } else {
             sensedBoolean = Sensed.FALSE;
+        } else {
+            sensedBoolean = Sensed.TRUE;
         }
 
         Scalar redBorder = new Scalar(255, 0, 0);
@@ -101,6 +101,9 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
     public Sensed getSensedBoolean() {
         return this.sensedBoolean;
     }
+    public Double getSensedPercent() {
+        return this.sensedPerc;
+    }
 
     public void setTelemetry(Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -109,6 +112,11 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
     @Override
     public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
         continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
+    }
+
+    public void updateTelemetry() {
+        telemetry.addLine("Robot Processor")
+                .addData("Percent", sensedPerc);
     }
 
     public enum Sensed {
