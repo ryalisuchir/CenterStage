@@ -44,7 +44,7 @@ public class NewBlueLeftProcessor implements VisionProcessor, CameraStreamSource
     public void init(int width, int height, CameraCalibration calibration) {
 
         this.LEFT_RECTANGLE = new Rect(
-                new Point(0.03 * width, 0.4 * height),
+                new Point(0.09 * width, 0.4 * height),
                 new Point(0.35 * width, 0.75 * height)
         );
 

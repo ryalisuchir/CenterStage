@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.Worlds;
 
+import android.util.Size;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.outoftheboxrobotics.photoncore.Photon;
@@ -62,7 +64,8 @@ public class AttemptAprilTag extends LinearOpMode {
             .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCameraResolution(new Size(1280, 800));
             builder.addProcessor(aprilTag);
             builder.build();
     }

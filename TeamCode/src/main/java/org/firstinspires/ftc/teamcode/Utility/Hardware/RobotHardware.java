@@ -82,7 +82,7 @@ public class RobotHardware {
         Servo leftClaw = hardwareMap.get(Servo.class, "claw");
         Servo rightClaw = hardwareMap.get(Servo.class, "claw1");
 
-        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
+//        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 //        for (LynxModule hub : allHubs) {

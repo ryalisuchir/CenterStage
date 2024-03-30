@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.CustomPIDController;
 
 @Config
-@Disabled
 @TeleOp
 public class ArmTuning extends OpMode {
     private final double zeroOffset = 23.0;

@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class ClawSubsystem extends SubsystemBase {
     private final Servo clawLeft, clawRight;
-    public static double grabPositionLeft = 0, grabPositionRight = 0.85;
-    public static double releasePositionLeft = 0.85, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.658;
+//    public static double grabPositionLeft = 0, grabPositionRight = 0.85;
+//    public static double releasePositionLeft = 0.85, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.68;
+public static double grabPositionLeft = 0.05, grabPositionRight = 0.7;
+    public static double releasePositionLeft = 1, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.68;
 
     public ClawSubsystem(final HardwareMap hMap, final String leftClaw, final String rightClaw) {
         clawLeft = hMap.get(Servo.class, leftClaw);

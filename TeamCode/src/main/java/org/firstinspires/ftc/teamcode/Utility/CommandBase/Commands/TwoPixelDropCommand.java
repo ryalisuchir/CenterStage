@@ -9,7 +9,7 @@ public class TwoPixelDropCommand extends SequentialCommandGroup {
     public TwoPixelDropCommand(RobotHardware robot) {
         super(
                 new InstantCommand(() -> robot.claw.smallReleaseLeft()),
-                new WaitCommand(350),
+                new WaitCommand(3000),
                 new InstantCommand(() -> robot.claw.releaseLeft())
         );
     }

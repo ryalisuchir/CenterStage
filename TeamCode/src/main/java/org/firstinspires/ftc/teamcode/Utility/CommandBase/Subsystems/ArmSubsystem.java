@@ -62,21 +62,21 @@ public class ArmSubsystem extends SubsystemBase {
         if (Globals.IS_AT_REST) {
             p = 0.01;
             i = 0;
-            d = 0.00005;
-            f = 0.1;
+            d = 0;
+            f = 0.009;
         };
 
         if (Globals.IS_SCORING) {
             p = 0.01;
             i = 0;
-            d = 0.00005;
-            f = 0.1;
+            d = 0;
+            f = 0.009;
         };
 
         if (Globals.IS_INTAKING) {
             p = 0.01;
             i = 0;
-            d = 0.0001;
+            d = 0;
             f = 0.009;
         };
 
@@ -116,11 +116,11 @@ public class ArmSubsystem extends SubsystemBase {
 
         double power = (pid + ff) / voltage * 12.0;
 
-        if (power > 0.5) {
-            power = 0.5;
+        if (power > 0.25) {
+            power = 0.25;
         }
-        if (power < -0.1) {
-            power = -0.1;
+        if (power < -0.25) {
+            power = -0.25;
         }
 
         arm.setPower(power);
@@ -134,7 +134,10 @@ public class ArmSubsystem extends SubsystemBase {
         target = 650;
     }
     public void armCoast() {
-        target = 20;
+        target = 25;
+    }
+    public void armDown() {
+        target = 0;
     }
 
 }

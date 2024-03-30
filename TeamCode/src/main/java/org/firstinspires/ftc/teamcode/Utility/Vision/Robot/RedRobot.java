@@ -42,8 +42,8 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
     public void init(int width, int height, CameraCalibration calibration) {
 
         this.SENSED_RECTANGLE = new Rect(
-                new Point(0, 0.54 * height),
-                new Point(0.9 * width, 0.78 * height)
+                new Point(0.15*width, 0.54 * height),
+                new Point(0.9 * width, 0.71 * height)
         );
 
         lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));
@@ -79,10 +79,10 @@ public class RedRobot implements VisionProcessor, CameraStreamSource {
 
         switch (sensedBoolean) {
             case TRUE:
-                Imgproc.rectangle(frame, SENSED_RECTANGLE, greenBorder);
+                Imgproc.rectangle(frame, SENSED_RECTANGLE, redBorder);
                 break;
             case FALSE:
-                Imgproc.rectangle(frame, SENSED_RECTANGLE, redBorder);
+                Imgproc.rectangle(frame, SENSED_RECTANGLE, greenBorder);
                 break;
         }
 

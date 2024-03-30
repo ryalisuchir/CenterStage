@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.Worlds;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -20,14 +22,18 @@ import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewRedStackCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RedStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SlidesDownCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.RedRobot;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
-public class CameraRedLeftTrussTest extends OpMode {
+public class CamRedLeftPlusOne extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
     private RedRobot robotProcessor;
@@ -35,6 +41,7 @@ public class CameraRedLeftTrussTest extends OpMode {
     private RobotHardware robot;
     private ElapsedTime time_since_start;
     private double loop;
+    boolean robotSensed;
 
     @Override
     public void init() {
@@ -52,11 +59,15 @@ public class CameraRedLeftTrussTest extends OpMode {
         robot.claw.grabBoth();
 
         colorMassDetectionProcessor = new NewRedLeftProcessor();
+        robotProcessor = new RedRobot();
         colorMassDetectionProcessor.setDetectionColor(true); //false is blue, true is red
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
                 .addProcessors(colorMassDetectionProcessor, robotProcessor)
                 .build();
+
+        FtcDashboard.getInstance().startCameraStream(robotProcessor, 30);
     }
 
     @Override
@@ -69,104 +80,114 @@ public class CameraRedLeftTrussTest extends OpMode {
 
     @Override
     public void start() {
-//        visionPortal.setProcessorEnabled(colorMassDetectionProcessor, false);
-//        visionPortal.setProcessorEnabled(robotProcessor, true);
-
         time_since_start = new ElapsedTime();
-        if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
-            visionPortal.stopLiveView();
-            visionPortal.stopStreaming();
-        }
+
+        FtcDashboard.getInstance().startCameraStream(robotProcessor, 30);
 
         NewRedLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getPropLocation();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)));
+
         switch (recordedPropPosition) {
+            case RIGHT:
+            case UNFOUND:
+                //here
+                break;
             case LEFT:
-                TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)))
+                TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(90.00)))
                         .splineToConstantHeading(
-                                new Vector2d(-51.6, -43.70), Math.toRadians(90.00),
-                                SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Vector2d(-50.00, -43.70), Math.toRadians(450.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToSplineHeading(
-                                new Pose2d(-46, -57, Math.toRadians(0.00)),
-                                SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                new Pose2d(-55.5, -55.39, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToConstantHeading(
-                                new Vector2d(37.72, -56),
-                                SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .lineToConstantHeading(
-                                new Vector2d(37.72, -24),
-                                SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .lineToSplineHeading(
+                                new Pose2d(-55.5, -38, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
-                TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
-                        .lineToConstantHeading(
-                                new Vector2d(51, -25.8),
-                                SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                TrajectorySequence lilMoreCuh2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
+                        .back(
+                                3,
+                                SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
+                        .build();
+
+                TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(lilMoreCuh2.end())
+                        .lineToConstantHeading(new Vector2d(-56.34, -38.4))
+                        .lineToConstantHeading(new Vector2d(-57.47, -58.5))
+                        .lineToConstantHeading(new Vector2d(9, -57))
+                        .turn(Math.toRadians(30))
                         .build();
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
-                        .forward(
-                                -15,
-                                SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .lineToSplineHeading(
+                                new Pose2d(20, -57, Math.toRadians(360.00)),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                        )
+                        .splineToConstantHeading(
+                                new Vector2d(49.3, -28), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
                 TrajectorySequence movement4Left = robot.driveSubsystem.trajectorySequenceBuilder(movement3Left.end())
-                        .strafeLeft(
-                                17,
-                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                        )
-                        .forward(
-                                25,
-                                SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        .setTangent(-180)
+                        .splineToConstantHeading(
+                                new Vector2d(
+                                        48, -40), Math.toRadians(0.00),
+                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
+                TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
+                        .back(7)
+                        .lineToConstantHeading(new Vector2d(43.31, -57))
+                        .lineToConstantHeading(new Vector2d(57.3, -57))
+                        .build();
+
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
-                                new WaitCommand(5000),
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new LowOuttakeCommand(robot)
-                        )
-                );
-                CommandScheduler.getInstance().disable();
-
-                while(robotProcessor.getSensedBoolean() == RedRobot.Sensed.TRUE) {
-                    if(time_since_start.seconds() > 20) {
-                        break;
-                    }
-                }
-
-                CommandScheduler.getInstance().enable();
-                CommandScheduler.getInstance().schedule(
-                        new SequentialCommandGroup(
+                                new NewRedStackCommand(robot),
+                                new WaitCommand(500),
+                                new DriveCommand(robot.driveSubsystem, lilMoreCuh2),
+                                new WaitCommand(500),
+                                new InstantCommand(() -> robot.claw.grabBoth()),
                                 new DriveCommand(robot.driveSubsystem, movement2Left),
+                                new LowOuttakeCommand(robot),
+                                new WaitCommand(350),
+                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 20),
+                                new DriveCommand(robot.driveSubsystem, movement3Left),
                                 new WaitCommand(350),
                                 new InstantCommand(() -> robot.claw.releaseRight()),
                                 new WaitCommand(350),
-                                new DriveCommand(robot.driveSubsystem, movement3Left),
-                                new RestCommand(robot),
-                                new DriveCommand(robot.driveSubsystem, movement4Left)
+                                new ParallelCommandGroup(
+                                        new DriveCommand(robot.driveSubsystem, movement4Left),
+                                        new SecondOuttakeCommand(robot)
+                                ),
+                                new WaitCommand(350),
+                                new InstantCommand(() -> robot.claw.releaseLeft()),
+                                new WaitCommand(350),
+                                new ParallelCommandGroup(
+                                        new DriveCommand(robot.driveSubsystem, movement5Left),
+                                        new RestCommand(robot)
+                                )
+
                         )
                 );
-
                 break;
-            case RIGHT:
-            case UNFOUND:
-               break;
             case MIDDLE:
+               //here
                 break;
         }
     }
@@ -184,6 +205,7 @@ public class CameraRedLeftTrussTest extends OpMode {
         telemetry.addData("Current Loop Time: ", time - loop);
 
         loop = time;
+        robotSensed = (robotProcessor.getSensedBoolean() != RedRobot.Sensed.TRUE);
 
         telemetry.update();
     }
