@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Drive.WorldsMaybe.Blue.Right.PlusOne;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -7,6 +8,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -22,19 +24,22 @@ import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCom
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewBlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.BlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueRightProcessor;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Center.BlueCenterRobotScan;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Wall.BlueWallRobotScan;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
 public class PlusOneBlueRightParkRight extends OpMode {
     private VisionPortal visionPortal;
     private NewBlueRightProcessor colorMassDetectionProcessor;
+    private BlueWallRobotScan robotProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
     private double loop;
+    boolean robotSensed;
 
     @Override
     public void init() {
@@ -52,10 +57,12 @@ public class PlusOneBlueRightParkRight extends OpMode {
         robot.claw.grabBoth();
 
         colorMassDetectionProcessor = new NewBlueRightProcessor();
+        robotProcessor = new BlueWallRobotScan();
+
         colorMassDetectionProcessor.setDetectionColor(false); //false is blue, true is red
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
-                .addProcessor(colorMassDetectionProcessor)
+                .addProcessors(colorMassDetectionProcessor, robotProcessor)
                 .build();
     }
 
@@ -70,10 +77,8 @@ public class PlusOneBlueRightParkRight extends OpMode {
     @Override
     public void start() {
         time_since_start = new ElapsedTime();
-        if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
-            visionPortal.stopLiveView();
-            visionPortal.stopStreaming();
-        }
+
+        FtcDashboard.getInstance().startCameraStream(robotProcessor, 30);
 
         NewBlueRightProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getPropLocation();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(-40.11, 63.48, Math.toRadians(-90.00)));
@@ -107,12 +112,14 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(lilMoreCuh.end())
-                        .lineToConstantHeading(new Vector2d(-56.34, 38.4))
-                        .lineToConstantHeading(new Vector2d(-57.47, 60.5))
-                        .lineToConstantHeading(new Vector2d(20, 60.5))
+                        .lineToConstantHeading(new Vector2d(-57.60, 39))
+                        .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
+                        .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
+                        .turn(-30)
                         .build();
 
                 TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
+                        .lineToConstantHeading(new Vector2d(20, 58))
                         .splineToConstantHeading(
                                 new Vector2d(49.3, 25), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -121,11 +128,6 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
-//                        .lineToConstantHeading(
-//                                new Vector2d(48, 37),
-//                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                        )
                         .setTangent(-180)
                         .splineToConstantHeading(
                                 new Vector2d(
@@ -136,9 +138,9 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement5Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
-                        .lineToConstantHeading(new Vector2d(42.56, 35.39))
-                        .lineToConstantHeading(new Vector2d(43.31, 12.5))
-                        .lineToConstantHeading(new Vector2d(54, 12.5))
+                        .lineToConstantHeading(new Vector2d(37, 35.55))
+                        .lineToConstantHeading(new Vector2d(37, 10))
+                        .lineToConstantHeading(new Vector2d(54, 10))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -150,6 +152,7 @@ public class PlusOneBlueRightParkRight extends OpMode {
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
                                 new DriveCommand(robot.driveSubsystem, movement2Right),
+                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Right),
                                         new LowOuttakeCommand(robot)
@@ -200,12 +203,14 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement2Left = robot.driveSubsystem.trajectorySequenceBuilder(lilMoreCuh2.end())
-                        .lineToConstantHeading(new Vector2d(-56.34, 38.4))
-                        .lineToConstantHeading(new Vector2d(-57.47, 60))
-                        .lineToConstantHeading(new Vector2d(20, 58))
+                        .lineToConstantHeading(new Vector2d(-57.60, 39))
+                        .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
+                        .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
+                        .turn(-30)
                         .build();
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
+                        .lineToSplineHeading(new Pose2d(20, 58, Math.toRadians(0.00)))
                         .splineToConstantHeading(
                                 new Vector2d(50, 38.2), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -214,11 +219,6 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement4Left = robot.driveSubsystem.trajectorySequenceBuilder(movement3Left.end())
-//                        .lineToConstantHeading(
-//                                new Vector2d(48, 37),
-//                                SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                        )
                         .setTangent(-180)
                         .splineToConstantHeading(
                                 new Vector2d(
@@ -229,9 +229,9 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement5Left = robot.driveSubsystem.trajectorySequenceBuilder(movement4Left.end())
-                        .lineToConstantHeading(new Vector2d(42.56, 35.39))
-                        .lineToConstantHeading(new Vector2d(43.31, 12.5))
-                        .lineToConstantHeading(new Vector2d(54, 12.5))
+                        .lineToConstantHeading(new Vector2d(37, 35.55))
+                        .lineToConstantHeading(new Vector2d(37, 10))
+                        .lineToConstantHeading(new Vector2d(54, 10))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -243,6 +243,7 @@ public class PlusOneBlueRightParkRight extends OpMode {
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
                                 new DriveCommand(robot.driveSubsystem, movement2Left),
+                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Left),
                                         new LowOuttakeCommand(robot)
@@ -292,12 +293,14 @@ public class PlusOneBlueRightParkRight extends OpMode {
                         .build();
 
                 TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(lilMoreCuh3.end())
-                        .lineToConstantHeading(new Vector2d(-56.34, 38.4))
-                        .lineToConstantHeading(new Vector2d(-57.47, 60.5))
-                        .lineToConstantHeading(new Vector2d(20, 58))
+                        .lineToConstantHeading(new Vector2d(-57.60, 39))
+                        .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
+                        .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
+                        .turn(-30)
                         .build();
 
                 TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
+                        .lineToSplineHeading(new Pose2d(20, 58, Math.toRadians(0)))
                         .splineToConstantHeading(
                                 new Vector2d(49.3, 32.8), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -321,9 +324,9 @@ public class PlusOneBlueRightParkRight extends OpMode {
 //                        .build();
 
                 TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
-                        .back(10)
-                        .strafeRight(26)
-                        .forward(16)
+                        .lineToConstantHeading(new Vector2d(39.3, 35.55))
+                        .lineToConstantHeading(new Vector2d(39.3, 10))
+                        .lineToConstantHeading(new Vector2d(54, 10))
                         .build();
 
                 CommandScheduler.getInstance().schedule(
@@ -336,6 +339,7 @@ public class PlusOneBlueRightParkRight extends OpMode {
                                 new InstantCommand(() -> robot.claw.grabBoth()),
                                 new WaitCommand(350),
                                 new DriveCommand(robot.driveSubsystem, movement2Middle),
+                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Middle),
                                         new LowOuttakeCommand(robot)
@@ -375,6 +379,10 @@ public class PlusOneBlueRightParkRight extends OpMode {
         telemetry.addData("loop ", time - loop);
         telemetry.addData("Time Elapsed: ", time_since_start);
         telemetry.addData("Current Loop Time: ", time - loop);
+
+        robotSensed = (robotProcessor.getSensedBoolean() != BlueWallRobotScan.Sensed.TRUE);
+
+        telemetry.addData("Robot Sensed: ", robotSensed);
 
         loop = time;
 

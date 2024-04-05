@@ -115,24 +115,11 @@ public class Main {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-40.11, 63.48, Math.toRadians(270.00)))
                                 .splineToConstantHeading(
-                                        new Vector2d(-51.6, 43.70), Math.toRadians(-90.00)
+                                        new Vector2d(49.3, 32.8), Math.toRadians(0.00)
                                 )
-                                .lineToSplineHeading(
-                                        new Pose2d(-46, 59, Math.toRadians(0.00))
-                                )
-                                .lineToConstantHeading(
-                                        new Vector2d(9, 59)
-                                )
-                                .turn(Math.toRadians(-30))
-                                .lineToSplineHeading(
-                                        new Pose2d(37.72, 59, Math.toRadians(0.00))
-                                )
-                                .lineToConstantHeading(
-                                        new Vector2d(37.72, 27)
-                                )
-                                .lineToConstantHeading(
-                                        new Vector2d(50, 27)
-                                )
+                                .lineToConstantHeading(new Vector2d(37, 35.55))
+                                .lineToConstantHeading(new Vector2d(37, 10))
+                                .lineToConstantHeading(new Vector2d(54, 10))
                                 .build()
                 );
 
