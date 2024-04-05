@@ -11,7 +11,7 @@ public class ClawSubsystem extends SubsystemBase {
 //    public static double grabPositionLeft = 0, grabPositionRight = 0.85;
 //    public static double releasePositionLeft = 0.85, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.68;
 public static double grabPositionLeft = 0.05, grabPositionRight = 0.7;
-    public static double releasePositionLeft = 1, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.68;
+    public static double releasePositionLeft = 1, releasePositionRight = 0, smallReleasePositionLeft = 0.65, smallReleasePositionRight = 0.34;
 
     public ClawSubsystem(final HardwareMap hMap, final String leftClaw, final String rightClaw) {
         clawLeft = hMap.get(Servo.class, leftClaw);
@@ -48,7 +48,7 @@ public static double grabPositionLeft = 0.05, grabPositionRight = 0.7;
         clawLeft.setPosition(smallReleasePositionLeft);
     }
     public void smallReleaseRight() {
-        clawLeft.setPosition(smallReleasePositionRight);
+        clawRight.setPosition(smallReleasePositionRight);
     }
 
 }

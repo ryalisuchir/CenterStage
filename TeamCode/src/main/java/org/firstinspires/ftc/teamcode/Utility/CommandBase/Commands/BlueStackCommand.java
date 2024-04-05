@@ -15,8 +15,8 @@ public class BlueStackCommand extends SequentialCommandGroup {
                 new InstantCommand(() -> robot.angleOfArm.lolStack())),
                 new WaitCommand(250),
                 new ParallelCommandGroup(new InstantCommand(() -> robot.armSystem.armCoast()),
-                new InstantCommand(() -> robot.claw.grabRight())),
-                new InstantCommand(() -> robot.claw.releaseLeft())
+                new InstantCommand(() -> robot.claw.grabLeft())),
+                new InstantCommand(() -> robot.claw.releaseRight())
         );
 
         Globals.startIntake();

@@ -9,9 +9,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,20 +21,18 @@ import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewRedStackCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RedStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SlidesDownCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.RedRobot;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Wall.RedWallRobotScan;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
 public class CamRedLeftPlusOne extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
-    private RedRobot robotProcessor;
+    private RedWallRobotScan robotProcessor;
 
     private RobotHardware robot;
     private ElapsedTime time_since_start;
@@ -59,7 +55,7 @@ public class CamRedLeftPlusOne extends OpMode {
         robot.claw.grabBoth();
 
         colorMassDetectionProcessor = new NewRedLeftProcessor();
-        robotProcessor = new RedRobot();
+        robotProcessor = new RedWallRobotScan();
         colorMassDetectionProcessor.setDetectionColor(true); //false is blue, true is red
 
         visionPortal = new VisionPortal.Builder()
@@ -205,7 +201,7 @@ public class CamRedLeftPlusOne extends OpMode {
         telemetry.addData("Current Loop Time: ", time - loop);
 
         loop = time;
-        robotSensed = (robotProcessor.getSensedBoolean() != RedRobot.Sensed.TRUE);
+        robotSensed = (robotProcessor.getSensedBoolean() != RedWallRobotScan.Sensed.TRUE);
 
         telemetry.update();
     }

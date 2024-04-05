@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 public class TwoPixelDropCommand extends SequentialCommandGroup {
     public TwoPixelDropCommand(RobotHardware robot) {
         super(
-                new InstantCommand(() -> robot.claw.smallReleaseLeft()),
-                new WaitCommand(3000),
-                new InstantCommand(() -> robot.claw.releaseLeft())
+                new InstantCommand(() -> robot.claw.smallReleaseRight()),
+                new WaitCommand(2000),
+                new InstantCommand(() -> robot.claw.releaseRight())
         );
     }
 }
