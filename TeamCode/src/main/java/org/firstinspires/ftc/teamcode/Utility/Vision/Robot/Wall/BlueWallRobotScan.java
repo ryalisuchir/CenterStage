@@ -30,7 +30,7 @@ public class BlueWallRobotScan implements VisionProcessor, CameraStreamSource {
     private Mat lowMat = new Mat();
     private Mat finalMat = new Mat();
 
-    private double senseThreshold = 0.03;
+    private double senseThreshold = 0.04;
     Telemetry telemetry;
 
     Sensed sensedBoolean;
@@ -42,8 +42,8 @@ public class BlueWallRobotScan implements VisionProcessor, CameraStreamSource {
     public void init(int width, int height, CameraCalibration calibration) {
 
         this.SENSED_RECTANGLE = new Rect(
-                new Point(0.15*width, 0.54 * height),
-                new Point(0.9 * width, 0.71 * height)
+                new Point(0.1 * width, 0.54 * height),
+                new Point(0.6 * width, 0.68 * height)
         );
 
         lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));

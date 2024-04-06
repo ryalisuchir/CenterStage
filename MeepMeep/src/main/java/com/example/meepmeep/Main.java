@@ -113,13 +113,13 @@ public class Main {
                     }
                 })
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-40.11, 63.48, Math.toRadians(270.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(18, 65.50, Math.toRadians(270.00)))
                                 .splineToConstantHeading(
-                                        new Vector2d(49.3, 32.8), Math.toRadians(0.00)
+                                        new Vector2d(27.8, 43), Math.toRadians(270.00)
                                 )
-                                .lineToConstantHeading(new Vector2d(37, 35.55))
-                                .lineToConstantHeading(new Vector2d(37, 10))
-                                .lineToConstantHeading(new Vector2d(54, 10))
+                                .splineToSplineHeading(
+                                        new Pose2d(27.8, 50.05, Math.toRadians(270)), Math.toRadians(270)
+                                )
                                 .build()
                 );
 

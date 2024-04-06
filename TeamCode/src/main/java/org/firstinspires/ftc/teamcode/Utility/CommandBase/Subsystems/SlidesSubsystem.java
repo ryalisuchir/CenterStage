@@ -33,13 +33,13 @@ public class SlidesSubsystem extends SubsystemBase {
                 linear_1.setPower(0.1);
                 linear_2.setPower(0.1);
             } else if (linear_2.getCurrentPosition() > -target) {
-                linear_1.setPower(0.6);
-                linear_2.setPower(0.6);
+                linear_1.setPower(1);
+                linear_2.setPower(1);
             }
         } else {
             if (linear_2.getCurrentPosition() < -target) {
-                linear_1.setPower(-0.2);
-                linear_2.setPower(-0.2);
+                linear_1.setPower(-0.3);
+                linear_2.setPower(-0.3);
             } else if (linear_2.getCurrentPosition() >= -target) {
                 linear_1.setPower(0);
                 linear_2.setPower(0);
@@ -58,6 +58,11 @@ public class SlidesSubsystem extends SubsystemBase {
     }
     public void highOuttake() {
         target = 620;
+        up = true;
+    }
+
+    public void superDuperHighOuttakeCommand() {
+        target = 1800;
         up = true;
     }
 

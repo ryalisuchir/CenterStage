@@ -43,7 +43,7 @@ public class BlueCenterRobotScan implements VisionProcessor, CameraStreamSource 
 
         this.SENSED_RECTANGLE = new Rect(
                 new Point(0.15*width, 0.54 * height),
-                new Point(0.9 * width, 0.71 * height)
+                new Point(0.86 * width, 0.7 * height)
         );
 
         lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));

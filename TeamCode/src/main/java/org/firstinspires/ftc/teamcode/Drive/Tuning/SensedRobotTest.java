@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Center.BlueCenterRobotScan;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Wall.BlueWallRobotScan;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -13,7 +15,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 @Autonomous
 public class SensedRobotTest extends OpMode {
     private VisionPortal visionPortal;
-    private BlueWallRobotScan colorMassDetectionProcessor;
+    private BlueCenterRobotScan colorMassDetectionProcessor;
     private RobotHardware robot;
 
     @Override
@@ -31,7 +33,7 @@ public class SensedRobotTest extends OpMode {
 
         robot.claw.grabBoth();
 
-        colorMassDetectionProcessor = new BlueWallRobotScan();
+        colorMassDetectionProcessor = new BlueCenterRobotScan();
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
@@ -49,14 +51,14 @@ public class SensedRobotTest extends OpMode {
 
     @Override
     public void start() {
-        //opmode initialize stuff
+        FtcDashboard.getInstance().startCameraStream(colorMassDetectionProcessor, 30);
     }
 
     @Override
     public void loop() {
-       if (colorMassDetectionProcessor.getSensedBoolean() == BlueWallRobotScan.Sensed.TRUE) {
+       if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.TRUE) {
            telemetry.addData("Robot in the Way: ", "TRUE");
-       } else if (colorMassDetectionProcessor.getSensedBoolean() == BlueWallRobotScan.Sensed.FALSE) {
+       } else if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.FALSE) {
            telemetry.addData("Robot in the Way: ", "FALSE");
        } else {
            telemetry.addLine("Unable to detect.");

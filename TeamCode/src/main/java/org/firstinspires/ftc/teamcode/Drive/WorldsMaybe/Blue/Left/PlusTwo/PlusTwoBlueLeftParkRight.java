@@ -270,7 +270,7 @@ public class PlusTwoBlueLeftParkRight extends OpMode {
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                         .setReversed(true)
                         .splineToSplineHeading(
-                                new Pose2d(55, 28.4, Math.toRadians(0.00)), Math.toRadians(0.00),
+                                new Pose2d(53, 30, Math.toRadians(0.00)), Math.toRadians(0.00),
                                 SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )

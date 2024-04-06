@@ -236,7 +236,7 @@ public class BlueRightNormalParkLeft extends OpMode {
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
-                        .lineToSplineHeading(new Pose2d(20.55, 12, Math.toRadians(30.00)))
+                        .lineToSplineHeading(new Pose2d(10, 12, Math.toRadians(30.00)))
                         .build();
 
                 TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
@@ -246,12 +246,12 @@ public class BlueRightNormalParkLeft extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(37.54, 33.97),
+                                new Vector2d(37.54, 38),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(49.1, 33.77),
+                                new Vector2d(49.1, 38),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -288,7 +288,7 @@ public class BlueRightNormalParkLeft extends OpMode {
                                 ),
                                 new WaitCommand(750),
                                 new InstantCommand(() -> robot.claw.releaseLeft()),
-                                new WaitCommand(2000),
+                                new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
