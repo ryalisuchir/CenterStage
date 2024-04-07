@@ -113,7 +113,7 @@ public class PlusOneBlueRightNoPark extends OpMode {
                         .lineToConstantHeading(new Vector2d(-57.60, 39))
                         .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
                         .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
-                        .turn(-30)
+                        .turn(Math.toRadians(-30))
                         .build();
 
                 TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
@@ -202,7 +202,7 @@ public class PlusOneBlueRightNoPark extends OpMode {
                         .lineToConstantHeading(new Vector2d(-57.60, 39))
                         .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
                         .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
-                        .turn(-30)
+                        .turn(Math.toRadians(-30))
                         .build();
 
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
@@ -290,7 +290,7 @@ public class PlusOneBlueRightNoPark extends OpMode {
                         .lineToConstantHeading(new Vector2d(-57.60, 39))
                         .splineToConstantHeading(new Vector2d(-47.77, 58), Math.toRadians(0.00))
                         .splineToConstantHeading(new Vector2d(6.67, 58), Math.toRadians(0.00))
-                        .turn(-30)
+                        .turn(Math.toRadians(-30))
                         .build();
 
                 TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
@@ -337,8 +337,6 @@ public class PlusOneBlueRightNoPark extends OpMode {
                                         new LowOuttakeCommand(robot)
                                 ),
                                 new WaitCommand(350),
-//                                new InstantCommand(() -> robot.claw.releaseLeft()),
-//                                new InstantCommand(() -> robot.claw.releaseBoth()),
                                 new InstantCommand(() -> robot.claw.releaseLeft()),
                                 new WaitCommand(350),
                                 new InstantCommand(() -> robot.claw.releaseRight()),

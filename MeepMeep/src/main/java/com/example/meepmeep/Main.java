@@ -113,15 +113,29 @@ public class Main {
                     }
                 })
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(18, 65.50, Math.toRadians(270.00)))
-                                .splineToConstantHeading(
-                                        new Vector2d(27.8, 43), Math.toRadians(270.00)
-                                )
-                                .splineToSplineHeading(
-                                        new Pose2d(27.8, 50.05, Math.toRadians(270)), Math.toRadians(270)
-                                )
-                                .build()
+               drive.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(90.00)))
+                       .splineToConstantHeading(
+                               new Vector2d(-44.50, -33.10), Math.toRadians(90.00)
+                       )
+                       .lineToSplineHeading(
+                               new Pose2d(-55, -37.5, Math.toRadians(0))
+                       )
+                       .lineToConstantHeading(
+                               new Vector2d(-58.5, -37.5)
+                       )
+                       .lineToConstantHeading(new Vector2d(-54, -37.5))
+                       .lineToConstantHeading(new Vector2d(-54, -58.5))
+                       .lineToConstantHeading(new Vector2d(10, -57))
+                       .turn(Math.toRadians(30))
+                       .lineToSplineHeading(new Pose2d(20, -57, Math.toRadians(0)))
+                       .splineToConstantHeading(
+                               new Vector2d(52, -30.5), Math.toRadians(0.00)
+                       )
+                .build()
+
                 );
+
+
 
         Image img = null;
         try { img = ImageIO.read(new File("/Users/suchir/Documents/field.png")); }
