@@ -13,6 +13,7 @@ public class OuttakeCommand extends ParallelCommandGroup {
         super(
                 new InstantCommand(() -> robot.angleOfArm.outtake()),
                 new InstantCommand(() -> robot.armSystem.armOuttake()),
+                new WaitCommand(1000),
                 new InstantCommand(() -> robot.slidesSubsystem.outtake())
         );
         Globals.startOuttake();
