@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.Drive.Tuning.RoadRunner;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.Utility.RoadRunner.SampleMecanumDrive;
 
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base

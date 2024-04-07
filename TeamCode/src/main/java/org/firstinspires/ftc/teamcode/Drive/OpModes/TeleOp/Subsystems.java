@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.Drive.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.outoftheboxrobotics.photoncore.Photon;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.HighOuttakeCommand;
@@ -20,7 +18,6 @@ public class Subsystems extends CommandOpMode {
     @Override
     public void initialize() {
         robot = new RobotHardware(hardwareMap);
-
         robot.armSystem.armCoast();
         robot.angleOfArm.rest();
         speed = 0.5;

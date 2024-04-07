@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning.RoadRunner;
 
-import static org.firstinspires.ftc.teamcode.Drive.DriveConstants.MAX_RPM;
-import static org.firstinspires.ftc.teamcode.Drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.Drive.DriveConstants.rpmToVelocity;
+import static org.firstinspires.ftc.teamcode.Utility.RoadRunner.DriveConstants.MAX_RPM;
+import static org.firstinspires.ftc.teamcode.Utility.RoadRunner.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.Utility.RoadRunner.DriveConstants.rpmToVelocity;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.NanoClock;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -17,7 +16,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.Drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.Utility.RoadRunner.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Utility.LoggingUtil;
 import org.firstinspires.ftc.teamcode.Utility.RegressionUtil;
 
