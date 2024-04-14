@@ -8,14 +8,14 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.Globals;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
-public class NewBlueStackCommand extends SequentialCommandGroup {
-    public NewBlueStackCommand(RobotHardware robot) {
+public class PlusOneRedStackCommand extends SequentialCommandGroup {
+    public PlusOneRedStackCommand(RobotHardware robot) {
         super(
                 new ParallelCommandGroup(new InstantCommand(() -> robot.slidesSubsystem.intake()),
-                        new InstantCommand(() -> robot.angleOfArm.newStack())),
-                new WaitCommand(250),
+                        new InstantCommand(() -> robot.angleOfArm.plusOneStack())),
+                new WaitCommand(600),
                 new ParallelCommandGroup(new InstantCommand(() -> robot.armSystem.armCoast()),
-                        new InstantCommand(() -> robot.claw.releaseRight()))
+                        new InstantCommand(() -> robot.claw.releaseLeft()))
         );
         Globals.startIntake();
     }

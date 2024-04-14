@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Utility.RoadRunner.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewRedStackCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.PlusOneRedStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
@@ -158,7 +158,7 @@ public class PlusOneAttempt extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new NewRedStackCommand(robot),
+                                new PlusOneRedStackCommand(robot),
                                 new WaitCommand(350),
                                 new DriveCommand(robot.driveSubsystem, lilMoreCuhLeft),
                                 new WaitCommand(350),

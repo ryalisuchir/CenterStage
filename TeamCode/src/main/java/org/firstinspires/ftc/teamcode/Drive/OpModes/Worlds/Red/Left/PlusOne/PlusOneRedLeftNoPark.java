@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -20,18 +21,16 @@ import org.firstinspires.ftc.teamcode.Utility.RoadRunner.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewRedStackCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.PlusOneRedStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedLeftProcessor;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Center.RedCenterRobotScan;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Wall.RedWallRobotScan;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-import java.util.Vector;
-
 @Autonomous
+@Disabled
 public class PlusOneRedLeftNoPark extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
@@ -134,7 +133,7 @@ public class PlusOneRedLeftNoPark extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
-                                new NewRedStackCommand(robot),
+                                new PlusOneRedStackCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, extraBack),
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
@@ -222,7 +221,7 @@ public class PlusOneRedLeftNoPark extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
-                                new NewRedStackCommand(robot),
+                                new PlusOneRedStackCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, extraBack2),
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
@@ -310,7 +309,7 @@ public class PlusOneRedLeftNoPark extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                new NewRedStackCommand(robot),
+                                new PlusOneRedStackCommand(robot),
                                 new DriveCommand(robot.driveSubsystem, extraBack3),
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),

@@ -4,11 +4,11 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.HighOuttakeCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.PlusTwoBlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SuperHighOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.TwoPixelDropCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.xPerimentalGrab;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 
 @TeleOp
@@ -60,21 +60,21 @@ public class Subsystems extends CommandOpMode {
         boolean dpad_up = gamepad1.dpad_up;
         if (dpad_up) {
             schedule(
-                    new LowOuttakeCommand(robot)
+                    new SuperHighOuttakeCommand(robot)
             );
         }
 
         boolean dpad_down = gamepad1.dpad_down;
         if (dpad_down) {
             schedule(
-                    new HighOuttakeCommand(robot)
+                    new PlusTwoBlueStackCommand(robot)
             );
         }
 
         boolean dpad_left = gamepad1.dpad_left;
         if (dpad_left) {
             schedule(
-                    new SuperHighOuttakeCommand(robot)
+                    new xPerimentalGrab(robot)
             );
         }
 

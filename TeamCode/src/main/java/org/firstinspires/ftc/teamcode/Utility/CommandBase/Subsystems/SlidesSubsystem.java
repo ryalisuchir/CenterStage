@@ -52,6 +52,10 @@ public class SlidesSubsystem extends SubsystemBase {
         target = pos;
     }
 
+    public void lowerOuttake() {
+        target = 120;
+        up = true;
+    }
     public void outtake() {
         target = 180;
         up = true;

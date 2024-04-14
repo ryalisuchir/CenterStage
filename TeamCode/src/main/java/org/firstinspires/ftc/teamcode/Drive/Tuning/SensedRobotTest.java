@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Drive.Tuning;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 //This OpMode can be used for both blue or red! Just change the naming.
 @Autonomous
+@Disabled
 public class SensedRobotTest extends OpMode {
     private VisionPortal visionPortal;
     private BlueCenterRobotScan colorMassDetectionProcessor;

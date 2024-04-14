@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Autonomous
+@Disabled
 public class EncoderPositions extends LinearOpMode {
     private DcMotor leftFront, rightFront, leftRear, rightRear, linear_1, linear_2, arm;
     private Rev2mDistanceSensor distance;

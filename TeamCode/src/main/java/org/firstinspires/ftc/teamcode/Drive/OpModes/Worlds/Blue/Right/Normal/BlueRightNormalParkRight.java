@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Center.BlueCenterRobo
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
+@Disabled
 public class BlueRightNormalParkRight extends OpMode {
     private VisionPortal visionPortal;
     private NewBlueRightProcessor colorMassDetectionProcessor;
@@ -99,17 +101,17 @@ public class BlueRightNormalParkRight extends OpMode {
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                         .lineToConstantHeading(
                                 new Vector2d(35, 44.5),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
                                 new Vector2d(35, 13.5),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
                                 new Vector2d(54, 13.5),
-                                SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
@@ -117,6 +119,7 @@ public class BlueRightNormalParkRight extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
+                                new WaitCommand(350),
                                 new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 19),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Left),
@@ -193,6 +196,7 @@ public class BlueRightNormalParkRight extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Right),
+                                new WaitCommand(350),
                                 new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 19),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Right),
@@ -241,12 +245,12 @@ public class BlueRightNormalParkRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(37.54, 40.5),
+                                new Vector2d(37.54, 39.5),
                                 SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .lineToConstantHeading(
-                                new Vector2d(48.5, 40.5),
+                                new Vector2d(48.5, 39.5),
                                 SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
@@ -273,6 +277,7 @@ public class BlueRightNormalParkRight extends OpMode {
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Middle),
+                                new WaitCommand(350),
                                 new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 19),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement2Middle),

@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.CustomPIDController;
 
 @Config
 @TeleOp
+@Disabled
 public class ArmTuning extends OpMode {
     private final double zeroOffset = 23.0;
     private CustomPIDController controller;

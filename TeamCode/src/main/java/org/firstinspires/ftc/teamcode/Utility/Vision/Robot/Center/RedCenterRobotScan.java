@@ -30,7 +30,7 @@ public class RedCenterRobotScan implements VisionProcessor, CameraStreamSource {
     private Mat lowMat = new Mat();
     private Mat finalMat = new Mat();
 
-    private double senseThreshold = 0.03;
+    private double senseThreshold = 0.04;
     Telemetry telemetry;
 
     Sensed sensedBoolean;

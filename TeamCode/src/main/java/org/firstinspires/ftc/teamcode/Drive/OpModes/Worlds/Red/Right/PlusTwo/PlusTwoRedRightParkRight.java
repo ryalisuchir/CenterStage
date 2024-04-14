@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,16 +19,16 @@ import org.firstinspires.ftc.teamcode.Utility.RoadRunner.DriveConstants;
 import org.firstinspires.ftc.teamcode.Utility.RoadRunner.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.NewBlueStackCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.PlusTwoBlueStackCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.RestCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.SecondOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewBlueLeftProcessor;
 import org.firstinspires.ftc.teamcode.Utility.Vision.Prop.NewRedRightProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
+@Disabled
 public class PlusTwoRedRightParkRight extends OpMode {
     private VisionPortal visionPortal;
     private NewRedRightProcessor colorMassDetectionProcessor;
@@ -149,7 +150,7 @@ public class PlusTwoRedRightParkRight extends OpMode {
                                 new WaitCommand(350),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Middle),
-                                        new NewBlueStackCommand(robot)
+                                        new PlusTwoBlueStackCommand(robot)
                                 ),
                                 new WaitCommand(250),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
@@ -240,7 +241,7 @@ public class PlusTwoRedRightParkRight extends OpMode {
                                 new WaitCommand(350),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Left),
-                                        new NewBlueStackCommand(robot)
+                                        new PlusTwoBlueStackCommand(robot)
                                 ),
                                 new WaitCommand(250),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
@@ -333,7 +334,7 @@ public class PlusTwoRedRightParkRight extends OpMode {
                                 new WaitCommand(350),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Right),
-                                        new NewBlueStackCommand(robot)
+                                        new PlusTwoBlueStackCommand(robot)
                                 ),
                                 new WaitCommand(250),
                                 new InstantCommand(() -> robot.claw.grabBoth()),

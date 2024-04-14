@@ -25,7 +25,13 @@ public class AngleSubsystem extends SubsystemBase {
         dump.setPosition(0.19);
     }
     public void lolStack() {
-        dump.setPosition(0.178);
+        dump.setPosition(0.10);
+    }
+    public void plusOneStack() {
+        dump.setPosition(0.201);
+    }
+    public void lowerStack() {
+        dump.setPosition(0.20);
     }
     public void newStack() {
         dump.setPosition(0.19);

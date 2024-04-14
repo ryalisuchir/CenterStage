@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Utility.Hardware.RobotHardware;
 public class RestCommand extends SequentialCommandGroup {
     public RestCommand(RobotHardware robot) {
         super(
+                new WaitCommand(750),
                 new InstantCommand(() -> robot.slidesSubsystem.intake()),
                 new WaitCommand(750),
                 new InstantCommand(() -> robot.armSystem.armCoast()),
