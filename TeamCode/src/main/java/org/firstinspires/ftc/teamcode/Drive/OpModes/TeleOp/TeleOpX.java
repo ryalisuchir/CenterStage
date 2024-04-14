@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode.Drive.OpModes.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
+
 public class TeleOpX extends LinearOpMode {
 
-    private DcMotor leftFront, leftRear, rightFront, rightRear, linear_1, linear_2, arm;
-    private Servo claw, claw1, dump, drone, droneL;
-    double clawToggle, dumpy, slidesSpeed, speed, slidesPosition, turnMultiplier;
-    boolean currentLeftBP, prevLeftBP, currentRightBP, prevRightBP, droneReady, OVERRIDE;
+    private DcMotor rightFront, rightRear, leftFront, leftRear, linear_1, linear_2, arm;
+    private Servo dump, claw1, claw, drone, droneL;
+
+    private AnalogInput analogInput;
 
     @Override
     public void runOpMode() {
-
+        analogInput = hardwareMap.get(AnalogInput.class, "leftUSS");
         arm = hardwareMap.get(DcMotor.class, "arm");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
@@ -38,34 +40,44 @@ public class TeleOpX extends LinearOpMode {
         linear_2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setDirection(DcMotor.Direction.REVERSE);
 
-        dump.setDirection(Servo.Direction.REVERSE);
-        claw1.setDirection(Servo.Direction.REVERSE);
-
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        clawToggle = 0;
-        dumpy = 0.151;
-        slidesSpeed = 1;
-        speed = 0.7;
-        droneReady = false;
-        OVERRIDE = false;
-        turnMultiplier = 1;
+        double clawToggle = 0;
+        boolean currentleftBP;
+        boolean prevleftBP;
+        boolean currentRightBP;
+        boolean prevRightBP;
+        double dumpy = 0.151;
+        double slidesSpeed = 1;
+        double speed = 0.7;
+        boolean droneReady = false;
+        double slidesPosition;
+        boolean OVERRIDE = false;
+        double turnMulitplier = 1;
+
+        dump.setDirection(Servo.Direction.REVERSE);
+        claw1.setDirection(Servo.Direction.REVERSE);
 
         waitForStart();
         if (opModeIsActive()) {
-            currentLeftBP = gamepad1.left_bumper;
+
+            currentleftBP = gamepad1.left_bumper;
             currentRightBP = gamepad1.right_bumper;
+
+
 
             while (opModeIsActive()) {
                 slidesPosition = (double)(linear_1.getCurrentPosition() + linear_2.getCurrentPosition()) / 2;
-                prevLeftBP = currentLeftBP;
+                prevleftBP = currentleftBP;
                 prevRightBP = currentRightBP;
-                currentLeftBP = gamepad1.left_bumper;
+                currentleftBP = gamepad1.left_bumper;
                 currentRightBP = gamepad1.right_bumper;
 
+                //telemetry
+                telemetry.addData("distanceee", analogInput.getVoltage());
                 telemetry.addData("clawToggle", clawToggle);
                 telemetry.addData("armPos", arm.getCurrentPosition());
                 telemetry.addData("armPow", arm.getPower());
@@ -78,23 +90,25 @@ public class TeleOpX extends LinearOpMode {
                 telemetry.addData("speed", speed);
                 telemetry.update();
 
+                //movement
                 if (clawToggle == 1.1 || clawToggle == 1.2) {
-                    turnMultiplier = 1;
-                    speed = 1;
+                    turnMulitplier = 1;
+                    speed = 1.5;
                 } else if (clawToggle == 0) {
-                    speed = 0.9;
-                    turnMultiplier = 0.8;
+                    speed = 0.8;
+                    turnMulitplier = 0.7;
                 } else {
                     speed = 0.8;
-                    turnMultiplier = 0.8;
+                    turnMulitplier = 0.8;
                 }
 
-                leftFront.setPower(speed * (((gamepad1.left_stick_y + turnMultiplier * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x)));
-                leftRear.setPower(speed * (((gamepad1.left_stick_y + turnMultiplier * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x)));
-                rightFront.setPower(speed * ((gamepad1.left_stick_y - turnMultiplier * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x)));
-                rightRear.setPower(speed * ((gamepad1.left_stick_y - turnMultiplier * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x)));
+                leftFront.setPower(speed * (((gamepad1.left_stick_y + turnMulitplier * gamepad1.right_stick_x) + -1.3 * gamepad1.left_stick_x)));
+                leftRear.setPower(speed * (((gamepad1.left_stick_y + turnMulitplier * gamepad1.right_stick_x) + 1.3 * gamepad1.left_stick_x)));
+                rightFront.setPower(speed * ((gamepad1.left_stick_y - turnMulitplier * gamepad1.right_stick_x + 1.3 * gamepad1.left_stick_x)));
+                rightRear.setPower(speed * ((gamepad1.left_stick_y - turnMulitplier * gamepad1.right_stick_x + -1.3 * gamepad1.left_stick_x)));
 
-                //Slides Control:
+
+                //slides control
                 if ((-gamepad2.right_stick_y) < 0 && slidesPosition >= -15 && !OVERRIDE) {
                     linear_1.setPower(0);
                     linear_2.setPower(0);
@@ -111,30 +125,37 @@ public class TeleOpX extends LinearOpMode {
                 else if (gamepad2.left_bumper)
                     slidesSpeed = 0.8;
 
-                //Claw Control:
-                if (gamepad1.x) {
-                    claw.setPosition(0.7);
+                //claw control
+                if (gamepad1.x && clawToggle == 2) {
+                    claw.setPosition(0.65);
+                    claw1.setPosition(0);
+                } else if (gamepad1.y && clawToggle == 2) {
+                    claw.setPosition(0);
+                    claw1.setPosition(0.655);
+                } else if (gamepad1.x) {
+                    claw.setPosition(0.68);
                     claw1.setPosition(0);
                 } else if (gamepad1.y) {
                     claw.setPosition(0);
-                    claw1.setPosition(0.7);
+                    claw1.setPosition(0.68);
                 } else if (gamepad1.right_trigger > 0 && (clawToggle == 0 || clawToggle == 1.1 || clawToggle == 1.2)) {
                     claw.setPosition(0.9);
                     claw1.setPosition(0.9);
                 } else if (gamepad1.right_trigger > 0 && clawToggle == 2) {
-                    if (gamepad1.right_trigger >= 0.4) {
-                        claw.setPosition(gamepad1.right_trigger);
-                        claw1.setPosition(gamepad1.right_trigger);
+                    if (gamepad1.right_trigger >= 0.8) {
+                        claw.setPosition(gamepad1.right_trigger-0.3);
+                        claw1.setPosition(gamepad1.right_trigger-0.3);
                     } else {
-                        claw.setPosition(0.7);
-                        claw1.setPosition(0.7);
+                        claw.setPosition(0.65);
+                        claw1.setPosition(0.655);
                     }
                 } else {
-                    claw.setPosition(0);
-                    claw1.setPosition(0);
+                    claw.setPosition(0.3);
+                    claw1.setPosition(0.3);
                 }
 
-                //Arm Conditionals:
+
+                // conditionals for arm
                 if (!OVERRIDE) {
                     if ((arm.getPower() > 0 && arm.getCurrentPosition() > 430) || (arm.getCurrentPosition() < 20 && arm.getPower() < 0)) {
                         arm.setPower(0);
@@ -147,7 +168,7 @@ public class TeleOpX extends LinearOpMode {
                     }
                 }
 
-                //Arm / Slides Reset:
+                //arm and slides encoder reset
                 if (gamepad1.dpad_right) {
                     arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -156,10 +177,12 @@ public class TeleOpX extends LinearOpMode {
                     linear_2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     linear_2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 }
-                //Arm Toggle Controls:
-                //clawToggle {0 = ground, 1.1/1.2 = est, 2 = raised claw, 5 = hanging}
+
+                /* arm toggling controls
+                   NOTE: clawToggle {0 = ground, 1.1/1.2 = resting pos in middle, 2 = raised claw, 5 = hanging}
+                 */
                 if (gamepad1.dpad_down) {
-                    arm.setPower(.5);
+                    arm.setPower(.6);
                     dumpy = 0;
                     clawToggle = 5;
                 }
@@ -169,16 +192,16 @@ public class TeleOpX extends LinearOpMode {
 
                 }
                 if (gamepad1.dpad_up && clawToggle == 1.2) {
-                    arm.setPower(.53);
+                    arm.setPower(.6);
                     dumpy = 0.57;
                     clawToggle = 2;
 
                 }
-                if ((currentLeftBP && !prevLeftBP) && clawToggle == 0) {
+                if ((currentleftBP && !prevleftBP) && clawToggle == 0) {
                     dumpy = 0.4;
                     clawToggle = 1.1;
-                } else if ((currentLeftBP && !prevLeftBP) && (clawToggle == 1.2 || clawToggle == 1.1 || clawToggle == 5)) {
-                    arm.setPower(.53);
+                } else if ((currentleftBP && !prevleftBP) && (clawToggle == 1.2 || clawToggle == 1.1 || clawToggle == 5)) {
+                    arm.setPower(.6);
                     dumpy = 0.57;
                     clawToggle = 2;
 
@@ -187,7 +210,7 @@ public class TeleOpX extends LinearOpMode {
                     clawToggle = 0;
 
                 } else if ((currentRightBP && !prevRightBP) && clawToggle == 2) {
-                    arm.setPower(-.53);
+                    arm.setPower(-.57);
                     dumpy = 0.4;
                     clawToggle = 1.2;
                 }
@@ -198,20 +221,21 @@ public class TeleOpX extends LinearOpMode {
                         dump.setPosition(dumpy - (0.1) * gamepad1.left_trigger);
                 } else dump.setPosition(dumpy);
 
-                //0.59 worked well for drone curve
+
+
+                //drone controls 0.59 == best for down curve drones
                 if (gamepad2.dpad_down) {
                     droneL.setPosition(0.98);
                     droneReady = false;
                 } else if (gamepad2.dpad_up) {
-                    droneL.setPosition(0.70);
-                    drone.setPosition(0.79);
+                    droneL.setPosition(0.7);
+                    drone.setPosition(0.77);
                     droneReady = true;
                 }
                 if (gamepad2.cross && droneReady) {
                     drone.setPosition(0.4);
                 }
-
-                //Override Controls:
+                //miscellaneous speed controls
                 OVERRIDE = gamepad1.dpad_left;
             }
         }

@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.TrajectorySequences.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.LowerOuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.OuttakeCommand;
 import org.firstinspires.ftc.teamcode.Utility.CommandBase.Commands.PlusTwoBlueStackCommand;
@@ -107,8 +108,8 @@ public class RedRight extends OpMode {
         time_since_start = new ElapsedTime();
 
         NewRedRightProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getPropLocation();
-        robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, -63.32, Math.toRadians(90.00)));
         if (plusTwo) {
+            robot.driveSubsystem.setPoseEstimate(new Pose2d(18, -65.50, Math.toRadians(90.00)));
             if (parkLeft) {
                 switch (recordedPropPosition) {
                     case MIDDLE:
@@ -146,7 +147,7 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-55, -10.3, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-55, -9.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -323,19 +324,19 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-49, -8, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-49, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-56, -8.5, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-56, -9.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(9, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
-                                .splineToLinearHeading(new Pose2d(31, -8, Math.toRadians(0)), Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(31, -9.5, Math.toRadians(0)), Math.toRadians(0))
                                 .build();
 
                         TrajectorySequence movement5Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
@@ -418,12 +419,12 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-49, -10.3, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-49, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-55, -10.3, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-55, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -600,19 +601,19 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-49, -8, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-49, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-56, -8.5, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-56, -9.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(9, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
-                                .splineToLinearHeading(new Pose2d(31, -8, Math.toRadians(0)), Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(31, -9.5, Math.toRadians(0)), Math.toRadians(0))
                                 .build();
 
                         TrajectorySequence movement5Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
@@ -695,12 +696,12 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-49, -10.3, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-49, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-55, -10.3, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-55, -8.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -788,7 +789,7 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-55.5, -9, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-55.5, -9.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(9, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -873,19 +874,19 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-49, -8, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-49, -9, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToLinearHeading(
-                                        new Pose2d(-56, -8.5, Math.toRadians(0)), Math.toRadians(180),
+                                        new Pose2d(-56, -9.5, Math.toRadians(0)), Math.toRadians(180),
                                         SampleMecanumDrive.getVelocityConstraint(9, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
-                                .splineToLinearHeading(new Pose2d(31, -8, Math.toRadians(0)), Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(31, -9.5, Math.toRadians(0)), Math.toRadians(0))
                                 .build();
 
                         TrajectorySequence movement5Right = robot.driveSubsystem.trajectorySequenceBuilder(movement4Right.end())
@@ -936,6 +937,7 @@ public class RedRight extends OpMode {
                 }
             }
         } else if (!plusTwo) {
+            robot.driveSubsystem.setPoseEstimate(new Pose2d(16.14, -63.32, Math.toRadians(90.00)));
             if (parkLeft) {
                 switch (recordedPropPosition) {
                     case LEFT:

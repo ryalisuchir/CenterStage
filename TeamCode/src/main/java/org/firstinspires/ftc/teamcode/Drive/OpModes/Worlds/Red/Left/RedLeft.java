@@ -151,7 +151,7 @@ public class RedLeft extends OpMode {
                         TrajectorySequence extraBack = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                                 .setReversed(false)
                                 .lineToConstantHeading(
-                                        new Vector2d(-58.25, -36.5),
+                                        new Vector2d(-59, -36.5),
                                         SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -246,7 +246,7 @@ public class RedLeft extends OpMode {
                     case UNFOUND:
                         TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(90.00)))
                                 .splineToLinearHeading(
-                                        new Pose2d(-50.00, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
+                                        new Pose2d(-51.5, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
                                 )
                                 .lineToSplineHeading(
                                         new Pose2d(
@@ -261,7 +261,7 @@ public class RedLeft extends OpMode {
 
                         TrajectorySequence extraBack2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-58, -36),
+                                        new Vector2d(-59, -36),
                                         SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -435,7 +435,7 @@ public class RedLeft extends OpMode {
                         TrajectorySequence extraBack = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                                 .setReversed(false)
                                 .lineToConstantHeading(
-                                        new Vector2d(-58.25, -36.5),
+                                        new Vector2d(-59, -36.5),
                                         SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -530,7 +530,7 @@ public class RedLeft extends OpMode {
                     case UNFOUND:
                         TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(90.00)))
                                 .splineToLinearHeading(
-                                        new Pose2d(-50.00, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
+                                        new Pose2d(-51.5, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
                                 )
                                 .lineToSplineHeading(
                                         new Pose2d(
@@ -545,7 +545,7 @@ public class RedLeft extends OpMode {
 
                         TrajectorySequence extraBack2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-58, -36),
+                                        new Vector2d(-59, -36),
                                         SampleMecanumDrive.getVelocityConstraint(7, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -629,7 +629,7 @@ public class RedLeft extends OpMode {
 
                         TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59, -37),
+                                        new Vector2d(-59.3, -37),
                                         SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -812,7 +812,7 @@ public class RedLeft extends OpMode {
                     case UNFOUND:
                         TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(-40.11, -63.48, Math.toRadians(90.00)))
                                 .splineToLinearHeading(
-                                        new Pose2d(-50.00, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
+                                        new Pose2d(-51.5, -43.70, Math.toRadians(90.00)), Math.toRadians(90.00)
                                 )
                                 .lineToSplineHeading(
                                         new Pose2d(
