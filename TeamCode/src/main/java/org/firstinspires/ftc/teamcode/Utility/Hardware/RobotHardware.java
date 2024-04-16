@@ -31,14 +31,14 @@ public class RobotHardware {
     public SlidesSubsystem slidesSubsystem;
     public MecanumDrive drive;
 
-    public enum PropPosition{
+    public enum PropPosition {
         LEFT,
         CENTER,
         RIGHT
     }
 
     public RobotHardware(HardwareMap hardwareMap) {
-//        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        //        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
@@ -51,8 +51,8 @@ public class RobotHardware {
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftRear.setDirection(DcMotor.Direction.REVERSE);
-//        rightFront.setDirection(DcMotor.Direction.REVERSE);
-//        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        //        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        //        rightRear.setDirection(DcMotor.Direction.REVERSE);
 
         linear_1 = hardwareMap.get(DcMotorEx.class, "linear_1");
         linear_2 = hardwareMap.get(DcMotorEx.class, "linear_2");
@@ -74,19 +74,19 @@ public class RobotHardware {
 
 
         linear_2.setDirection(DcMotor.Direction.REVERSE);
-//          arm.setDirection(DcMotor.Direction.REVERSE);
+        //          arm.setDirection(DcMotor.Direction.REVERSE);
 
 
         Servo angleOfClaw = hardwareMap.get(Servo.class, "dump");
         Servo leftClaw = hardwareMap.get(Servo.class, "claw");
         Servo rightClaw = hardwareMap.get(Servo.class, "claw1");
 
-//        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
+        //        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "distance");
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
-//        for (LynxModule hub : allHubs) {
-//            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-//        }
+        //        for (LynxModule hub : allHubs) {
+        //            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        //        }
 
         armSystem = new ArmSubsystem(arm, batteryVoltageSensor);
         claw = new ClawSubsystem(hardwareMap, "claw", "claw1");

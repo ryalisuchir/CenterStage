@@ -99,7 +99,6 @@ public class PlusOneRedLeftParkRight extends OpMode {
                         )
                         .build();
 
-
                 TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(extraBack.end())
                         .lineToConstantHeading(new Vector2d(-52, -37))
                         .splineToConstantHeading(new Vector2d(-32.14, -59.36), Math.toRadians(0.00))
@@ -107,14 +106,12 @@ public class PlusOneRedLeftParkRight extends OpMode {
                         .turn(Math.toRadians(30))
                         .build();
 
-
                 TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
                         .lineToSplineHeading(new Pose2d(30, -59.36, Math.toRadians(0.00)))
                         .splineToConstantHeading(
                                 new Vector2d(50, -35), Math.toRadians(0.00)
                         )
                         .build();
-
 
                 TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
                         .setTangent(-180)
@@ -260,7 +257,6 @@ public class PlusOneRedLeftParkRight extends OpMode {
                         )
                         .build();
 
-
                 TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                         .lineToSplineHeading(
                                 new Pose2d(-55, -37.5, Math.toRadians(0))
@@ -270,14 +266,12 @@ public class PlusOneRedLeftParkRight extends OpMode {
                         )
                         .build();
 
-
                 TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(extraBack3.end())
                         .lineToConstantHeading(new Vector2d(-54, -37.5))
                         .lineToConstantHeading(new Vector2d(-54, -58.5))
                         .lineToConstantHeading(new Vector2d(10, -57))
                         .turn(Math.toRadians(30))
                         .build();
-
 
                 TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                         .lineToSplineHeading(new Pose2d(20, -57, Math.toRadians(0)))
@@ -287,7 +281,6 @@ public class PlusOneRedLeftParkRight extends OpMode {
                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
-
 
                 TrajectorySequence movement4Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                         .setTangent(-180)
@@ -299,13 +292,11 @@ public class PlusOneRedLeftParkRight extends OpMode {
                         )
                         .build();
 
-
                 TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement4Middle.end())
                         .lineToConstantHeading(new Vector2d(43.9, -30))
                         .lineToConstantHeading(new Vector2d(43.5, -58))
                         .lineToConstantHeading(new Vector2d(48.5, -58))
                         .build();
-
 
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
@@ -334,7 +325,6 @@ public class PlusOneRedLeftParkRight extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, movement5Middle),
                                         new RestCommand(robot)
                                 )
-
 
                         )
                 );

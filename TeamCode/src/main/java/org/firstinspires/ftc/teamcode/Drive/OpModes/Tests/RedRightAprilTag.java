@@ -285,11 +285,11 @@ public class RedRightAprilTag extends OpMode {
     public void loop() {
         CommandScheduler.getInstance().run();
 
-        if(aprilTag.getDetections().size() > 0) {
+        if (!aprilTag.getDetections().isEmpty()) {
             tag = aprilTag.getDetections().get(0);
         }
-        if(!aprilTag.getDetections().isEmpty()) {
-            telemetry.addData("Yipee: ", "Relocalized.");
+        if (!aprilTag.getDetections().isEmpty()) {
+            telemetry.addData("APRIL TAG: ", "Relocalized.");
             robot.driveSubsystem.setPoseEstimate(telemetryAprilTag(tag));
         }
 
@@ -326,33 +326,31 @@ public class RedRightAprilTag extends OpMode {
     }
 
     private Pose2d telemetryAprilTag(AprilTagDetection detection) {
-                double x = -detection.ftcPose.x - cameraOffset.getX();
-                double y = -detection.ftcPose.y - cameraOffset.getY();
+        double x = -detection.ftcPose.x - cameraOffset.getX();
+        double y = -detection.ftcPose.y - cameraOffset.getY();
 
-                double botHeading = -robot.driveSubsystem.getPoseEstimate().getHeading();
+        double botHeading = -robot.driveSubsystem.getPoseEstimate().getHeading();
 
+        double x2 = x * Math.cos(botHeading) + y * Math.sin(botHeading);
+        double y2 = x * -Math.sin(botHeading) + y * Math.cos(botHeading);
+        double absX;
+        double absY;
 
-                double x2 = x * Math.cos(botHeading) + y * Math.sin(botHeading);
-                double y2 = x * -Math.sin(botHeading) + y * Math.cos(botHeading);
-                double absX;
-                double absY;
+        VectorF tagPosition = getCenterStageTagLibrary().lookupTag(detection.id).fieldPosition;
+        if (detection.metadata.id <= 6) {
+            absX = tagPosition.get(0) + y2;
+            absY = tagPosition.get(1) - x2;
 
-                VectorF tagPosition = getCenterStageTagLibrary().lookupTag(detection.id).fieldPosition;
-                if (detection.metadata.id <= 6) {
-                    absX = tagPosition.get(0) + y2;
-                    absY = tagPosition.get(1) - x2;
+        } else {
+            absX = tagPosition.get(0) - y2;
+            absY = tagPosition.get(1) + x2;
 
-                } else {
-                    absX = tagPosition.get(0) - y2;
-                    absY = tagPosition.get(1) + x2;
-
-                }
-                return new Pose2d(absX, absY, botHeading);
-                //telemetry.addData("Position: ", fieldCentricPosition);
+        }
+        return new Pose2d(absX, absY, botHeading);
+        //telemetry.addData("Position: ", fieldCentricPosition);
     }
 
-    public static AprilTagLibrary getCenterStageTagLibrary()
-    {
+    public static AprilTagLibrary getCenterStageTagLibrary() {
         return new AprilTagLibrary.Builder()
                 .addTag(1, "BlueAllianceLeft",
                         2, new VectorF(61.75f, 41.41f, 4f), DistanceUnit.INCH,

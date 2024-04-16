@@ -49,30 +49,30 @@ public class BlueRight extends OpMode {
     boolean robotSensedWall;
     boolean robotSensed;
 
-@Override
+    @Override
     public void init() {
-    CommandScheduler.getInstance().reset();
-    robot = new RobotHardware(hardwareMap);
+        CommandScheduler.getInstance().reset();
+        robot = new RobotHardware(hardwareMap);
 
-    CommandScheduler.getInstance().registerSubsystem(robot.armSystem);
-    CommandScheduler.getInstance().registerSubsystem(robot.claw);
-    CommandScheduler.getInstance().registerSubsystem(robot.angleOfArm);
-    CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
+        CommandScheduler.getInstance().registerSubsystem(robot.armSystem);
+        CommandScheduler.getInstance().registerSubsystem(robot.claw);
+        CommandScheduler.getInstance().registerSubsystem(robot.angleOfArm);
+        CommandScheduler.getInstance().registerSubsystem(robot.driveSubsystem);
 
-    telemetry.addData("Not Ready: ", "Not able to proceed to camera detection... Restart robot now.");
-    telemetry.update();
+        telemetry.addData("Not Ready: ", "Not able to proceed to camera detection... Restart robot now.");
+        telemetry.update();
 
-    robot.claw.grabBoth();
+        robot.claw.grabBoth();
 
-    colorMassDetectionProcessor = new NewBlueRightProcessor();
-    robotProcessor = new BlueWallRobotScan();
-    robotProcessor2 = new BlueCenterRobotScan();
+        colorMassDetectionProcessor = new NewBlueRightProcessor();
+        robotProcessor = new BlueWallRobotScan();
+        robotProcessor2 = new BlueCenterRobotScan();
 
-    colorMassDetectionProcessor.setDetectionColor(false); //false is blue, true is red
-    visionPortal = new VisionPortal.Builder()
-            .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
-            .addProcessors(colorMassDetectionProcessor, robotProcessor, robotProcessor2)
-            .build();
+        colorMassDetectionProcessor.setDetectionColor(false); //false is blue, true is red
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
+                .addProcessors(colorMassDetectionProcessor, robotProcessor, robotProcessor2)
+                .build();
     }
 
     @Override
@@ -105,7 +105,6 @@ public class BlueRight extends OpMode {
             }
         }
 
-
         telemetry.addData("Autonomous (Triangle): ", plusOne ? "Plus One" : "Regular 50");
         if (!plusOne) {
             if (currentB && !previousB) {
@@ -131,7 +130,6 @@ public class BlueRight extends OpMode {
         previousY = currentY;
         previousB = currentB;
     }
-
 
     @Override
     public void start() {
@@ -1252,7 +1250,6 @@ public class BlueRight extends OpMode {
                                     )
                                     .build();
 
-
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
@@ -1482,7 +1479,6 @@ public class BlueRight extends OpMode {
                                     )
                                     .build();
 
-
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
@@ -1682,7 +1678,6 @@ public class BlueRight extends OpMode {
                                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                                         .back(6)
                                         .build();
-
 
                                 CommandScheduler.getInstance().schedule(
                                         new SequentialCommandGroup(
@@ -2371,7 +2366,7 @@ public class BlueRight extends OpMode {
                     }
                 }
             }
-            }
+        }
     }
     @Override
     public void loop() {

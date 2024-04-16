@@ -80,14 +80,14 @@ public class ArmSubsystem extends SubsystemBase {
             f = 0.009;
         };
 
-//        if((target == 650 && distanceSensor.getDistance(DistanceUnit.INCH) < 3)) {
-//            p = 0;
-//            i = 0;
-//            d = 0;
-//            f = 0;
-//        }
+        //        if((target == 650 && distanceSensor.getDistance(DistanceUnit.INCH) < 3)) {
+        //            p = 0;
+        //            i = 0;
+        //            d = 0;
+        //            f = 0;
+        //        }
 
-        if((target == 650 && arm.getCurrentPosition() > 625)) {
+        if ((target == 650 && arm.getCurrentPosition() > 625)) {
             p = 0;
             i = 0;
             d = 0;

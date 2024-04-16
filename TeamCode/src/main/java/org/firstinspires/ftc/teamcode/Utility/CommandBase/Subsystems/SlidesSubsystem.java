@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 @Config
 public class SlidesSubsystem extends SubsystemBase {
     public final DcMotorEx linear_1, linear_2;
-
     private int target = 5;
     private double cache = 0;
     private boolean up = false;

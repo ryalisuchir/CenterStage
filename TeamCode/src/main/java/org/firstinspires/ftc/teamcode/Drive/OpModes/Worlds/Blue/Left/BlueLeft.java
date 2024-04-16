@@ -95,7 +95,6 @@ public class BlueLeft extends OpMode {
             }
         }
 
-
         telemetry.addData("Autonomous (Triangle): ", plusTwo ? "Plus Two" : "Regular 50");
         telemetry.addData("Parking On (Square): ", parkLeft ? "Left" : parkRight ? "Right" : parkBoard ? "At Board" : "");
         telemetry.addData("Currently Recorded Position: ", colorMassDetectionProcessor.getPropLocation());
@@ -213,7 +212,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
@@ -327,7 +326,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Left),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Left),
@@ -438,7 +437,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Right),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Right),
@@ -556,7 +555,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
@@ -670,7 +669,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Left),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Left),
@@ -781,7 +780,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Right),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Right),
@@ -885,7 +884,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Middle),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Middle),
@@ -985,7 +984,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Left),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Left),
@@ -1082,7 +1081,7 @@ public class BlueLeft extends OpMode {
                                                 new DriveCommand(robot.driveSubsystem, movement3Right),
                                                 new PlusTwoBlueStackCommand(robot)
                                         ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                        //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                         new xPerimentalGrab(robot),
                                         new WaitCommand(500),
                                         new DriveCommand(robot.driveSubsystem, movement4Right),
@@ -1105,7 +1104,7 @@ public class BlueLeft extends OpMode {
                 }
             }
         } else if (!plusTwo) { //REGULAR 50
-            if(parkLeft) {
+            if (parkLeft) {
                 switch (recordedPropPosition) {
                     case LEFT:
                         TrajectorySequence movement1Left = robot.driveSubsystem.trajectorySequenceBuilder(new Pose2d(16.14, 63.32, Math.toRadians(-90.00)))

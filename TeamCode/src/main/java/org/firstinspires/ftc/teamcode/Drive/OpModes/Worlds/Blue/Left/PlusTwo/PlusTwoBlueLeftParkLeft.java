@@ -174,7 +174,7 @@ public class PlusTwoBlueLeftParkLeft extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, movement3Middle),
                                         new PlusTwoBlueStackCommand(robot)
                                 ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                 new xPerimentalGrab(robot),
                                 new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, movement4Middle),
@@ -288,7 +288,7 @@ public class PlusTwoBlueLeftParkLeft extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, movement3Left),
                                         new PlusTwoBlueStackCommand(robot)
                                 ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                 new xPerimentalGrab(robot),
                                 new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, movement4Left),
@@ -399,7 +399,7 @@ public class PlusTwoBlueLeftParkLeft extends OpMode {
                                         new DriveCommand(robot.driveSubsystem, movement3Right),
                                         new PlusTwoBlueStackCommand(robot)
                                 ),
-//                                new InstantCommand(() -> robot.claw.grabBoth()),
+                                //                                new InstantCommand(() -> robot.claw.grabBoth()),
                                 new xPerimentalGrab(robot),
                                 new WaitCommand(500),
                                 new DriveCommand(robot.driveSubsystem, movement4Right),

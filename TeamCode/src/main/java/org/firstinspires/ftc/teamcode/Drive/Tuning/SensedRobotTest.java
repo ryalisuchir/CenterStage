@@ -58,14 +58,14 @@ public class SensedRobotTest extends OpMode {
 
     @Override
     public void loop() {
-       if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.TRUE) {
-           telemetry.addData("Robot in the Way: ", "TRUE");
-       } else if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.FALSE) {
-           telemetry.addData("Robot in the Way: ", "FALSE");
-       } else {
-           telemetry.addLine("Unable to detect.");
-       }
-       telemetry.update();
+        if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.TRUE) {
+            telemetry.addData("Robot in the Way: ", "TRUE");
+        } else if (colorMassDetectionProcessor.getSensedBoolean() == BlueCenterRobotScan.Sensed.FALSE) {
+            telemetry.addData("Robot in the Way: ", "FALSE");
+        } else {
+            telemetry.addLine("Unable to detect.");
+        }
+        telemetry.update();
     }
 
     @Override

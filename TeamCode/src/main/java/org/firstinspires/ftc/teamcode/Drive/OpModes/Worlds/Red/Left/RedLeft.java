@@ -102,7 +102,6 @@ public class RedLeft extends OpMode {
             }
         }
 
-
         telemetry.addData("Autonomous (Triangle): ", plusOne ? "Plus One" : "Regular 50");
         if (!plusOne) {
             if (currentB && !previousB) {
@@ -138,7 +137,7 @@ public class RedLeft extends OpMode {
         NewRedLeftProcessor.PropPositions recordedPropPosition = colorMassDetectionProcessor.getPropLocation();
         robot.driveSubsystem.setPoseEstimate(new Pose2d(-40.11, -63.48, Math.toRadians(450.00)));
 
-        if(plusOne) { //PLUS ONE CODE
+        if (plusOne) { //PLUS ONE CODE
             if (parkRight) {
                 switch (recordedPropPosition) {
                     case RIGHT:
@@ -156,7 +155,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(extraBack.end())
                                 .lineToConstantHeading(
@@ -177,7 +175,6 @@ public class RedLeft extends OpMode {
                                 .turn(Math.toRadians(30))
                                 .build();
 
-
                         TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
                                 .lineToSplineHeading(new Pose2d(30, -58.5, Math.toRadians(0.00)))
                                 .splineToConstantHeading(
@@ -191,7 +188,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
                                 .setTangent(-180)
@@ -342,7 +338,6 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
                                         new Vector2d(-59, -37),
@@ -351,14 +346,12 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(extraBack3.end())
                                 .lineToConstantHeading(new Vector2d(-54, -37.5))
                                 .lineToConstantHeading(new Vector2d(-54, -58.5))
                                 .lineToConstantHeading(new Vector2d(10, -57))
                                 .turn(Math.toRadians(30))
                                 .build();
-
 
                         TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                                 .lineToSplineHeading(new Pose2d(20, -57, Math.toRadians(0)))
@@ -368,7 +361,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                                 .setTangent(-180)
@@ -380,13 +372,11 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement4Middle.end())
                                 .lineToConstantHeading(new Vector2d(43.9, -30))
                                 .lineToConstantHeading(new Vector2d(43.5, -62))
                                 .lineToConstantHeading(new Vector2d(48.5, -62))
                                 .build();
-
 
                         CommandScheduler.getInstance().schedule(
                                 new SequentialCommandGroup(
@@ -418,7 +408,6 @@ public class RedLeft extends OpMode {
                                                 new RestCommand(robot)
                                         )
 
-
                                 )
                         );
                         break;
@@ -441,7 +430,6 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(extraBack.end())
                                 .lineToConstantHeading(
                                         new Vector2d(-52, -37),
@@ -461,7 +449,6 @@ public class RedLeft extends OpMode {
                                 .turn(Math.toRadians(30))
                                 .build();
 
-
                         TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
                                 .lineToSplineHeading(new Pose2d(30, -58.5, Math.toRadians(0.00)))
                                 .splineToConstantHeading(
@@ -475,7 +462,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
                                 .setTangent(-180)
@@ -626,7 +612,6 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
                                         new Vector2d(-59.3, -37),
@@ -635,14 +620,12 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(extraBack3.end())
                                 .lineToConstantHeading(new Vector2d(-54, -37.5))
                                 .lineToConstantHeading(new Vector2d(-54, -58.5))
                                 .lineToConstantHeading(new Vector2d(10, -57))
                                 .turn(Math.toRadians(30))
                                 .build();
-
 
                         TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                                 .lineToSplineHeading(new Pose2d(20, -57, Math.toRadians(0)))
@@ -652,7 +635,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                                 .setTangent(-180)
@@ -664,13 +646,11 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement4Middle.end())
                                 .lineToConstantHeading(new Vector2d(43.9, -30))
                                 .lineToConstantHeading(new Vector2d(43.5, -12))
                                 .lineToConstantHeading(new Vector2d(48.5, -12))
                                 .build();
-
 
                         CommandScheduler.getInstance().schedule(
                                 new SequentialCommandGroup(
@@ -702,7 +682,6 @@ public class RedLeft extends OpMode {
                                                 new RestCommand(robot)
                                         )
 
-
                                 )
                         );
                         break;
@@ -725,7 +704,6 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement2Right = robot.driveSubsystem.trajectorySequenceBuilder(extraBack.end())
                                 .lineToConstantHeading(
                                         new Vector2d(-52, -37),
@@ -745,7 +723,6 @@ public class RedLeft extends OpMode {
                                 .turn(Math.toRadians(30))
                                 .build();
 
-
                         TrajectorySequence movement3Right = robot.driveSubsystem.trajectorySequenceBuilder(movement2Right.end())
                                 .lineToSplineHeading(new Pose2d(30, -58.5, Math.toRadians(0.00)))
                                 .splineToConstantHeading(
@@ -759,7 +736,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Right = robot.driveSubsystem.trajectorySequenceBuilder(movement3Right.end())
                                 .setTangent(-180)
@@ -906,7 +882,6 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
                                         new Vector2d(-59, -37),
@@ -915,14 +890,12 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement2Middle = robot.driveSubsystem.trajectorySequenceBuilder(extraBack3.end())
                                 .lineToConstantHeading(new Vector2d(-54, -37.5))
                                 .lineToConstantHeading(new Vector2d(-54, -58.5))
                                 .lineToConstantHeading(new Vector2d(10, -57))
                                 .turn(Math.toRadians(30))
                                 .build();
-
 
                         TrajectorySequence movement3Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement2Middle.end())
                                 .lineToSplineHeading(new Pose2d(20, -57, Math.toRadians(0)))
@@ -932,7 +905,6 @@ public class RedLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement4Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement3Middle.end())
                                 .setTangent(-180)
@@ -944,11 +916,9 @@ public class RedLeft extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement5Middle = robot.driveSubsystem.trajectorySequenceBuilder(movement4Middle.end())
                                 .back(6)
                                 .build();
-
 
                         CommandScheduler.getInstance().schedule(
                                 new SequentialCommandGroup(
@@ -980,14 +950,13 @@ public class RedLeft extends OpMode {
                                                 new RestCommand(robot)
                                         )
 
-
                                 )
                         );
                         break;
                 }
             }
-        } else if(!plusOne) {
-            if(truss) {
+        } else if (!plusOne) {
+            if (truss) {
                 if (parkRight) {
                     switch (recordedPropPosition) {
                         case LEFT:
@@ -1045,7 +1014,6 @@ public class RedLeft extends OpMode {
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .build();
-
 
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
@@ -1275,7 +1243,6 @@ public class RedLeft extends OpMode {
                                     )
                                     .build();
 
-
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
@@ -1489,7 +1456,6 @@ public class RedLeft extends OpMode {
                             TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                                     .back(6)
                                     .build();
-
 
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(

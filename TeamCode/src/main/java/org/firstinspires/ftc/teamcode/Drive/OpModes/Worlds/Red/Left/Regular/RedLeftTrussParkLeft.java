@@ -138,7 +138,6 @@ public class RedLeftTrussParkLeft extends OpMode {
                         )
                         .build();
 
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),
@@ -226,8 +225,8 @@ public class RedLeftTrussParkLeft extends OpMode {
                                 new InstantCommand(() -> robot.claw.releaseRight()),
                                 new WaitCommand(350),
                                 new ParallelCommandGroup(
-                                    new DriveCommand(robot.driveSubsystem, movement3Right),
-                                    new RestCommand(robot)
+                                        new DriveCommand(robot.driveSubsystem, movement3Right),
+                                        new RestCommand(robot)
                                 )
 
                         )
@@ -301,8 +300,8 @@ public class RedLeftTrussParkLeft extends OpMode {
                                 new InstantCommand(() -> robot.claw.releaseRight()),
                                 new WaitCommand(350),
                                 new ParallelCommandGroup(
-                                    new DriveCommand(robot.driveSubsystem, movement3Middle),
-                                     new RestCommand(robot)
+                                        new DriveCommand(robot.driveSubsystem, movement3Middle),
+                                        new RestCommand(robot)
                                 )
 
                         )

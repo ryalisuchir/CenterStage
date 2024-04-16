@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Drive.Tuning;
 
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -48,7 +47,7 @@ public class ArmTuning extends OpMode {
         controller.setPID(p, i, d);
         int armPos = arm.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
-        double ff = Math.sin(Math.toRadians(armPos / ticks_in_degree + zeroOffset )) * f;
+        double ff = Math.sin(Math.toRadians(armPos / ticks_in_degree + zeroOffset)) * f;
 
         double power = pid + ff;
 
@@ -61,8 +60,8 @@ public class ArmTuning extends OpMode {
 
         arm.setPower(power);
 
-        telemetry.addData("pos1:", armPos);
-        telemetry.addData("target:", target);
+        telemetry.addData("Current Position:", armPos);
+        telemetry.addData("Target Position:", target);
         telemetry.update();
     }
 

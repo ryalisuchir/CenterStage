@@ -206,8 +206,8 @@ public class BlueRightNormalParkLeft extends OpMode {
                                 new InstantCommand(() -> robot.claw.releaseLeft()),
                                 new WaitCommand(2000),
                                 new ParallelCommandGroup(
-                                     new DriveCommand(robot.driveSubsystem, movement3Right),
-                                     new RestCommand(robot)
+                                        new DriveCommand(robot.driveSubsystem, movement3Right),
+                                        new RestCommand(robot)
                                 )
 
                         )

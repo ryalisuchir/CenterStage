@@ -213,7 +213,6 @@ public class BlueRightTrussParkRight extends OpMode {
                         )
                         .build();
 
-
                 CommandScheduler.getInstance().schedule(
                         new SequentialCommandGroup(
                                 new DriveCommand(robot.driveSubsystem, movement1Left),

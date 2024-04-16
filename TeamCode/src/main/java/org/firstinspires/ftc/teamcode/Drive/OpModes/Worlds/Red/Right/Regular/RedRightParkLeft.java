@@ -95,7 +95,6 @@ public class RedRightParkLeft extends OpMode {
                         )
                         .build();
 
-
                 TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                         .lineToConstantHeading(
                                 new Vector2d(40, -29.5),

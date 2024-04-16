@@ -12,11 +12,11 @@ public class PlusOneBlueStackCommand extends SequentialCommandGroup {
     public PlusOneBlueStackCommand(RobotHardware robot) {
         super(
                 new ParallelCommandGroup(new InstantCommand(() -> robot.slidesSubsystem.intake()),
-                new InstantCommand(() -> robot.angleOfArm.plusOneStack())),
+                        new InstantCommand(() -> robot.angleOfArm.plusOneStack())),
                 new WaitCommand(800),
                 new ParallelCommandGroup(
-              new InstantCommand(() -> robot.armSystem.armCoast()),
-                new InstantCommand(() -> robot.claw.releaseRight())
+                        new InstantCommand(() -> robot.armSystem.armCoast()),
+                        new InstantCommand(() -> robot.claw.releaseRight())
                 )
         );
 
@@ -24,4 +24,3 @@ public class PlusOneBlueStackCommand extends SequentialCommandGroup {
     }
 
 }
-//robot.armSystem.armCoast()),

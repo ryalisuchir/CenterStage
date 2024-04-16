@@ -55,8 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
         drive.setWeightedDrivePower(
                 new Pose2d(
                         input.getX(),
-                        input.getY(),
-                        -rightX
+                        input.getY(), -rightX
                 )
         );
     }

@@ -13,11 +13,10 @@ public class PlusTwoBlueStackCommand extends SequentialCommandGroup {
         super(
                 new ParallelCommandGroup(new InstantCommand(() -> robot.slidesSubsystem.intake()),
                         new InstantCommand(() -> robot.angleOfArm.newStack())),
-                         new WaitCommand(250),
-                    new ParallelCommandGroup(new InstantCommand(() -> robot.armSystem.armCoast()),
+                new WaitCommand(250),
+                new ParallelCommandGroup(new InstantCommand(() -> robot.armSystem.armCoast()),
                         new InstantCommand(() -> robot.claw.releaseBoth()))
         );
         Globals.startIntake();
     }
 }
-//robot.armSystem.armCoast()),

@@ -20,4 +20,3 @@ public class PlusOneRedStackCommand extends SequentialCommandGroup {
         Globals.startIntake();
     }
 }
-//robot.armSystem.armCoast()),

@@ -90,7 +90,6 @@ public class RedRight extends OpMode {
             }
         }
 
-
         telemetry.addData("Autonomous (Triangle): ", plusTwo ? "Plus Two" : "Regular 50");
         telemetry.addData("Parking On (Square): ", parkLeft ? "Left" : parkRight ? "Right" : parkBoard ? "At Board" : "");
         telemetry.addData("Currently Recorded Position: ", colorMassDetectionProcessor.getPropLocation());
@@ -959,7 +958,6 @@ public class RedRight extends OpMode {
                                 )
                                 .build();
 
-
                         TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                                 .lineToConstantHeading(
                                         new Vector2d(40, -29.5),
@@ -1133,7 +1131,6 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                                 .lineToConstantHeading(
@@ -1309,7 +1306,6 @@ public class RedRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .build();
-
 
                         TrajectorySequence movement3Left = robot.driveSubsystem.trajectorySequenceBuilder(movement2Left.end())
                                 .back(6)
