@@ -14,7 +14,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 //This OpMode can be used for both blue or red! Just change the naming.
 @Autonomous
-@Disabled
 public class SensedRobotTest extends OpMode {
     private VisionPortal visionPortal;
     private BlueCenterRobotScan colorMassDetectionProcessor;

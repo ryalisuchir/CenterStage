@@ -30,7 +30,6 @@ import org.firstinspires.ftc.teamcode.Utility.Vision.Robot.Wall.RedWallRobotScan
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
-@Disabled
 public class PlusOneRedLeftNoPark extends OpMode {
     private VisionPortal visionPortal;
     private NewRedLeftProcessor colorMassDetectionProcessor;
@@ -251,14 +250,16 @@ public class PlusOneRedLeftNoPark extends OpMode {
                         .splineToConstantHeading(
                                 new Vector2d(-44.50, -33.10), Math.toRadians(90.00)
                         )
-                        .build();
-
-                TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                         .lineToSplineHeading(
                                 new Pose2d(-55, -37.5, Math.toRadians(0))
                         )
+                        .build();
+
+                TrajectorySequence extraBack3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                         .lineToConstantHeading(
-                                new Vector2d(-58.5, -37.5)
+                                new Vector2d(-58, -37.5),
+                                SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                         )
                         .build();
 
@@ -305,7 +306,7 @@ public class PlusOneRedLeftNoPark extends OpMode {
                                 new WaitCommand(500),
                                 new InstantCommand(() -> robot.claw.grabBoth()),
                                 new DriveCommand(robot.driveSubsystem, movement2Middle),
-                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 23),
+                                new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 19),
                                 new ParallelCommandGroup(
                                         new DriveCommand(robot.driveSubsystem, movement3Middle),
                                         new LowOuttakeCommand(robot)

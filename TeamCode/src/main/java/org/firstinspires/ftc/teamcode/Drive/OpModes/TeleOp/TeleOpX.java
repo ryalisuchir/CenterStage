@@ -91,7 +91,7 @@ public class TeleOpX extends LinearOpMode {
                 //Movement:
                 if (clawToggle == 1.1 || clawToggle == 1.2) {
                     turnMulitplier = 1;
-                    speed = 1.5;
+                    speed = 1.2;
                 } else if (clawToggle == 0) {
                     speed = 0.8;
                     turnMulitplier = 0.7;

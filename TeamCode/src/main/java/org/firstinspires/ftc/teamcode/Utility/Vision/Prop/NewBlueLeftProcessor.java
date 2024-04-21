@@ -49,8 +49,8 @@ public class NewBlueLeftProcessor implements VisionProcessor, CameraStreamSource
         );
 
         this.MIDDLE_RECTANGLE = new Rect(
-                new Point(0.5 * width, 0.4 * height),
-                new Point(0.8 * width, 0.7 * height)
+                new Point(0.6 * width, 0.4 * height),
+                new Point(0.88 * width, 0.7 * height)
         );
 
         lastFrame.set(Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565));

@@ -156,7 +156,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -164,7 +164,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -210,6 +210,10 @@ public class BlueRight extends OpMode {
 
                         CommandScheduler.getInstance().schedule(
                                 new SequentialCommandGroup(
+//                                        new ParallelCommandGroup(
+//                                                new PlusOneBlueStackCommand(robot),
+//                                                new DriveCommand(robot.driveSubsystem, movement1Right)
+//                                        ),
                                         new DriveCommand(robot.driveSubsystem, movement1Right),
                                         new PlusOneBlueStackCommand(robot),
                                         new WaitCommand(500),
@@ -254,7 +258,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57, 37.5),
+                                        new Vector2d(-57, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -262,7 +266,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-60, 38),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -351,7 +355,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -359,7 +363,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -452,7 +456,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -460,7 +464,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -564,7 +568,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57, 37.5),
+                                        new Vector2d(-57, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -572,7 +576,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-60, 38),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -675,7 +679,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -683,7 +687,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -790,7 +794,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -798,7 +802,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh = robot.driveSubsystem.trajectorySequenceBuilder(movement1Right.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -902,7 +906,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57, 37.5),
+                                        new Vector2d(-57, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -910,7 +914,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh2 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Left.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-60, 38),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -1013,7 +1017,7 @@ public class BlueRight extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(-57.5, 37.5),
+                                        new Vector2d(-57.5, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -1021,7 +1025,7 @@ public class BlueRight extends OpMode {
 
                         TrajectorySequence lilMoreCuh3 = robot.driveSubsystem.trajectorySequenceBuilder(movement1Middle.end())
                                 .lineToConstantHeading(
-                                        new Vector2d(-59.1, 37.5),
+                                        new Vector2d(-60, 38.5),
                                         SampleMecanumDrive.getVelocityConstraint(3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -1145,12 +1149,12 @@ public class BlueRight extends OpMode {
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(37.72, 30),
+                                            new Vector2d(37.72, 32.5),
                                             SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(48, 30),
+                                            new Vector2d(48, 32.5),
                                             SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
@@ -1374,12 +1378,12 @@ public class BlueRight extends OpMode {
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(37.72, 30),
+                                            new Vector2d(37.72, 32.5),
                                             SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(48, 30),
+                                            new Vector2d(48, 32.5),
                                             SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
@@ -1392,12 +1396,12 @@ public class BlueRight extends OpMode {
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(33, 10),
+                                            new Vector2d(33, 12),
                                             SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(52, 10),
+                                            new Vector2d(52, 12),
                                             SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
@@ -1602,12 +1606,12 @@ public class BlueRight extends OpMode {
                                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                         )
                                         .lineToConstantHeading(
-                                                new Vector2d(37.72, 30),
+                                                new Vector2d(37.72, 32.5),
                                                 SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                         )
                                         .lineToConstantHeading(
-                                                new Vector2d(48, 30),
+                                                new Vector2d(48, 32.5),
                                                 SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                                 SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                         )

@@ -70,7 +70,7 @@ public class SlidesSubsystem extends SubsystemBase {
     }
 
     public void mediumOuttake() {
-        target = 500;
+        target = 350;
         up = true;
     }
 

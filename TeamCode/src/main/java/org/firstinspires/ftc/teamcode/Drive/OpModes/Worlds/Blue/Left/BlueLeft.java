@@ -152,7 +152,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-57.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58.5, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -187,12 +187,12 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(38, 67),
+                                        new Vector2d(38, 69),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(57.00, 67),
+                                        new Vector2d(57.00, 69),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -266,7 +266,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58.5, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -301,12 +301,12 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(38, 65),
+                                        new Vector2d(38, 69),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(57.00, 65),
+                                        new Vector2d(57.00, 69),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -377,7 +377,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58.5, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -412,12 +412,12 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(38, 63),
+                                        new Vector2d(38, 67),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .lineToConstantHeading(
-                                        new Vector2d(57.00, 63),
+                                        new Vector2d(57.00, 67),
                                         SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -495,7 +495,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-57.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58.5, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -609,7 +609,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58.5, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -720,7 +720,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -838,7 +838,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-57.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -938,7 +938,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
@@ -1035,7 +1035,7 @@ public class BlueLeft extends OpMode {
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )
                                 .splineToConstantHeading(
-                                        new Vector2d(-56.5, 14.5), Math.toRadians(180.00),
+                                        new Vector2d(-58, 14.5), Math.toRadians(180.00),
                                         SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                 )

@@ -1018,7 +1018,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Left)
@@ -1093,7 +1093,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Right)
@@ -1168,7 +1168,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle)
@@ -1246,7 +1246,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
-                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Left)
@@ -1321,7 +1321,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Right)
@@ -1396,7 +1396,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensedWall || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle)
@@ -1460,7 +1460,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Left)
@@ -1521,7 +1521,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Right)
@@ -1582,7 +1582,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new LowOuttakeCommand(robot),
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle)
@@ -1655,7 +1655,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Left),
                                                     new HighOuttakeCommand(robot)
@@ -1735,7 +1735,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 24),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Right),
                                                     new HighOuttakeCommand(robot)
@@ -1819,7 +1819,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle),
                                                     new HighOuttakeCommand(robot)
@@ -1862,10 +1862,10 @@ public class RedLeft extends OpMode {
                                             new Pose2d(37, -10.5, Math.toRadians(0.00))
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(37, -27.5)
+                                            new Vector2d(37, -29.5)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(50, -27.5)
+                                            new Vector2d(50, -29.5)
                                     )
                                     .build();
 
@@ -1890,7 +1890,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Left),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Left),
                                                     new HighOuttakeCommand(robot)
@@ -1938,12 +1938,12 @@ public class RedLeft extends OpMode {
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(36, -41),
+                                            new Vector2d(36, -42.5),
                                             SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
                                     .lineToConstantHeading(
-                                            new Vector2d(50, -41),
+                                            new Vector2d(50, -42.5),
                                             SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                                     )
@@ -1970,7 +1970,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 24),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Right),
                                                     new HighOuttakeCommand(robot)
@@ -2054,7 +2054,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle),
                                                     new HighOuttakeCommand(robot)
@@ -2177,7 +2177,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Right),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 24),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Right),
                                                     new HighOuttakeCommand(robot)
@@ -2247,7 +2247,7 @@ public class RedLeft extends OpMode {
                             CommandScheduler.getInstance().schedule(
                                     new SequentialCommandGroup(
                                             new DriveCommand(robot.driveSubsystem, movement1Middle),
-                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 22),
+                                            new WaitUntilCommand(() -> robotSensed || time_since_start.seconds() > 18),
                                             new ParallelCommandGroup(
                                                     new DriveCommand(robot.driveSubsystem, movement2Middle),
                                                     new HighOuttakeCommand(robot)
